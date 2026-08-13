@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 //  Al darle 'const' a una variable, esta no puede ser reasignada, 
 // pero si puede ser modificada si es un objeto o un array.
 const msg = "Hello, TypeScript ";

@@ -71,9 +71,9 @@ Es una buena práctica asignar el tipo de dato, así le decimos a la función qu
 
 ### === TIP PARA ENVOLVER ===:
 ```
-Para crear la función auto-invocada y envolverla en paréntesis
-presiona estos tres: W+shift+option
-Esto envuelve la función en el parentesis sin necesidad de borrar o mover
+Para envolver una función, sigue estos pasos:
+1. Selecciona con: shift+opt+W, y con las teclas envuelve.
+2. Suelta el comando y ahora pon los parentesis de forma normal
 
 ```
 ## DATOS BOOLEANOS
@@ -111,5 +111,36 @@ NaN ---> es considerado como un número en typescript pero no es un número como
          lo conocemos, si no que puede ser '55A'
 
 
+````
+
+## STRINGS O CADENAS DE TEXTO
+`````
+Hay más de tres formas de declarar un string:
+1. 'Batman' ó "Linterna's Verde" ---> Comillas simples y normales
+2. `Heroce volcan negro` ---> Backticks
+#
+
+
+Podemos pedir ciertos caracteres de un stringx
+    console.log( batman.charAt(0) ); --> Pide el primer caracter
+    console.log( batman[1] ); --> Pide el segundo caracter
+    console.log( batman[batman.length - 1] ); -->Pide el último caracter
+
+En caso de que queramos una posición que no exista dentro del string:
+    
+    const batman: string = 'Batman';
+    console.log( batman[10].toLocaleUpperCase ); --> Esto dará error
+    
+#Agregamos un 'null check' para que no reviente:
+    console.log( batman[10]?.toLocaleUpperCase );
+
+#Podemos agregar una condición dentro del console.log:
+    console.log( batman[10]?.toLocaleUpperCase || 'No está definido' );
+`````
+
+### NULLCHECK
+
+````
+Dependiendo de donde se coloque puede significar varias cosas
 ````
 

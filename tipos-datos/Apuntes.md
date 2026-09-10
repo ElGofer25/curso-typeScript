@@ -144,3 +144,66 @@ En caso de que queramos una posición que no exista dentro del string:
 Dependiendo de donde se coloque puede significar varias cosas
 ````
 
+### TIPO ANY
+```
+Hay que evitar el uso de este tipo de dato. No es forzoso, pero si es posible no usarlo, no lo uses
+
+En cierta forma, ANY le dice a typescript 'olvidate de todo, dejame hacer lo que quiero'.
+
+            1. Si declaramos una constante y no le damos ningún valor, esta toma 'any' como valor.
+            2. Si definimos como const exist y no damos un valor, TS detecta un error porque las constantes deben de estar definidas.
+
+Hay algo llamdo CASTEO que básicamente es tratar a un tipo de dato como si fuera otro, sin cambiarlo:
+
+    let avenger: any = 'Strange'; ---> Esto no define que el valor sea un string
+
+    avenger = Octopus;
+    Opción 1:   console.log(( avenger as string).charAt(0));
+
+    avenger = 150.2345;
+    Opción 2:   console.log(( <number>avenger).charAt(0));
+
+        #En ese log, avenger pasa a tipearse como string, el método charAt nos dara el valor de ese string en la posición 0
+        
+
+```
+
+### ARRAYS
+
+```
+Un array en TypeScript es una estructura que permite guardar varios valores dentro de una sola variable, normalmente del mismo tipo.
+
+    Por ejemplo:
+        const edades: number[] = [20, 25, 30];
+    Aquí edades es un array que contiene varios valores de tipo number.
+
+    1. el método forEach es propio de los arreglos y le permite a TS inferir el tipo de datos que ese arreglo va a regresar
+
+
+```
+
+### TUPLAS
+
+```
+Una tupla en TypeScript es parecida a un array, pero tiene una cantidad fija de elementos y cada posición puede tener un tipo específico.
+
+    const usuario: [string, number] = ["Diego", 23];
+
+    Aquí:
+
+    Posición 0 → debe ser string
+    Posición 1 → debe ser number
+
+    La diferencia principal es:
+
+    // Array
+    const datos: number[] = [10, 20, 30];
+
+    // Tupla
+    const persona: [string, number] = ["Diego", 23];
+
+En resumen:
+    Tupla = lista ordenada donde la cantidad y el tipo de cada posición están definidos.
+
+
+```

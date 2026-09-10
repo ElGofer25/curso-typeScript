@@ -1,0 +1,1 @@
+//# sourceMappingURL=ejercicios.d.ts.map

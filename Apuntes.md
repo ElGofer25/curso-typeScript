@@ -43,6 +43,8 @@ Para evitar compilar cada que hacemos un cambio podemos reducir el proceso al ej
 
 --> tsc --watch ó tsc -w
 
+En caso de que TS no esté instalado de forma global, puedes usar:
+        npx tsc -w
 
 ---
 ### Sección 3: Tipos Básicos ###

@@ -214,4 +214,16 @@ En resumen:
 
 
 ```
+<<<<<<< HEAD
+
+
+### 8.Enumeraciones
+`````
+
+
+`````
+
+
+=======
+>>>>>>> main
 >>>>>>> main

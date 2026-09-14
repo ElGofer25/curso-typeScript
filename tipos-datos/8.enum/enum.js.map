@@ -1,1 +1,5 @@
+<<<<<<< Updated upstream
 {"version":3,"file":"enum.js","sourceRoot":"","sources":["enum.ts"],"names":[],"mappings":";AAAA,CAAC,GAAE,EAAE;IAED,IAAK,UAIJ;IAJD,WAAK,UAAU;QACX,yCAAO,CAAA;QACP,+CAAU,CAAA;QACV,0CAAQ,CAAA;IACZ,CAAC,EAJI,UAAU,KAAV,UAAU,QAId;IACD,IAAI,YAAY,GAAG,UAAU,CAAC,MAAM,CAAC;IACrC,OAAO,CAAC,GAAG,CAAC,YAAY,CAAC,CAAC,CAAC,YAAY;AAC3C,CAAC,CAAC,EAAE,CAAC"}
+=======
+{"version":3,"file":"enum.js","sourceRoot":"","sources":["enum.ts"],"names":[],"mappings":";AAAA,CAAC,GAAE,EAAE;AAEL,CAAC,CAAC,EAAE,CAAC"}
+>>>>>>> Stashed changes

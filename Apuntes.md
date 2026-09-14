@@ -1,3 +1,18 @@
+# APUNTES DEL CURSO
+
+### INSTALACIONES
+````
+Accede al siguiente repo:
+    https://gist.github.com/Klerith/384b707f9b08698655280a3d4cc4da12
+
+    Cuenta con algunas dependencias.
+
+---- > Instalar TypeScript
+Hay dos formas, podemos instalarlo de forma global o aislado de una carpeta. Lo instalaremos de forma global con el siguiente comando:
+        
+
+````
+
 ### Es necesario generar el archivo .JS
 
 Para indicarle a TS que lo genere, seguimos:

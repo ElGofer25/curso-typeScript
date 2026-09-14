@@ -144,3 +144,8 @@ En caso de que queramos una posición que no exista dentro del string:
 Dependiendo de donde se coloque puede significar varias cosas
 ````
 
+### ANY
+
+`````
+Este tipo de dato hay que usarlo lo menos posible. Debido al modo estricto de TS puede que ni siquiera podamos usarlo
+`````

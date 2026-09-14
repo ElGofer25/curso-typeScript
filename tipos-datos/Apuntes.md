@@ -217,13 +217,86 @@ En resumen:
 <<<<<<< HEAD
 
 
-### 8.Enumeraciones
+### 8. Enumeraciones
+`````
+El uso de las enumeraciones nos permite trabajar con valores semánticos, propiamente valores que toman sentido al momento de leer el código.
+
+    1. Se define con la palabra 'enum' y se considera el UpperCamelCase
+
+Si no asignamos un valor fijo, entonces TS le da el valor correspondiente a su indice:
+            enum AudioLevel{
+                    min,        // 0
+                    medium,     // 1
+                    max,        // 2
+                }
+
+  
 `````
 
+### 9. Void (Vacío)
+````
+En JS, cuando una función no tiene un return definido:
+        function callBatman(){
+    }
 
-`````
+Va a regresar 'undefined'. Void es interpretado por TypeScript como 'No hay valor de retorno'.
+
+OJO: Void y Null no son lo mismo.
+
+Usualmente, cuando una función regresa void, es correcto ponerle el tipo de retorno
+
+            function callBatman() :  void {}
+````
+
+### 10. Never
+
+````
+El never no es lo mismo que el undefined ni el null. Son tipos diferentes.
+
+never en TypeScript representa un valor que nunca llega a existir.
+
+Se usa principalmente cuando una función:
+
+        nunca termina normalmente;
+        siempre lanza un error;
+        entra en un ciclo infinito;
+        o cuando TypeScript determina que un caso es imposible.
+
+La idea clave es:
+
+        void = la función termina, pero no devuelve valor.
+        never = la función ni siquiera termina normalmente o termina con un error.
+
+````
 
 
-=======
->>>>>>> main
->>>>>>> main
+### 11. Null y Undefined
+````
+* undefined significa que una variable o propiedad existe, pero todavía no tiene un valor asignado.
+
+* null significa que intencionalmente se asignó “sin valor”.
+
+La diferencia clave es:
+
+    undefined → normalmente indica ausencia de valor por defecto o falta de asignación.
+    null → indica ausencia de valor de forma intencional.
+
+Piensa así:
+
+    undefined = “no sé qué valor tiene todavía”.
+    null = “sé que no tiene ningún valor”.
+
+
+Para un valor booleano, hay cuatro valores permitidos:
+    True
+    False
+    Undefined
+    Null
+
+    El archivo tsconfig.json; nos permite manipular las restricciones de TS. Dependiendo de como las declaremos, podemos permitir o no cosas como 'strictNullChecks'
+
+Por ejemplo, si la bandera esta apagada, podemos declarar esto:
+        let isUser: boolean = null;
+
+La versión de typescript actual (en la que se escribe el proyecto) divide 'strictNullChecks' en dos banderas. 
+````

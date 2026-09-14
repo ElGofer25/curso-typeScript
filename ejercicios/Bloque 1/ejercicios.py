@@ -1,19 +1,7 @@
-temperature = float(input('Put your temperature in celsius, please: '))
+# Ejercicio 1: Inferir tipos de datos
 
-if temperature <= 0:
-    print('Frío')
-
-elif 11 <= temperature <= 24:
-    print('Templado')
-
-elif 25 <= temperature <= 34:
-    print('Caliente')
-
-elif 35 <= temperature <= 40:
-    print('Muy caliente')
-
-elif 0 < temperature > 40:
-    print ('Temperatura extrema')
-
-
-# TODO: ENABLE DE INLINE SUGGESTIONS WITH CMD=SHIFT+ INLINE SUGGESTIONS
+name = "Diego"
+edad = 30
+altura = 1.75
+tiene_mascota = True
+ciudad = "Lima"

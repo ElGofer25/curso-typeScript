@@ -144,6 +144,13 @@ En caso de que queramos una posición que no exista dentro del string:
 Dependiendo de donde se coloque puede significar varias cosas
 ````
 
+<<<<<<< HEAD
+### ANY
+
+`````
+Este tipo de dato hay que usarlo lo menos posible. Debido al modo estricto de TS puede que ni siquiera podamos usarlo
+`````
+=======
 ### TIPO ANY
 ```
 Hay que evitar el uso de este tipo de dato. No es forzoso, pero si es posible no usarlo, no lo uses
@@ -207,3 +214,4 @@ En resumen:
 
 
 ```
+>>>>>>> main

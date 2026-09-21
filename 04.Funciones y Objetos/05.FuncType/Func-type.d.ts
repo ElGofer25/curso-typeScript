@@ -1,0 +1,1 @@
+//# sourceMappingURL=Func-type.d.ts.map

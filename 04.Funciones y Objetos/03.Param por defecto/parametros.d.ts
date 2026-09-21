@@ -1,0 +1,1 @@
+//# sourceMappingURL=parametros.d.ts.map

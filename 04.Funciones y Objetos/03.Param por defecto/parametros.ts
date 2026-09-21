@@ -1,5 +1,5 @@
 (()=>{
-    //El incoveniente de hacerlo hacer es que no podemos declarar un argumento obligatorio 
+    //El incoveniente de hacerlo es que no podemos declarar un argumento obligatorio 
     // después de uno opcional.
     //En este caso estamos indicando que upper es opcional, su valor por defecto es 'false'
     // Es decir, si no lo mandamos, será false

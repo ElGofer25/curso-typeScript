@@ -1,4 +1,4 @@
-//Ejercicio 1 — Saludo reutilizable
+//! Ejercicio 1 — Saludo reutilizable
 /*
 
 Dificultad: Básica
@@ -35,143 +35,224 @@ Objetivo: parámetros obligatorios y tipo de retorno.
 
 })();
 
-//Ejercicio 2 — Operación matemática
+//! Ejercicio 2 — Operación matemática
 /*
 Dificultad: Básica
 
 Crea una función que reciba dos números y devuelva el resultado de multiplicarlos.
 
 Condiciones
-Ambos argumentos son obligatorios.
-Ambos deben ser numéricos.
-El retorno debe ser numérico.
-Utiliza una función flecha.
-No utilices forma abreviada todavía.
-Casos de prueba
-5 y 4 → 20
-10 y 0 → 0
-2.5 y 4 → 10
--3 y 5 → -15
+    Ambos argumentos son obligatorios.
+    Ambos deben ser numéricos.
+    El retorno debe ser numérico.
+    Utiliza una función flecha.
+    No utilices forma abreviada todavía.
+    Casos de prueba
+    5 y 4 → 20
+    10 y 0 → 0
+    2.5 y 4 → 10
+    -3 y 5 → -15
 
 Objetivo: comparar la sintaxis de una función tradicional con una función flecha.
+*/
+(()=>{
+    function productBy(a: number, b: number) : number {
+        return a * b;
+    };
+    const numbers = productBy(5, 12);
+    console.log(numbers)
 
-Ejercicio 3 — Función sin retorno
+    //Forma recortada
+    const otherFunct = (a: number, b: number) => (a * b);
+    const otherNumbers = otherFunct(4, 4);
+    console.log(otherNumbers)
+})();
 
+
+//! Ejercicio 3 — Función sin retorno
+/*
 Dificultad: Básica
 
 Crea una función que reciba un mensaje de texto y lo muestre en consola.
 
 Condiciones
-Debe recibir exactamente un argumento.
-Debe terminar normalmente.
-No debe devolver información al código que la llamó.
-Declara explícitamente su tipo de retorno.
-Pregunta adicional
+    Debe recibir exactamente un argumento.
+    Debe terminar normalmente.
+    No debe devolver información al código que la llamó.
+    Declara explícitamente su tipo de retorno.
 
-Explica por qué el tipo de retorno que elegiste es adecuado.
+Pregunta adicional
+    Explica por qué el tipo de retorno que elegiste es adecuado.
 
 Objetivo: reforzar void.
+*/
+(()=>{
+    function myInput(input: string):string{
+        return input
+    }
+    const typing = prompt(myInput('Escribe tu string: '));
+    console.log(typeof typing);
+    console.log(typing)
+    //Tu pregunta es ambigüa, no es precisa. Elegí ese tipo de dato porque es un string.
+    
+})();
 
-Ejercicio 4 — Argumentos obligatorios
 
+//! Ejercicio 4 — Argumentos obligatorios
+/*
 Dificultad: Básica
 
 Crea una función que genere el nombre completo de una persona utilizando:
-
-nombre;
-primer apellido.
+    nombre;
+    primer apellido.
 
 Ambos datos deben ser obligatorios.
 
-Condiciones
-Ambos parámetros deben ser texto.
-La función debe retornar texto.
-Respeta el orden de los parámetros.
-Casos de prueba
-Diego + Chávez → Diego Chávez
-Tony + Stark → Tony Stark
-Bruce + Wayne → Bruce Wayne
-Preguntas
-¿Qué debería ocurrir si llamas a la función solamente con el nombre?
-¿Qué debería ocurrir si proporcionas un número como apellido?
-¿Por qué importa el orden de los argumentos?
+Condiciones: 
+    Ambos parámetros deben ser texto.
+    La función debe retornar texto.
+    Respeta el orden de los parámetros.
+    Casos de prueba
+    Diego + Chávez → Diego Chávez
+    Tony + Stark → Tony Stark
+    Bruce + Wayne → Bruce Wayne
+
+Preguntas:
+    ¿Qué debería ocurrir si llamas a la función solamente con el nombre?
+    R: Peta, porque en la función declaré tres parámetros. Si en la asignación de valor no declaro uno para cada campo
+        entonces TS me avisa 'Falta el valor tal del parametro tal.
+
+    ¿Qué debería ocurrir si proporcionas un número como apellido?
+    R: Si el retorno está tipado, entonces debería de arrojar error.
+
+    ¿Por qué importa el orden de los argumentos?
+    R: Por que se mapean por orden, es decir, si el primer parametro de la función es apellido, entonces, en la función se debe
+    de declarar primero el valor para ese parámetro. En caso contrario, ocurre un error de asignación de valores.
 
 Objetivo: entender el contrato de una función.
+*/
+(()=>{
+    function myFullName(name: string, middleName: string, lastName?: string):string{
+        return `${name} ${ middleName } ${ lastName }`;
+    }
+    const stockName = myFullName( 'Diego', '', 'Chavez' );
+    console.log(stockName);
+})();
 
-Ejercicio 5 — Parámetro opcional
-
+//Ejercicio 5 — Parámetro opcional
+/*
 Dificultad: Fácil
 
 Crea una función que reciba:
 
-nombre obligatorio;
-segundo nombre opcional.
+    nombre obligatorio;
+    segundo nombre opcional.
 
 Debe devolver ambos como un único texto.
 
 Cuando no exista segundo nombre, el resultado debe indicar que no fue proporcionado.
 
 Condiciones
-No utilices parámetros por defecto.
-Debes utilizar un parámetro opcional.
-El parámetro opcional debe estar después del obligatorio.
-El retorno debe ser texto.
-Casos de prueba
+    No utilices parámetros por defecto.
+    Debes utilizar un parámetro opcional.
+    El parámetro opcional debe estar después del obligatorio.
+    El retorno debe ser texto.
+    Casos de prueba
 
 Con segundo nombre:
 
-Diego + Alejandro → debe incluir ambos.
+    Diego + Alejandro → debe incluir ambos.
 
 Sin segundo nombre:
 
-Diego → debe indicar que no existe segundo nombre.
+    Diego → debe indicar que no existe segundo nombre.
 
 Objetivo: familiarizarte con ? y con el hecho de que un argumento opcional puede ser undefined.
+*/
+(()=>{
+    function fullName(nombre: string, apellido?: string):string{
+        return `${nombre} ${apellido || 'Empty apellido'}`;
+    }
+    const entireName = fullName('Diego', 'Fernando');
+    console.log(entireName);
+})();
 
-Ejercicio 6 — ¿Obligatorio u opcional?
+//Ejercicio 6 — ¿Obligatorio u opcional?
 
-Dificultad: Fácil
+/*Dificultad: Fácil
 
 No necesitas programar.
 
 Para cada situación, decide si el parámetro debería ser obligatorio u opcional y justifica tu respuesta.
 
-Nombre de usuario al crear una cuenta.
-Segundo apellido.
-Correo electrónico necesario para iniciar sesión.
-Número telefónico alternativo.
-Nombre de un producto que se desea registrar.
-Descripción adicional de un producto.
+    Nombre de usuario al crear una cuenta.
+    R: Obligatorio. En caso de que existan homónimos, el username ayuda a distinguir el usuario más rápido
+    
+    Segundo apellido.
+    R: Obligatorio. Aunque varea según el contexto, entre más datos se tengan por usuario mejor
+    
+    Correo electrónico necesario para iniciar sesión.
+    R: Opcional. Dependiendo del flujo, basta con usuario y contraseña
+    
+    Número telefónico alternativo.
+    R: Opcional. Este caso aplica solo para respaldar mejor la cuenta
+    
+    Nombre de un producto que se desea registrar.
+    R: Obligatorio. Tenerla o no hace la diferencia entre perderse en el análisis de productos
+    
+    Descripción adicional de un producto.
+    R: Opcional. Si la primer descripción está bien planteada, este segundo parámetro no es necesario
 
 Objetivo: no limitarte a aprender la sintaxis de ?, sino entender cuándo tiene sentido utilizarla.
+*/
 
-Ejercicio 7 — Parámetro por defecto
-
+//Ejercicio 7 — Parámetro por defecto
+/*
 Dificultad: Fácil
 
 Crea una función que reciba:
 
-nombre de usuario;
-idioma preferido.
+    nombre de usuario;
+    idioma preferido.
 
 El idioma debe tener un valor predeterminado.
 
 Si solamente se proporciona el nombre, la función debe utilizar automáticamente ese idioma.
 
-Condiciones
-El nombre es obligatorio.
-El idioma utiliza un parámetro por defecto.
-No utilices un parámetro opcional para el idioma.
-La función devuelve texto.
+Condiciones:
+    El nombre es obligatorio.
+    El idioma utiliza un parámetro por defecto.
+    No utilices un parámetro opcional para el idioma.
+    La función devuelve texto.
 Casos
-Solo nombre → utiliza el idioma predeterminado.
-Nombre + otro idioma → utiliza el idioma proporcionado.
+    Solo nombre → utiliza el idioma predeterminado.
+    Nombre + otro idioma → utiliza el idioma proporcionado.
+    
 Pregunta
+    Explica por qué no necesitas colocar ? en el parámetro que ya tiene un valor por defecto.
 
-Explica por qué no necesitas colocar ? en el parámetro que ya tiene un valor por defecto.
+*/
+(()=>{
+    // Las instrucciones de este ejercicio no son suficientes, además de que son confusas no son puntuales y se prestan a múltiples interpretaciones
+    function ejercicio7(mirName:string, favouriteLang:string): string{
 
-Ejercicio 8 — Opcional y valor por defecto juntos
+        return `${mirName} ${favouriteLang}`;
+    };
 
+    const languageDict : { [clave:string]:string} = {
+        english : 'Inglés',
+        aleman : 'Aleman',
+        español : 'Español',
+    };
+
+    const input = prompt('Type your name: ');
+    const secondInpunt = prompt( 'Type your language: ');
+
+
+})();
+
+//Ejercicio 8 — Opcional y valor por defecto juntos
+/*
 Dificultad: Fácil–Medio
 
 Crea una función que construya información sobre un usuario mediante:
@@ -198,9 +279,17 @@ omitiendo únicamente el país;
 omitiendo segundo nombre y país.
 
 Objetivo: diferenciar claramente parámetro opcional y parámetro por defecto.
+*/
+(()=>{
+    function makingUser(nombres:string, secondName:string | undefined, pais: string):string{
+        return `${nombres} ${secondName} ${pais ?? 'Mexico'}`
+    }
+    const fullNombre = makingUser('Diego', 'Segundo nombre',)
+    console.log(fullNombre)
+})();
 
-Ejercicio 9 — Rest parameters
-
+//Ejercicio 9 — Rest parameters
+/*
 Dificultad: Medio
 
 Crea una función que permita formar un nombre completo.

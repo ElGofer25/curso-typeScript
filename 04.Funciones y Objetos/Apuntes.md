@@ -66,7 +66,7 @@ Cuando declaremos una función hay que específicar el tipo de dato de retorno:
 
 ## 3.Parámetros por defecto:
 ````
-    Podemos asignar un valor por defecto a un parámetro utilizando el signo =.
+    Podemos asignar un valor por defecto a un parámetro utilizando el signo '='.
     Si no enviamos ese argumento al llamar a la función, TypeScript utilizará
     automáticamente el valor indicado.
 

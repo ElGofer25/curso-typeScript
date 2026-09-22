@@ -257,38 +257,38 @@ Dificultad: Fácil–Medio
 
 Crea una función que construya información sobre un usuario mediante:
 
-nombre obligatorio;
-segundo nombre opcional;
-país con valor predeterminado.
+    nombre obligatorio;
+    segundo nombre opcional;
+    país con valor predeterminado.
 
 La función debe devolver una cadena con esos datos.
 
 Condiciones
-Respeta el orden apropiado de los parámetros.
-No utilices objetos.
-No utilices condicionales.
-No utilices ciclos.
-El segundo nombre debe ser realmente opcional.
-El país debe utilizar un valor por defecto.
+    Respeta el orden apropiado de los parámetros.
+    No utilices objetos.
+    No utilices condicionales.
+    No utilices ciclos.
+    El segundo nombre debe ser realmente opcional.
+    El país debe utilizar un valor por defecto.
 Casos a probar
 
 Prueba una llamada:
-
-proporcionando todos los datos;
-omitiendo únicamente el país;
-omitiendo segundo nombre y país.
+    proporcionando todos los datos;
+    omitiendo únicamente el país;
+    omitiendo segundo nombre y país.
 
 Objetivo: diferenciar claramente parámetro opcional y parámetro por defecto.
 */
 (()=>{
-    function makingUser(nombres:string, secondName:string | undefined, pais: string):string{
-        return `${nombres} ${secondName} ${pais ?? 'Mexico'}`
+    function makingUser(nombreOb: string, segundoNom?: string, country : string = 'Mexico') : string {
+        return `${nombreOb} ,${segundoNom || 'No tiene segundo nombre'} ,${country}`
     }
-    const fullNombre = makingUser('Diego', 'Segundo nombre',)
-    console.log(fullNombre)
+
+    const name = makingUser('Diego')
+    console.log({name})
 })();
 
-//Ejercicio 9 — Rest parameters
+//! Ejercicio 9 — Rest parameters
 /*
 Dificultad: Medio
 
@@ -298,25 +298,42 @@ El primer nombre debe ser obligatorio, pero después debe poder recibir cero o m
 
 Ejemplos conceptuales:
 
-un solo nombre;
-nombre + apellido;
-nombre + dos apellidos;
-nombre + varios nombres y apellidos.
+    un solo nombre;
+    nombre + apellido;
+    nombre + dos apellidos;
+    nombre + varios nombres y apellidos.
+
 Condiciones
-Debe existir exactamente un parámetro obligatorio antes del Rest.
-Utiliza un Rest parameter para los demás textos.
-El parámetro Rest debe ser el último.
-El retorno debe ser texto.
-Puedes utilizar join() para unir los elementos recibidos por Rest.
+    Debe existir exactamente un parámetro obligatorio antes del Rest.
+    Utiliza un Rest parameter para los demás textos.
+    El parámetro Rest debe ser el último.
+    El retorno debe ser texto.
+    Puedes utilizar join() para unir los elementos recibidos por Rest.
+
 Preguntas
-¿Qué tipo de estructura representa internamente el parámetro Rest?
-¿Puede recibir cero argumentos adicionales?
-¿Puede colocarse otro parámetro después del Rest?
+    ¿Qué tipo de estructura representa internamente el parámetro Rest?
+    R: Internamente, el parámetro rest representa un arreglo. La prueba está en 'string[]', es decir, su tipado
+    
+    ¿Puede recibir cero argumentos adicionales?
+    R: Si, tipescript no peta si no le pasamos argumentos adicionales pese a declarar el rest como parámetro de la función
+
+    ¿Puede colocarse otro parámetro después del Rest?
+    R: No, typescript indica que el parámetro rest debe de ser el último en declararse
 
 Objetivo: entender qué ocurre con los argumentos variádicos.
+*/
+(()=>{
+    function entireNombre(firstName:string, ...restArgs : string[]):string{
 
-Ejercicio 10 — ¿Rest o parámetro normal?
+        return `${firstName} ${restArgs.join( ' ' )}`
+    }
 
+    const mapelle = entireNombre('Diego', 'Elgofer25',)
+    console.log(mapelle)
+})();
+
+//! Ejercicio 10 — ¿Rest o parámetro normal?
+/*
 Dificultad: Medio
 
 No necesitas escribir código.
@@ -326,18 +343,34 @@ Decide qué estrategia utilizarías en cada situación:
 parámetros normales, parámetro opcional, parámetro por defecto o Rest.
 
 Una suma que siempre recibe exactamente dos números.
+R: Parametro normal. Si siempre son dos numeros entonces es facil de declararlos desde el inico
+
 Un nombre que puede tener o no segundo apellido.
+R: Parametro normal. Si esperamos recibir o no el apellido podemos declararlo como opcional
+
 Una lista de etiquetas cuya cantidad es desconocida.
+R: Aquí si usaría un rest. No sabemos la cantidad, entonces no podemos limitarla.
+
 Una configuración donde el idioma normalmente será español.
+R: Parámetro normal. Podemos declarar un valor por defecto.
+
 Una función que requiere nombre y contraseña obligatoriamente.
+R: Parámetro normal. Declaramos que la función si o si debe de recibir dos valores.
+
 Una función que recibe un título y después cualquier cantidad de palabras adicionales.
+R: Declaramos un parámetro normal, seguido de un rest. Sabemos que si o si debemos de recibir un título, la información subsecuente puede o no existir.
 
 Justifica cada respuesta.
 
 Objetivo: elegir conscientemente qué tipo de parámetro necesitas.
+*/
+(()=>{
 
-Ejercicio 11 — Función flecha abreviada
+})();
 
+
+//!Ejercicio 11 — Función flecha abreviada
+/*
 Dificultad: Fácil
 
 Crea una función flecha que reciba dos números y devuelva su suma.
@@ -355,9 +388,16 @@ Casos
 Pregunta
 
 Explica por qué el valor se devuelve aunque no hayas escrito explícitamente return.
+*/
+(()=>{
+    const plusTwo = (a: number, b:number) : number => a+b;
+    const addnumbers = plusTwo(5, 6);
 
-Ejercicio 12 — ¿Forma normal o abreviada?
+})();
 
+
+//!Ejercicio 12 — ¿Forma normal o abreviada?
+/*
 Dificultad: Fácil–Medio
 
 No escribas código.
@@ -365,39 +405,73 @@ No escribas código.
 Indica si cada función podría escribirse razonablemente mediante una función flecha abreviada.
 
 Devuelve la suma de dos números.
+R: Si, si puede escribirse de forma abreviada.
+
 Devuelve un saludo.
+R: Si, si se puede.
+
 Ejecuta varias instrucciones antes de producir un resultado.
+R: No, debido a la complejidad de la lógica.
+
 Devuelve directamente un texto fijo.
+R: Si, no requiere de complejidad.
+
 Realiza varias operaciones independientes antes de terminar.
+R: No, si hay que hacer una función más elaborada
 
 No necesitas conocer todavía cómo implementar los casos complejos.
 
 Lo importante es identificar cuándo una función contiene una sola expresión.
+*/
+(()=>{
+    const regards = (regards : string) : string => staticReg
+    const staticReg = regards('Estoiasjabsdjhabsjdkbajskhbdjkabsdkajbsdkjabsdkjba')
+})();
 
-Ejercicio 13 — Variable que almacena funciones
 
+
+//! Ejercicio 13 — Variable que almacena funciones
+/*
 Dificultad: Medio
 
 Crea tres funciones independientes:
 
-una que opere con dos números;
-una que genere un saludo;
-una que devuelva un texto fijo sin necesitar argumentos.
+    una que opere con dos números;
+    una que genere un saludo;
+    una que devuelva un texto fijo sin necesitar argumentos.
 
 Después declara una variable utilizando el tipo general Function y asígnale, una por una, las tres funciones.
 
 Condiciones
-La variable solamente debe poder almacenar funciones.
-No utilices todavía una firma específica.
-Intenta asignar también un número a esa variable y observa qué informa TypeScript.
+    La variable solamente debe poder almacenar funciones.
+    No utilices todavía una firma específica.
+    Intenta asignar también un número a esa variable y observa qué informa TypeScript.
 Preguntas
-¿Por qué Function permite almacenar las tres funciones aunque sean muy diferentes?
-¿Qué información no está controlando TypeScript al utilizar simplemente Function?
+    ¿Por qué Function permite almacenar las tres funciones aunque sean muy diferentes?
+    ¿Qué información no está controlando TypeScript al utilizar simplemente Function?
 
 Objetivo: entender el problema del tipo general Function.
+*/
+(()=>{
+    function primerFun(a: number, b:number):number{
+        return a + b;
+    }
+    const numeros = primerFun(3, 2);
 
-Ejercicio 14 — Firma numérica
+    function segundaFun(greetings:string):string{
+        return `${greetings}`;
+    }
+    const saludar = segundaFun('Hola, programador')
+    function terceraFun(text:string):string{
+        return 'THIS IS. MY TEXT LOLASJDNBAONDOSANODAIOSNDOASINDOAN'
+    }
 
+    let myFunction : Function[] = [primerFun, segundaFun, terceraFun];
+    console.log(myFunction)
+})();
+
+//Ejercicio 14 — Firma numérica
+/*
 Dificultad: Medio
 
 Tienes varias funciones diferentes.

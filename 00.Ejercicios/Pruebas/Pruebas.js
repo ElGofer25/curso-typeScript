@@ -1,10 +1,9 @@
 "use strict";
 (() => {
-    function myInput(input) {
-        return input;
+    function makingUser(nombreOb, segundoNom, country = 'Mexico') {
+        return `${nombreOb} ,${segundoNom || 'No tiene segundo nombre'} ,${country}`;
     }
-    const typing = prompt(myInput('Escribe tu string: '));
-    console.log(typeof typing);
-    console.log(typing);
+    const name = makingUser('Diego');
+    console.log({ name });
 })();
 //# sourceMappingURL=Pruebas.js.map

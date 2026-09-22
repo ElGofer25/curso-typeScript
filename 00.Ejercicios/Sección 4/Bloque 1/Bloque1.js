@@ -425,9 +425,11 @@ Objetivo: entender el problema del tipo general Function.
     function primerFun(a, b) {
         return a + b;
     }
+    const numeros = primerFun(3, 2);
     function segundaFun(greetings) {
         return `${greetings}`;
     }
+    const saludar = segundaFun('Hola, programador');
     function terceraFun(text) {
         return 'THIS IS. MY TEXT LOLASJDNBAONDOSANODAIOSNDOASINDOAN';
     }

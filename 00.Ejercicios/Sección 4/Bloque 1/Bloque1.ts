@@ -456,9 +456,12 @@ Objetivo: entender el problema del tipo general Function.
     function primerFun(a: number, b:number):number{
         return a + b;
     }
+    const numeros = primerFun(3, 2);
+
     function segundaFun(greetings:string):string{
         return `${greetings}`;
     }
+    const saludar = segundaFun('Hola, programador')
     function terceraFun(text:string):string{
         return 'THIS IS. MY TEXT LOLASJDNBAONDOSANODAIOSNDOASINDOAN'
     }

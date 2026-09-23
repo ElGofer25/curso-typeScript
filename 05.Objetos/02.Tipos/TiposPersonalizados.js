@@ -1,6 +1,4 @@
 "use strict";
-// y si requiero de un objeto igual?
-//Métodos dentro de objetos
 (() => {
     let flash = {
         name: 'Barry Allen',

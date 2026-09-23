@@ -1,6 +1,5 @@
 "use strict";
 (() => {
-    //El tipo se pone casí de inmediato
     let flash = {
         name: 'Barry Allen',
         age: 24,
@@ -10,14 +9,9 @@
         name: 'Clark kent',
         age: 60,
         powers: ['Super fuerza'],
-        // getNombre(){
-        //     return this.name;
-        // }
     };
 })();
-//Métodos dentro de objetos
 (() => {
-    //Declaramos que getName no recibe ningun argumento con '()' u que retorna un string
     let flash = {
         name: 'Barry Allen',
         age: 24,

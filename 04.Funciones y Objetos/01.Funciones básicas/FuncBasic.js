@@ -5,7 +5,6 @@
         return hero;
     }
     console.log(returnName);
-    // Con una función de flecha
     const activateBatisignal = () => {
         return 'Batiseñal Activada';
     };

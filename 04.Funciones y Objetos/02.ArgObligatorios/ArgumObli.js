@@ -1,10 +1,7 @@
 "use strict";
 (() => {
     const fullName = (firstName, lastName) => {
-        { /*/ // Si el firstName no viene
-          if (!firstName ) {
-              throw new Error('Nombre requerido')
-        }*/
+        {
         }
         return `${firstName} ${lastName}`;
     };

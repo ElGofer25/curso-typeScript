@@ -251,7 +251,7 @@ Pregunta
 
 })();
 
-//Ejercicio 8 — Opcional y valor por defecto juntos
+//! Ejercicio 8 — Opcional y valor por defecto juntos
 /*
 Dificultad: Fácil–Medio
 
@@ -470,7 +470,7 @@ Objetivo: entender el problema del tipo general Function.
     console.log(myFunction)
 })();
 
-//Ejercicio 14 — Firma numérica
+//! Ejercicio 14 — Firma numérica
 /*
 Dificultad: Medio
 
@@ -483,126 +483,203 @@ produzcan un número.
 
 Después intenta asignarle:
 
-una función que suma dos números;
-una función que multiplica dos números;
-una función que recibe un string;
-una función sin argumentos que devuelve texto.
+    una función que suma dos números;
+    una función que multiplica dos números;
+    una función que recibe un string;
+    una función sin argumentos que devuelve texto.
+
 Condiciones
-No utilices el tipo general Function.
-Debes declarar una firma específica.
-Antes de ejecutar el código, predice qué asignaciones aceptará TypeScript.
+    No utilices el tipo general Function.
+    Debes declarar una firma específica.
+    Antes de ejecutar el código, predice qué asignaciones aceptará TypeScript.
 Objetivo
 
 Entender que una firma funciona como un contrato para funciones.
+*/
 
-Ejercicio 15 — Firma textual
+(()=>{
+    
+    function firstFunct14(a:number, b:number):number{
+        return a + b;
+    }
+    
+    function secondFunct14(a:number, b:number):number{
+        return a * b;
+    }
+    function thirdFunct14(nomr:string):string{
+        return `${nomr}`;
+    }
+    const asign : string = thirdFunct14('Diego');
 
+    // Así se declara la firma específica
+    let myStock : (a:number, b:number) => number;
+    myStock = firstFunct14;
+    myStock = secondFunct14;    
+    //myStock = thirdFunct14; // ---> Peta debido al tipado de la línea 514
+})();
+
+
+//! Ejercicio 15 — Firma textual
+/*
 Dificultad: Medio
 
 Declara una variable destinada exclusivamente a almacenar funciones que:
 
-reciban dos textos;
-devuelvan un texto.
+    reciban dos textos;
+    devuelvan un texto.
 
 Crea al menos dos funciones compatibles con dicha firma y una incompatible.
 
 Condiciones
-La incompatibilidad debe deberse al tipo de parámetros o al tipo de retorno.
-No utilices Function.
-Explica por qué TypeScript acepta unas y rechaza la otra.
+    La incompatibilidad debe deberse al tipo de parámetros o al tipo de retorno.
+    No utilices Function.
+    Explica por qué TypeScript acepta unas y rechaza la otra.
 
 Objetivo: reforzar que una firma controla entrada y salida.
+*/
+(()=>{
+    let stockStrings : (a:string, b:string) =>string;
+    function myFirstFunct15( a: string, b:string):string{
+        return `${a} ${b}` ;
+    };
+    function mySecodFunction15(a:string):string{
+        return `${a}`;
+    };
+    function myThirdFunct15(a:number):number{
+        return a;
+    }
+    stockStrings = myFirstFunct15;
+    stockStrings = mySecodFunction15;
+    //stockStrings = myThirdFunct15; //Comprobamos, peta por el tipado de funciones
+})();
 
-Ejercicio 16 — Analizando firmas
-
+//! Ejercicio 16 — Analizando firmas
+/*
 Dificultad: Medio
 
 No escribas código.
 
 Imagina estas cuatro funciones:
 
-Función A
+    Función A
 
-recibe dos números;
-devuelve un número.
+    recibe dos números;
+    devuelve un número.
 
-Función B
+    Función B
 
-recibe dos números;
-devuelve texto.
+    recibe dos números;
+    devuelve texto.
 
-Función C
+    Función C
 
-recibe dos textos;
-devuelve texto.
+    recibe dos textos;
+    devuelve texto.
 
-Función D
+    Función D
 
-recibe dos números;
-devuelve un número.
+    recibe dos números;
+    devuelve un número.
 
 Se tiene una variable cuya firma exige:
 
-dos números de entrada;
-un número de salida.
+    dos números de entrada;
+    un número de salida.
 
 Responde:
 
 ¿Qué funciones pueden almacenarse en esa variable?
+R: Las funciones a y d pueden almacenarse.
+
 ¿Cuáles no?
+R: Las funciones b y c no pueden almacenarse porque la firma está tipada solo a devolver un dato de tipo number. 
+Mientras que estas dos funciones petan porque su tipo de retorno choca con el de la firma.
+
 Para cada rechazo, explica exactamente qué parte del contrato se incumple.
 
 Objetivo: comprobar comprensión antes de depender del compilador.
+*/
 
-Ejercicio 17 — Diseña el contrato
-
+//! Ejercicio 17 — Diseña el contrato
+/*
 Dificultad: Medio
 
 Necesitas una variable que pueda almacenar una función destinada a calcular precios.
 
 La función siempre debe:
-
-recibir un precio base;
-recibir una cantidad;
-devolver un número.
+    recibir un precio base;
+    recibir una cantidad;
+    devolver un número.
 
 Tu tarea es:
+    crear dos funciones compatibles;
+    crear una función incompatible;
+    declarar una variable con la firma adecuada;
+    probar las asignaciones.
 
-crear dos funciones compatibles;
-crear una función incompatible;
-declarar una variable con la firma adecuada;
-probar las asignaciones.
 Restricciones
-No utilices objetos.
-No utilices condicionales.
-No utilices ciclos.
-No utilices Function.
+    No utilices objetos.
+    No utilices condicionales.
+    No utilices ciclos.
+    No utilices Function.
 Solo utiliza funciones, parámetros, operadores básicos y tipos que ya estudiaste.
-Ejercicio 18 — Integración final
+*/
+(()=>{
+    function myFunc17(basePrice:number, quantity:number):number{
+        return basePrice * quantity;
+    }
+    function myFirstFunct17( a: string, b:string):string{
+        return `${a} ${b}` ;
+    };
+    const prices = myFunc17(22, 12);
+    let sotckFunc17:(a:number, b:number) => number;
+    sotckFunc17 = myFunc17;
+    //sotckFunc17 = myFirstFunct17;
+})();
 
+
+//! Ejercicio 18 — Integración final
+/*
 Dificultad: Medio
 
 Construye un pequeño conjunto de funciones relacionadas con usuarios.
 
 Necesitarás:
 
-una función que reciba dos partes obligatorias de un nombre;
-una función que reciba un nombre y una parte adicional opcional;
-una función que reciba un nombre y un país con valor predeterminado;
-una función que reciba un nombre y cualquier cantidad de apellidos mediante Rest;
-una función flecha abreviada;
-una variable con tipo Function;
-una variable con una firma específica para funciones de texto.
+    una función que reciba dos partes obligatorias de un nombre;
+    una función que reciba un nombre y una parte adicional opcional;
+    una función que reciba un nombre y un país con valor predeterminado;
+    una función que reciba un nombre y cualquier cantidad de apellidos mediante Rest;
+    una función flecha abreviada;
+    una variable con tipo Function;
+    una variable con una firma específica para funciones de texto.
+
 Condiciones
-No utilices objetos.
-No utilices if, switch ni operadores ternarios.
-No utilices for, while ni otros ciclos.
-No utilices clases.
-No utilices interfaces.
-No utilices generics.
+    No utilices objetos.
+    No utilices if, switch ni operadores ternarios.
+    No utilices for, while ni otros ciclos.
+    No utilices clases.
+    No utilices interfaces.
+    No utilices generics.
 Todas las funciones deben declarar apropiadamente sus parámetros y retornos.
 
 Objetivo: integrar exclusivamente los conceptos de tu sección de funciones.
-
-
 */
+
+(()=>{
+    //una función que reciba dos partes obligatorias de un nombre
+    const nombreFunct18 = (nombre:string, apellido:string) : string =>{
+        return `${nombre} ${apellido}`
+    }
+    const fullname = nombreFunct18('Diego', 'Fernando');
+    //una función que reciba un nombre y una parte adicional opcional;
+    function nombreFunct19(nombre:string, apodo?:string) : string{
+        return `${nombre} ${apodo}`;
+    }
+    //una función que reciba un nombre y un país con valor predeterminado
+    function nombreFunct20(nombre:string, pais:string = 'Mexico'):string{
+        return `${nombre} ${pais}`;
+    }
+    //una función que reciba un nombre y cualquier cantidad de apellidos mediante Rest
+    function 
+})();

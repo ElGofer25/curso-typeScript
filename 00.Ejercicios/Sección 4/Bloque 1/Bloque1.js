@@ -638,5 +638,9 @@ Objetivo: integrar exclusivamente los conceptos de tu sección de funciones.
     function nombreFunct20(nombre, pais = 'Mexico') {
         return `${nombre} ${pais}`;
     }
+    //una función que reciba un nombre y cualquier cantidad de apellidos mediante Rest
+    function fullNameFunc20(nombre, ...restArgs) {
+        return `${nombre} ${restArgs}`;
+    }
 })();
 //# sourceMappingURL=Bloque1.js.map

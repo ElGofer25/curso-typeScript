@@ -681,5 +681,7 @@ Objetivo: integrar exclusivamente los conceptos de tu sección de funciones.
         return `${nombre} ${pais}`;
     }
     //una función que reciba un nombre y cualquier cantidad de apellidos mediante Rest
-    function 
+    function fullNameFunc20(nombre:string, ...restArgs:string[]):string{
+        return `${nombre} ${restArgs}`
+    }
 })();

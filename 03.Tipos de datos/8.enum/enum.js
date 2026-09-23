@@ -7,6 +7,6 @@
         AudioLevel[AudioLevel["max"] = 10] = "max";
     })(AudioLevel || (AudioLevel = {}));
     let currentAudio = AudioLevel.medium;
-    console.log(currentAudio); // Output: 5
+    console.log(currentAudio);
 })();
 //# sourceMappingURL=enum.js.map

@@ -40,10 +40,10 @@ let hero: {
 
 En `getName?: () => string`:
 
-- `?` indica que la propiedad es opcional.
-- `()` indica que no recibe argumentos.
-- `string` es su tipo de retorno.
-- `this.name` accede a otra propiedad del mismo objeto.
+    - `?` indica que la propiedad es opcional.
+    - `()` indica que no recibe argumentos.
+    - `string` es su tipo de retorno.
+    - `this.name` accede a otra propiedad del mismo objeto.
 
 ## 3. Tipos personalizados
 

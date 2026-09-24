@@ -1,25 +1,93 @@
-La sección se enfoca en la depuración de errores y comprender el archivo de configuración de TypeScript (el tsconfig.json)
+# SECCIÓN 6: TSCONFIG
 
-Puntualmente:
+## 1. ¿Qué es `tsconfig.json`?
 
-Aprenderemos el ¿por qué siempre compila a JavaScript?
-Para que nos puede servir el archivo de configuración de TypeScript
-Realizaremos depuración de errores directamente a nuestros archivos de TypeScript
-Removeremos todos los comentarios en nuestro archivo de producción.
-Restringiremos al compilador que sólo vea ciertos archivos o carpetas
-Crearemos un archivo final de salida
-Aprenderemos a cambiar la version de JavaScript de salida
-Adicionalmente tendrán el conocimiento necesario para compilar automáticamente cualquier archivo que se vaya creando al momento de ser insertado a nuestro proyecto.
+`tsconfig.json` indica que una carpeta es un proyecto TypeScript y define cómo
+debe trabajar el compilador. Se puede generar con:
 
-¿Para que sirve el archivo? 
-Básicamente es el archivo de configuración de TS, le dice como debe de funcionar. Si queremos que funcione de alguna forma en especial hay que modificar los valores por defecto.
+```bash
+tsc --init
+```
 
-¿Cómo evitamos que ts traspile los comentarios a js?
-Se quita en el tsconfig, declaramos 
-    "removeComments": true,
+TypeScript se transpila a JavaScript porque los navegadores y Node.js ejecutan
+JavaScript, no los tipos de TypeScript. El compilador verifica los tipos y genera
+los archivos que se ejecutarán.
 
-Incluir o excluir carpetas
-Declaramos algo así en el ts:
-"exclude":{
-    "objetos/*.ts"
+## 2. Opciones principales del compilador
+
+Las reglas de compilación se colocan dentro de `compilerOptions`:
+
+```json
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "nodenext",
+    "strict": true,
+    "removeComments": true
   }
+}
+```
+
+- `target`: versión de JavaScript que se generará.
+- `module`: sistema de módulos usado por el proyecto.
+- `strict`: activa comprobaciones de tipos más rigurosas.
+- `removeComments`: evita trasladar comentarios al JavaScript generado.
+
+## 3. Archivos auxiliares y depuración
+
+```json
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true
+  }
+}
+```
+
+- `sourceMap` crea archivos `.js.map` para relacionar el JavaScript ejecutado con
+  el TypeScript original y facilitar la depuración.
+- `declaration` genera archivos `.d.ts` con las declaraciones de tipos.
+- `declarationMap` permite navegar desde una declaración hasta su fuente.
+
+Los `.d.ts` son especialmente útiles al publicar librerías; una aplicación
+sencilla normalmente no necesita generarlos.
+
+## 4. Entrada y salida del proyecto
+
+`rootDir` indica dónde está el código fuente y `outDir` dónde se guardará el
+resultado compilado:
+
+```json
+{
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist"
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}
+```
+
+`include` y `exclude` son arreglos de patrones. `exclude` no se declara como un
+objeto. Además, importar un archivo puede incorporarlo al proyecto aunque una
+regla de exclusión coincida con su ruta.
+
+## 5. Compilación automática
+
+```bash
+tsc
+tsc --watch
+```
+
+`tsc` compila el proyecto una vez. `tsc --watch` permanece observando los
+archivos y vuelve a compilar cuando detecta cambios.
+
+## Resumen
+
+- `tsconfig.json` centraliza la configuración del proyecto.
+- `target` y `module` controlan el JavaScript generado.
+- `strict` mejora la detección de errores de tipos.
+- `sourceMap` ayuda a depurar TypeScript desde el código ejecutado.
+- `rootDir`, `outDir`, `include` y `exclude` organizan la entrada y la salida.
+- `removeComments` limpia los comentarios del resultado de compilación.

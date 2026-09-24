@@ -19,6 +19,24 @@ Pruebas
 
 Objetivo: empezar a usar expresiones lógicas dentro de funciones.
 */
+(()=>{
+    //Esta fue mi solución:
+    // {function myFunction(age: number, ):boolean{
+    //     if(age >= 18){
+    //         console.log(false)
+    //     } else {
+    //         console.log(true)
+    //     }  
+    // };}
+
+    //Esta es la solución correcta
+    function myFunction(age:number):boolean{
+        return age >= 18;
+    }
+
+    const validateAge = myFunction(13);
+    console.log(validateAge);
+})();
 
 //! Ejercicio 2 — Número dentro de un rango
 /*
@@ -40,6 +58,14 @@ Pruebas
 
 Objetivo: pensar en cómo comprobar dos condiciones simultáneamente.
 */
+(()=>{
+    function myFunction(numero:number):boolean{
+        return (10 > numero && numero < 20);
+    };
+
+    const myNumber = myFunction(12);
+    console.log(myNumber);
+})();
 
 //! Ejercicio 3 — Acceso permitido
 /*
@@ -61,7 +87,15 @@ Pruebas
     23 e inactiva → falso.
     16 y activa → falso.
 */
+(()=>{
+    function myFunction(age:number, isActive:boolean):boolean{
+        return (age >= 18 && isActive == true)
+    }
+    let data = myFunction(13, false);
+    data = myFunction(21, true);
+    data = myFunction(12, true);
 
+})();
 //! Ejercicio 4 — Número par
 /*
 Dificultad: Fácil
@@ -83,7 +117,14 @@ Pruebas
 
 Objetivo: combinar una operación matemática con una comparación.
 */
-
+(()=>{
+    function myFunction(numero:number):boolean{
+        return (numero % 2 == 0);
+    };
+    const impar = myFunction(11);
+    const par = myFunction(12);
+    
+})();
 //! Ejercicio 5 — Precio total
 /*
 Dificultad: Fácil
@@ -101,6 +142,14 @@ Pruebas
 
 Objetivo: empezar a tratar una función como una pequeña unidad de lógica.
 */
+(()=>{
+    function myFunction(price:number, quantity:number):number{
+        return price*quantity
+    }
+    let tryValues = myFunction(12, 3)
+    tryValues = myFunction(12.5, 4)
+})();
+
 
 //! Ejercicio 6 — Precio con impuesto
 /*
@@ -121,7 +170,15 @@ Pruebas
 
 Objetivo: plantear la operación matemática necesaria para calcular el precio final.
 */
-
+(()=>{
+    //{Aquí hay un error de conceptos debido a al enunciado. Pero seguiré las indicaciones, mi código se defiende en el segmento que me diste como pruebas. 
+    // Expreso esto porque el impuesto es un porcentaje, no un entero o float.}
+    function myFunction(price : number, taxes : number = 16):number{
+        return price + taxes;
+    }
+    let test = myFunction(22);
+    test = myFunction(22, 12);
+})();
 //! Ejercicio 7 — Mayor de dos números
 /*
 Dificultad: Fácil–Medio
@@ -140,7 +197,12 @@ Pruebas
 
 Objetivo: empezar a tomar decisiones según los datos recibidos.
 */
-
+(()=>{
+    function myFunction(a : number, b: number):number{
+        return a === b ? a : a > b ? a : b;
+    }
+    let values = myFunction(3,4)
+})();
 //! Ejercicio 8 — Estado de temperatura
 /*
 Dificultad: Medio
@@ -167,7 +229,9 @@ Pruebas
     25 → Templado.
     26 → Caliente.
 */
-
+(()=>{
+    
+})();
 //! Ejercicio 9 — Resultado de examen
 /*
 Dificultad: Medio
@@ -187,7 +251,9 @@ Condiciones
 
 Objetivo: empezar a hacer que una función utilice otra función.
 */
-
+(()=>{
+    
+})();
 //! Ejercicio 10 — Coordenada dentro de una zona
 /*
 Dificultad: Medio

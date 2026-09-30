@@ -124,11 +124,6 @@ Tony tiene un saldo de 8500
             return `${this.owner} tiene un saldo de ${this.balance}`
         }
     };
-
-
-
-
-
 })();
 
 
@@ -142,18 +137,34 @@ Tienes un tipo que representa un automóvil con:
 - año: number;
 - eléctrico: boolean.
 Una variable ha sido declarada utilizando ese tipo.
+
 Analiza las siguientes operaciones y determina cuáles deberían ser aceptadas por TypeScript:
 1. Reemplazar el objeto por otro automóvil que tenga las mismas tres propiedades con tipos correctos.
+    R: Si lo acepta typescrip. TS peta si hay variación entre los tipos detectados.
+
 2. Reemplazarlo por un objeto que no tenga la propiedad año.
+    R: Peta, debemos de matchear con las propiedades del tipo, en caso contrario, TS avisa la 'omisión' de uno de las propiedades/atributos.
+
 3. Cambiar únicamente el valor de eléctrico.
+    R: Si se cambia por otro booleano, no peta. Si se cambia por otro que no sea booleano, peta.
+
 4. Cambiar año por un string.
+    R: Si se cambia desde el type, no pasa nada. Pero si se declara un valor distinto al del tipe, peta.
+
 5. Agregar una propiedad que no forma parte del tipo durante una nueva asignación.
+    R: Peta, TS avisa que el objeto debe declarar solo propiedades que se encuentran dentro del objeto.
+
 Requisito
 Justifica cada respuesta basándote en la estructura declarada.
 */
 (()=>{
     type car = {brand : string, year : number, isElectric : boolean };
-    
+    const car : car = {
+        brand: 'Toyota',
+        year: 2026,
+        isElectric: true,
+        //rinSize: 15, --> Peta
+    }
 
 
 
@@ -180,6 +191,21 @@ Resultado esperado
 TypeScript debe aceptar los tres tipos declarados y rechazar tipos fuera de la unión.
 */
 
+(()=>{
+    type Hero = {nombre: string, poder: string, activo: boolean};
+    let myVar : string | number | Hero;
+    //myVar = ['fernando', 23, ['diego', 'regeneración', true]]; // Peta 
+    
+
+    myVar = 'diego';
+    //Un hero debe de ser un objeto con props nombradas.
+    myVar = {
+        nombre : 'Fernando',
+        poder : 'Regeneración',
+        activo : true,
+    }
+})();
+
 //! Ejercicio 6 — Trabajar con una unión de forma segura
 /*
 Tipo: Implementación
@@ -201,6 +227,20 @@ Casos esperados
 - typescript → TYPESCRIPT
 - -5 → -10
 */
+(()=>{
+  
+    function myFunction(myVar : number|string): (string | number){
+        if (typeof myVar === 'string'){
+            return myVar.toUpperCase()
+        } else if (typeof myVar === 'number'){
+            return myVar * 2;
+        }
+        return 'Tipo desconocido'; //Se pone este return para que TS infiera que abarcamos todos los casos
+    }
+    let myVar : (string | number);
+    myVar = 'Diego'
+})();
+
 
 //! Sección 7 — ES6 / ECMAScript 2015
 //! Ejercicio 7 — var, let o const
@@ -208,8 +248,13 @@ Casos esperados
 Tipo: Predicción y análisis
 Dificultad: Fácil
 Para cada situación decide cuál de las tres declaraciones utilizarías y explica por qué:
+
 1. Una constante matemática cuyo valor nunca cambiará.
+R: Usaría const, porque no se reasignará el valor.
+
 2. Un contador cuyo valor cambiará durante la ejecución.
+R: Usaría let, porque el valor tendrá que cambiar
+
 3. Una variable que debe existir únicamente dentro de un bloque.
 4. Una referencia a un array cuyo contenido cambiará, pero que nunca será reemplazado por otro array.
 5. Una referencia a un objeto que conservará siempre la misma instancia.

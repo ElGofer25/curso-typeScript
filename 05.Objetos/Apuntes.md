@@ -18,8 +18,7 @@ let flash: {
 ```
 
 El tipado define un contrato: deben existir las propiedades obligatorias y sus
-valores deben coincidir con los tipos indicados. Al reasignar el objeto se debe
-respetar la misma estructura.
+valores deben coincidir con los tipos indicados. Al reasignar el objeto se debe respetar la misma estructura.
 
 ## 2. Métodos y propiedades opcionales
 
@@ -227,6 +226,28 @@ let myVar: string | number | Hero = 'Diego';
 
 myVar = 23;
 myVar = flash;
+```
+
+> **Nota:** no es obligatorio asignar un valor al declarar la variable. Se puede
+> indicar primero su unión de tipos y asignarle después, en distintos momentos,
+> un valor de cualquiera de los tipos permitidos.
+
+```ts
+let value: string | number | Hero;
+
+value = 'Diego'; // string
+value = 23;      // number
+value = flash;   // Hero
+```
+
+Estas asignaciones no almacenan los tres valores al mismo tiempo. Cada nueva
+asignación reemplaza el valor anterior. Tampoco se está declarando un array:
+la variable contiene un único valor en cada momento, pero ese valor puede
+pertenecer a cualquiera de los tipos de la unión.
+
+```ts
+value = true;
+// Error: boolean no pertenece a string | number | Hero.
 ```
 
 La variable solo puede recibir alguno de los tipos declarados. Antes de usar

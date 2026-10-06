@@ -557,13 +557,38 @@ Deben mostrarse los tres nombres.
 Tipo: Predicción
 Dificultad: Medio
 Tienes un array con tres nombres.
+
+{Comentario: Te toca regaño, ni si quiera he visto el tema 'for ...in'}
+
 Sin ejecutar inicialmente el código, responde:
 1. ¿Qué concepto obtendrías al recorrerlo con for...of?
+R: Los nombres que viven en ese array
+
 2. ¿Qué concepto obtendrías al recorrerlo con for...in?
+R: Los indices correspondientes a cada valor del array
+
 3. ¿Cuál utilizarías para obtener directamente los nombres?
+R: Utilizaría for of
+
 4. ¿Cuál utilizarías si te interesaran las posiciones o claves?
+R: Utilizaría for in
+
 Después comprueba tus respuestas ejecutando ambos recorridos.
 */
+(()=>{
+    let myArray : string[] = ['Joshua', 'Mario', 'Diego', 'Raul']
+    
+    //Esto recorre los valores del array, y los imprime
+    for(const temporal of myArray){
+        console.log(temporal)
+    }
+
+    //Esto recorre las posiciones del array, retorna los indices
+    for (const temporal in myArray){
+        console.log(temporal)
+    }
+
+})();
 
 //! Ejercicio 15 — Las trampas de typeof
 /*
@@ -578,10 +603,26 @@ Predice qué categoría reportará typeof para:
 6. un array.
 Después responde:
 - ¿por qué typeof por sí solo no basta para diferenciar correctamente un array de un objeto normal?
+R: Porque para ambos casos retorna 'object'
 - ¿qué herramienta utilizarías para confirmar específicamente que un valor es un array?
+R: Podemos usar el método Array.isArray(value) para poder verificar si la estructura es o no un array.
+
 Requisito
 No utilices temas externos a typeof y Array.isArray().
 */
+(()=>{
+    function myFunction(value:any) : void{
+         if (Array.isArray(value) === true){
+            //Podemos simplificar: Array.isArray(value) --> Esto ya da true o false
+            console.log('Value is an Array', value)
+         } else {
+            console.log(value, 'is a', typeof value)
+         }
+    }
+
+    //Mi intento, está mal: let myVar = function(['Diego', 243, ])
+    let value = myFunction(['Diego', 23])
+})();
 
 //! Sección 8 — Clases
 //! Ejercicio 16 — Primera clase
@@ -590,21 +631,27 @@ Tipo: Implementación
 Dificultad: Fácil
 Crea una clase que represente un videojuego.
 Cada instancia debe tener:
-- título;
-- precio;
-- disponible.
+    - título;
+    - precio;
+    - disponible.
 Datos iniciales
 Crea tres instancias:
-- Elden Ring, 1200, disponible
-- Hollow Knight, 300, disponible
-- Game X, 950, no disponible
+    - Elden Ring, 1200, disponible
+    - Hollow Knight, 300, disponible
+    - Game X, 950, no disponible
 Requisitos
-- Declara las propiedades con sus tipos.
-- Inicialízalas mediante el constructor.
-- Utiliza new.
-- Cada instancia debe conservar sus propios datos.
+    - Declara las propiedades con sus tipos.
+    - Inicialízalas mediante el constructor.
+    - Utiliza new.
+    - Cada instancia debe conservar sus propios datos.
 */
-
+(()=>{
+    class myGame {
+        constructor (
+            
+        ){}
+    }
+})();
 //! Ejercicio 17 — Métodos y this
 /*
 Tipo: Implementación

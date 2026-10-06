@@ -79,8 +79,8 @@ Pruebas
     23 e inactiva → falso.
     16 y activa → falso.
 
-
 """
+
 
 #! Ejercicio 4 — Número par
 """

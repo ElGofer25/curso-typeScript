@@ -60,7 +60,8 @@ Objetivo: pensar en cómo comprobar dos condiciones simultáneamente.
 */
 (()=>{
     function myFunction(numero:number):boolean{
-        return (10 > numero && numero < 20);
+        //return (10 > numero && numero < 20); --> Esta mal porque los limites están invertidos ademas de que se excluyen
+        return numero >= 10 && numero <= 20; // --> Forma correcta
     };
 
     const myNumber = myFunction(12);
@@ -174,7 +175,8 @@ Objetivo: plantear la operación matemática necesaria para calcular el precio f
     //{Aquí hay un error de conceptos debido a al enunciado. Pero seguiré las indicaciones, mi código se defiende en el segmento que me diste como pruebas. 
     // Expreso esto porque el impuesto es un porcentaje, no un entero o float.}
     function myFunction(price : number, taxes : number = 16):number{
-        return price + taxes;
+        //return price + taxes;         --> Esto esta mal
+        return price + (price * taxes/100); // --> Solución
     }
     let test = myFunction(22);
     test = myFunction(22, 12);
@@ -203,6 +205,8 @@ Objetivo: empezar a tomar decisiones según los datos recibidos.
     }
     let values = myFunction(3,4)
 })();
+
+
 //! Ejercicio 8 — Estado de temperatura
 /*
 Dificultad: Medio
@@ -230,7 +234,22 @@ Pruebas
     26 → Caliente.
 */
 (()=>{
-    
+    // Mi solución
+    // function myFunction(temperature:number):string{
+    //     return temperature < 15 ? 'Frío' : temperature >=15 && temperature < 25 ? 'Templado' : temperature >= 25 ? 'Caliente'
+    // };
+
+    // Mejor solución:
+    function myFunction(temperature:number):string{
+        return temperature < 15 // Desde 14 hacía abajo, todos
+        ? 'Frío'
+        : temperature <= 25      // Desde 25 hasta 14
+        ? 'Templado'
+        : 'Caliente'            // Desde 25 hacía arriba
+    }
+    let myVar = myFunction(10);
+    myVar = myFunction(15);
+    myVar = myFunction(26);
 })();
 //! Ejercicio 9 — Resultado de examen
 /*
@@ -252,7 +271,15 @@ Condiciones
 Objetivo: empezar a hacer que una función utilice otra función.
 */
 (()=>{
-    
+
+    //Pese a que el ejercicio está bien, ponlo como mal pues recibí ayuda
+    function myFunction(grades:number):boolean{
+        return grades >= 70;     
+    }
+    function myOtherFunction(name:string, grades:number ):[string, number, boolean]{
+        const status = myFunction(grades);
+        return [name, grades, status];
+    }
 })();
 //! Ejercicio 10 — Coordenada dentro de una zona
 /*
@@ -273,6 +300,16 @@ Pruebas
     -1, 50 → falso.
     30, 101 → falso.
 */
+(()=>{
+    function myFunction(coordinate:[number, number]):boolean{
+        const x = coordinate[0];
+        const y = coordinate[1];
+
+        return (x >= 0 && x <=100) && (y >= 0 && y <=100)
+    }
+    let myVar = myFunction([12, 12]);
+
+})();
 
 //! Ejercicio 11 — Compra válida
 /*
@@ -291,6 +328,9 @@ Pruebas
     Precio 50, cantidad 3, saldo 100 → falso.
     Precio 25, cantidad 4, saldo 100 → verdadero.
 */
+(()=>{
+
+})();
 
 //! Ejercicio 12 — Contrato para validaciones
 /*
@@ -310,3 +350,16 @@ Condiciones
 
 Objetivo: combinar la lógica que acabamos de empezar con las firmas de funciones que ya estudiaste.
 */
+(()=>{
+    const myFunction = (number:number):boolean =>{
+        return number > 0
+    }
+    const myOtherFunction = (number:number):boolean =>{
+        return number >= 100
+    }
+    let myVar : (number:number) => boolean;
+    myVar = myFunction;
+    myVar = myOtherFunction;
+
+
+})();

@@ -8,7 +8,7 @@
 })();
 (() => {
     function myFunction(numero) {
-        return (10 > numero && numero < 20);
+        return numero >= 10 && numero <= 20;
     }
     ;
     const myNumber = myFunction(12);
@@ -39,7 +39,7 @@
 })();
 (() => {
     function myFunction(price, taxes = 16) {
-        return price + taxes;
+        return price + (price * taxes / 100);
     }
     let test = myFunction(22);
     test = myFunction(22, 12);
@@ -51,7 +51,45 @@
     let values = myFunction(3, 4);
 })();
 (() => {
+    function myFunction(temperature) {
+        return temperature < 15
+            ? 'Frío'
+            : temperature <= 25
+                ? 'Templado'
+                : 'Caliente';
+    }
+    let myVar = myFunction(10);
+    myVar = myFunction(15);
+    myVar = myFunction(26);
 })();
 (() => {
+    function myFunction(grades) {
+        return grades >= 70;
+    }
+    function myOtherFunction(name, grades) {
+        const status = myFunction(grades);
+        return [name, grades, status];
+    }
+})();
+(() => {
+    function myFunction(coordinate) {
+        const x = coordinate[0];
+        const y = coordinate[1];
+        return (x >= 0 && x <= 100) && (y >= 0 && y <= 100);
+    }
+    let myVar = myFunction([12, 12]);
+})();
+(() => {
+})();
+(() => {
+    const myFunction = (number) => {
+        return number > 0;
+    };
+    const myOtherFunction = (number) => {
+        return number >= 100;
+    };
+    let myVar;
+    myVar = myFunction;
+    myVar = myOtherFunction;
 })();
 //# sourceMappingURL=Bloque3.js.map

@@ -256,8 +256,16 @@ R: Usaría const, porque no se reasignará el valor.
 R: Usaría let, porque el valor tendrá que cambiar
 
 3. Una variable que debe existir únicamente dentro de un bloque.
+R: Usaría const para que su valor sea inmutable
+
 4. Una referencia a un array cuyo contenido cambiará, pero que nunca será reemplazado por otro array.
+R: Usaría let tipado.
+
 5. Una referencia a un objeto que conservará siempre la misma instancia.
+R: Usaría const, para mantener su valor
+
+¿Se supone que var era una asignación de una versión pasada del ecmascript no? Entonces
+
 Requisito
 Diferencia claramente entre:
 - cambiar el contenido;
@@ -278,32 +286,85 @@ Después realiza el mismo análisis con un objeto declarado mediante const.
 Objetivo
 Explicar por qué const no significa necesariamente que el contenido sea inmutable.
 */
+(()=>{
+    
+    const myArray : (number|string)[] = [];
+
+    myArray.push(22);       // Agrega al final
+    myArray.unshift(21);    // Agrega al inicio
+    
+    // Posición 1, eliminar 0 elementos e insertar "25"
+    // array.splice(posicion, cantidadAEliminar, elementoNuevo);
+    myArray.splice(1, 0, 25);
+
+    // Remplazar un valor directamente
+    myArray[2] = "Sandia";
+
+    // Eliminar un elemento de una posición específica
+    // Elimina 1 elemento desde la posición 1
+    myArray.splice(1, 1)
+
+    console.log(myArray);
+
+
+})();
+
 
 //! Ejercicio 9 — Desestructuración de objetos
 /*
 Tipo: Implementación
 Dificultad: Fácil–Medio
+
 Tienes un objeto de usuario con:
-- nombre;
-- edad;
-- país;
-- correo;
-- activo.
+    - nombre;
+    - edad;
+    - país;
+    - correo;
+    - activo.
+
 Obtén mediante desestructuración:
-- nombre;
-- país;
-- activo.
+    - nombre;
+    - país;
+    - activo.
+
 Requisitos
-- No accedas individualmente a esas tres propiedades después de la desestructuración.
-- Las propiedades restantes deben permanecer disponibles en el objeto original.
-- No utilices clases.
-Datos iniciales
-- nombre: Bruce
-- edad: 35
-- país: USA
-- correo: bruce@example.com
-- activo: verdadero
+    - No accedas individualmente a esas tres propiedades después de la desestructuración.
+    - Las propiedades restantes deben permanecer disponibles en el objeto original.
+    - No utilices clases.
+
+Datos iniciales:
+        - nombre: Bruce
+        - edad: 35
+        - país: USA
+        - correo: bruce@example.com
+        - activo: verdadero
 */
+(()=>{
+    //definimos la estructura del objeto con un type:
+    type Users ={
+        nombre: string,
+        edad: number,
+        pais: string,
+        correo: string,
+        activo: boolean,
+
+    }
+
+    //Declaramos los valores del objeto
+    const user: Users  = {
+        nombre: 'Bruce',
+        edad: 35,
+        pais: 'USA',
+        correo: 'bruce@example.com',
+        activo: true,
+    }
+    //Ahora desestructuramos el objeto en los parámetros de la función
+    const myUser = ({nombre, pais, activo} : Users) =>{
+        console.log(nombre, pais, activo)
+    }
+
+
+})();
 
 //! Ejercicio 10 — Rest con propiedades de un objeto
 /*
@@ -311,41 +372,95 @@ Tipo: Implementación
 Dificultad: Medio
 Utiliza el mismo tipo de usuario del ejercicio anterior.
 Separa:
-- nombre;
-- correo;
+    - nombre;
+    - correo;
 y reúne todas las demás propiedades utilizando Rest.
 Resultado esperado
+
 Debes terminar conceptualmente con:
-- una variable para el nombre;
-- una variable para el correo;
-- otra estructura con edad, país y activo.
+    - una variable para el nombre;
+    - una variable para el correo;
+    - otra estructura con edad, país y activo.
+
 Requisitos
-- Utiliza desestructuración.
-- Utiliza Rest.
-- No reconstruyas manualmente el objeto con las propiedades restantes.
+    - Utiliza desestructuración.
+    - Utiliza Rest.
+    - No reconstruyas manualmente el objeto con las propiedades restantes.
 */
+(()=>{
+     //definimos la estructura del objeto con un type:
+    type Users ={
+        nombre: string,
+        edad: number,
+        pais: string,
+        correo: string,
+        activo: boolean,
+
+    }
+    //Declaramos el objeto:
+    const user: Users ={
+        nombre: 'Diego',
+        correo: 'email@email.com',
+        edad: 23,
+        pais: 'Mexico',
+        activo: true,
+    }
+    //Accedemos al calor de la propiedad nombre:
+    const name = user.nombre;
+
+    // Desestructuramos en tres constantes:
+    const {nombre, correo, ...resto} = user;
+    console.log(nombre)
+    console.log(correo)
+    console.log(resto)
+})();
 
 //! Ejercicio 11 — Desestructuración de parámetros
 /*
 Tipo: Implementación
 Dificultad: Medio
 Crea una función que reciba un producto formado por:
-- nombre;
-- precio;
-- disponible.
+    - nombre;
+    - precio;
+    - disponible.
 La función debe devolver un texto que incluya el nombre y el precio.
+
 Requisitos
-- El parámetro debe desestructurarse directamente.
-- Debe existir un tipo reutilizable para el producto.
-- No accedas al producto mediante una variable intermedia para después extraer sus propiedades.
+    - El parámetro debe desestructurarse directamente.
+    - Debe existir un tipo reutilizable para el producto.
+    - No accedas al producto mediante una variable intermedia para después extraer sus propiedades.
 Datos iniciales
-- nombre: Monitor
-- precio: 4800
-- disponible: verdadero
+    - nombre: Monitor
+    - precio: 4800
+    - disponible: verdadero
 Resultado esperado
 Debe producirse un texto que incluya:
 Monitor — 4800
 */
+(()=>{
+    //Declaramos la estructura del objeto medianete un type
+    type product = {
+        name: string, 
+        price: number, 
+        isAvailable: boolean,
+    };
+
+    const myFunction = ({name, price, isAvailable}: product): string =>{
+        return `The product ${name} cost ${price} and is ${isAvailable} available`;
+    };
+    
+    // Definimos el objeto del producto
+    const monitor : product ={
+        name: 'Monitor LG Ultragear',
+        price: 3499,
+        isAvailable: true,
+    };
+
+    //Declaramos una variable y le damos el objeto, siguiendo el retorno de la función
+    const resultado = myFunction(monitor);
+    console.log(resultado);
+
+})();
 
 //! Ejercicio 12 — Desestructuración de arrays
 /*
@@ -371,28 +486,72 @@ Debes obtener:
 - C++
 */
 
+(()=>{
+    const myLanguages: string[] = [
+        'TypeScript',
+        'Python',
+        'Java',
+        'C#',
+        'C++',
+    ]
+    const [ts, , java, , cplus] = myLanguages;
+    console.log(ts);    // TypeScript
+    console.log(java);  // Java
+    console.log(cplus); // C++
+
+})();
+
+
 //! Ejercicio 13 — for...of
 /*
 Tipo: Implementación
 Dificultad: Medio
 Tienes una lista de empleados. Cada empleado contiene:
-- nombre;
-- salario;
-- activo.
+    - nombre;
+    - salario;
+    - activo.
 Recorre todos los empleados y muestra el nombre de cada uno.
 Datos iniciales
-- Ana, 18000, activa
-- Marco, 22000, activo
-- Laura, 19500, inactiva
+    - Ana, 18000, activa
+    - Marco, 22000, activo
+    - Laura, 19500, inactiva
+
 Requisitos
-- Utiliza for...of.
-- No utilices for...in.
-- No utilices métodos de recorrido como sustitución.
-- Utiliza un array de objetos tipados.
+    - Utiliza for...of.
+    - No utilices for...in.
+    - No utilices métodos de recorrido como sustitución.
+    - Utiliza un array de objetos tipados.
 Resultado esperado
 Deben mostrarse los tres nombres.
 */
+(()=>{
+    type employee = {
+        name: string,
+        salary: number,
+        active: boolean,
+    };
+    const firstEmployee : employee = {
+        name: 'Laura', 
+        salary: 19500,
+        active: false,
+    };
+    const secondEmployee: employee = {
+        name: 'Marco',
+        salary: 22000, 
+        active: true,
+    };
+    const thirdEmployee: employee = {
+        name: 'Ana',
+        salary: 18000,
+        active: true,
+    }
+    const empleados: employee[] = [firstEmployee, secondEmployee, thirdEmployee];
 
+    for(const myeployee of empleados){
+        console.log(myeployee)
+    }
+
+})();
 //! Ejercicio 14 — for...of vs for...in
 /*
 Tipo: Predicción

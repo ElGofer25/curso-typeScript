@@ -48,6 +48,31 @@ const printAvenger = ({ name, ...rest }: Avenger): void => {
 };
 ```
 
+Cuando Rest se utiliza al desestructurar un objeto, la variable que aparece
+después de los tres puntos también se guarda como un objeto:
+
+```ts
+const user = {
+  nombre: 'Bruce',
+  edad: 35,
+  pais: 'USA',
+  correo: 'bruce@example.com',
+  activo: true
+};
+
+const { nombre, correo, ...resto } = user;
+
+console.log(nombre); // "Bruce"
+console.log(correo); // "bruce@example.com"
+console.log(resto);  // { edad: 35, pais: "USA", activo: true }
+console.log(typeof resto); // "object"
+```
+
+En este ejemplo, `nombre` y `correo` se extraen en variables independientes.
+`...resto` reúne automáticamente todas las propiedades que no se extrajeron y
+crea con ellas un objeto nuevo. Es una copia superficial: si alguna propiedad
+contiene otro objeto o array, ese valor interno conserva la misma referencia.
+
 ## 3. Desestructuración de arrays
 
 En los arrays se utilizan corchetes y cada variable corresponde a una posición:
@@ -68,13 +93,13 @@ depende del orden de los elementos.
 
 ## 4. Ciclo `for...of`
 
-`for...of` recorre directamente los valores de un iterable, como un array:
+  `for...of` recorre directamente los valores de un iterable, como un array:
 
-```ts
-for (const avenger of avengers) {
-  console.log(avenger.name, avenger.weapon);
-}
-```
+  ```ts
+  for (const avenger of avengers) {
+    console.log(avenger.name, avenger.weapon);
+  }
+  ```
 
 No debe confundirse con `for...in`: este último recorre claves o índices, no los
 valores directamente.

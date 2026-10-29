@@ -270,6 +270,41 @@ Una clase es una plantilla para crear objetos con propiedades y métodos:
 
       const flash = new Hero('Flash', 'Super velocidad');
       ```
+### ¿Qué es una `Instancia`?
+Una instancia es un objeto concreto creado a partir de una clase.
+La clase define qué propiedades y métodos tendrá el objeto. La instancia tiene sus propios valores.
+
+      ```ts
+        class Persona {
+        nombre: string;
+
+        constructor(nombre: string) {
+          this.nombre = nombre;
+        }
+
+        saludar() {
+          console.log(`Hola, soy ${this.nombre}`);
+        }
+      }
+      const persona1 = new Persona("Ana");
+      const persona2 = new Persona("Luis");
+      persona1.saludar(); // Hola, soy Ana
+      persona2.saludar(); // Hola, soy Luis
+      ```
+
+
+Aquí, Persona es la clase; persona1 y persona2 son dos instancias distintas de esa clase. Cada una tiene su propio nombre.
+La palabra new crea una instancia y ejecuta el constructor para darle sus valores iniciales.
+
+- constructor es un método especial que se ejecuta automáticamente al crear una instancia con new. Sirve para inicializar el objeto, por ejemplo, asignarle un nombre.
+- saludar es un método de instancia: una función que pertenece al objeto y que puedes llamar cuando la necesites.
+
+    ```ts
+      const persona = new Persona("Ana"); // Ejecuta el constructor
+      persona.saludar();                  // Ejecuta saludar
+    ```
+Dentro de ambos, this se refiere a la instancia actual. Por eso, this.nombre es el nombre de esa persona.
+
 ### ¿Qué es un `Constructor`?
 
 Un constructor es un método especial de una clase que se ejecuta automáticamente al crear una instancia con new. Sirve para inicializar las propiedades del nuevo objeto.

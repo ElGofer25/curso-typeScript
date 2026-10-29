@@ -630,15 +630,17 @@ No utilices temas externos a typeof y Array.isArray().
 Tipo: Implementación
 Dificultad: Fácil
 Crea una clase que represente un videojuego.
-Cada instancia debe tener:
-    - título;
-    - precio;
-    - disponible.
+    Cada instancia debe tener:
+        - título;
+        - precio;
+        - disponible.
+        
 Datos iniciales
-Crea tres instancias:
-    - Elden Ring, 1200, disponible
-    - Hollow Knight, 300, disponible
-    - Game X, 950, no disponible
+    Crea tres instancias:
+        - Elden Ring, 1200, disponible
+        - Hollow Knight, 300, disponible
+        - Game X, 950, no disponible
+        
 Requisitos
     - Declara las propiedades con sus tipos.
     - Inicialízalas mediante el constructor.
@@ -647,10 +649,28 @@ Requisitos
 */
 (()=>{
     class myGame {
-        constructor (
-            
-        ){}
+        //Declaramos las props
+        public title: string; 
+        public price: number;
+        public isAvailable: boolean;
+        
+
+        //Las inicializamos
+        constructor(title:string, price: number, isAvailable: boolean){
+            this.title = title;
+            this.price = price;
+            this.isAvailable = isAvailable;
+        }
+        gaming():string {
+            return `${this.title} kostet ${this.price} euro, aber ist ${
+                this.isAvailable ? 'disponible' : 'no disponible'}`;
+        }
     }
+
+    //Declaramos las instancias
+    let juego1 = new myGame('Elden Ring', 1200, true);
+    let juego2 = new myGame('Hollow Knight', 300, true);
+    let juego3 = new myGame('Game X', 950, false);
 })();
 //! Ejercicio 17 — Métodos y this
 /*
@@ -660,6 +680,7 @@ Amplía conceptualmente una clase de automóvil con:
 - marca;
 - modelo;
 - velocidad actual.
+
 Agrega un método público que devuelva un texto con la marca, modelo y velocidad actual.
 Requisitos
 - El método debe utilizar this.
@@ -667,7 +688,25 @@ Requisitos
 - Los datos deben venir de la instancia.
 - No dupliques valores dentro del método.
 */
+(()=>{
+     class myCar{
+        public brand: string;
+        public model: string;
+        public currentSpeed: string;
 
+        constructor( brand: string, model: string, currentSpeed: string){
+            this.brand = brand;
+            this.model = model;
+            this.currentSpeed = currentSpeed;
+
+        }
+        public callData(): string {
+            return `El carro ${this.brand} modelo ${this.model} tiene una velocidad de ${this.currentSpeed}`
+        }
+     }
+     let propsCar = new myCar('Toyota', 'Corolla', '230 Km/H')
+     console.log(propsCar.callData());
+})();
 //! Ejercicio 18 — Público y privado
 /*
 Tipo: Implementación
@@ -687,7 +726,27 @@ Datos iniciales
 - propietario: Peter
 - saldo inicial: 5000
 */
-
+(()=>{
+    class myAccount {
+        
+        constructor(
+            public owner : string,
+            private balance : number,
+        ){
+            this.owner = owner;
+            this.balance = balance;
+        }
+        public check(): string{
+            return `The owner is ${this.owner} and its balance is ${this.balance}`
+        }
+        // Es void porque el método modifica el saldo, pero no devuelve ningún valor.
+        public deposit(amount: number): void{
+            this.balance += amount;
+        }
+    }
+    let checkit = new myAccount('Peter', 5000)
+    checkit.deposit(1200)
+})();
 //! Ejercicio 19 — Método privado
 /*
 Tipo: Implementación
@@ -705,7 +764,23 @@ Requisitos
 Objetivo
 Distinguir acceso interno y externo.
 */
+(()=>{
+    class User {
+        constructor(
+            public name : string,
+            private password: string,
+        ){}//Como el ejercicio solo pide practicar el acceso a métodos, no es necesario agregar validaciones
 
+        private greeting():string{
+            return `Bienvenido ${this.name}`
+        }
+
+        public message(): string{
+            return `Acceso permitido, ${this.greeting()}`
+        }
+    }
+    let myCredentials = new User('Diego', 'SoyDiego123')
+})();
 //! Ejercicio 20 — Parámetros opcionales y valores predeterminados
 /*
 Tipo: Implementación

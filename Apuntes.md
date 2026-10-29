@@ -9,7 +9,7 @@ Accede al siguiente repo:
 
 ---- > Instalar TypeScript
 Hay dos formas, podemos instalarlo de forma global o aislado de una carpeta. Lo instalaremos de forma global con el siguiente comando:
-        
+        npm install -g typescript
 
 ````
 

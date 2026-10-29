@@ -1,6 +1,6 @@
 # SECCIÓN 8: CLASES EN TYPESCRIPT
 
-## 1. Definición de una clase
+## 01.Definición de una clase
 
 Una clase define la estructura y el comportamiento de los objetos que se crean
 a partir de ella. Agrupa propiedades (datos) y métodos (acciones). Es útil cuando
@@ -30,7 +30,7 @@ creando: `this.name` es su propiedad y `name` es el parámetro recibido.
 Las clases existen en JavaScript desde ES6. TypeScript añade comprobaciones de
 tipos y modificadores como `public` y `private`.
 
-## 2. Propiedades públicas, privadas y opcionales
+## 02.Propiedades públicas, privadas y opcionales
 
 Los modificadores de acceso controlan desde dónde se puede utilizar un miembro
 (una propiedad o un método) en TypeScript:
@@ -65,7 +65,7 @@ parámetro del constructor: ese parámetro también necesita `?` o un valor por 
 el dato al ejecutar JavaScript ni al imprimir el objeto. JavaScript dispone de
 campos `#nombre` para privacidad en tiempo de ejecución; son una sintaxis distinta.
 
-## 3. Forma corta de asignar propiedades
+## 03.Forma corta de asignar propiedades
 
 Un parámetro del constructor con `public`, `private`, `protected` o `readonly`
 se convierte en una propiedad y recibe automáticamente el argumento indicado.
@@ -92,7 +92,7 @@ Como referencia, `protected` permite el acceso desde la clase y sus subclases;
 `readonly` impide reasignar la propiedad fuera de su inicialización o del
 constructor. `readonly` no vuelve inmutable el contenido de un objeto.
 
-## 4. Métodos públicos y privados
+## 04.Métodos públicos y privados
 
 Un método es una función definida dentro de una clase. Los métodos públicos
 ofrecen acciones que se pueden invocar desde fuera; los privados organizan
@@ -129,7 +129,7 @@ Esto permite ofrecer una operación pública sin exigir acceso directo a sus dat
 El operador `??` utiliza el valor de la derecha cuando el de la izquierda es
 `null` o `undefined`; aquí evita mostrar `undefined` si no se recibió `realName`.
 
-## 5. Propiedades y métodos estáticos
+## 05.Propiedades y métodos estáticos
 
 Un miembro `static` pertenece a la clase, no a cada instancia. Se utiliza para
 datos u operaciones asociados a la clase que no dependen de un objeto concreto.
@@ -156,6 +156,161 @@ valor de la clase cada vez que se crea una instancia. No guarda una edad por obj
 ni calcula un promedio automáticamente. `static` tampoco puede usarse como
 modificador de un parámetro del constructor.
 
+## 06.Extense
+
+La palabra clave correcta es **`extends`**: permite crear una subclase a partir de otra. En `extense.ts`, `Xmen extends Avenger` expresa que un `Xmen` es un
+`Avenger`: reutiliza su comportamiento y añade la propiedad `isMutant`.
+Úsala cuando exista esa relación «es un», no solo para compartir código.
+
+```ts
+class Avenger {
+  constructor(public name: string, public realName: string) {}
+
+  protected getFullName(): string {
+    return `${this.name} ${this.realName}`;
+  }
+}
+
+class Xmen extends Avenger {
+  constructor(name: string, realName: string, public isMutant: boolean) {
+    super(name, realName);
+  }
+
+  public getFullNameFromXmen(): void {
+    console.log(super.getFullName());
+  }
+}
+
+const wolverine = new Xmen('Wolverine', 'Logan', true);
+wolverine.getFullNameFromXmen(); // "Wolverine Logan"
+// wolverine.getFullName();     // Error: el método es protegido
+```
+
+Si la subclase declara un constructor, debe llamar a `super(...)` antes de usar
+`this`: así ejecuta el constructor padre. Si no declara constructor, se utiliza
+uno implícito que pasa los argumentos al padre. `super.getFullName()` llama al
+método de la clase padre sobre la instancia actual.
+
+La herencia conserva las restricciones de acceso:
+
+| Modificador | Desde dónde se permite acceder | Caso de uso |
+| --- | --- | --- |
+| `public` (por defecto) | Clase, subclases y código externo | Datos y operaciones que los usuarios de la clase necesitan. |
+| `protected` | Clase que lo declara y sus subclases | Lógica interna que las subclases necesitan reutilizar o adaptar. |
+| `private` | Solo la clase que lo declara | Detalles internos que tampoco deben usar directamente las subclases. |
+
+Aquí, `protected` permite que `Xmen` reutilice `getFullName()` sin ofrecer acceso
+directo desde fuera. Si fuera `private`, `Xmen` no podría llamarlo; si fuera
+`public`, también podría hacerlo `wolverine.getFullName()`. Estas restricciones
+se comprueban en TypeScript; no proporcionan privacidad en tiempo de ejecución.
+
+## 07.Getters y setters
+
+Los accesores ejecutan lógica al leer o asignar una propiedad: un **getter**
+(`get`) calcula o devuelve un valor; un **setter** (`set`) recibe un valor y puede validarlo antes de guardarlo. Se usan como propiedades, sin paréntesis.
+
+```ts
+class Heroe {
+  private _name = 'Wolverine';
+
+  get name(): string {
+    return this._name;
+  }
+
+  set name(value: string) {
+    const name = value.trim();
+    if (name.length < 3) {
+      throw new Error('El nombre debe tener al menos 3 caracteres');
+    }
+    this._name = name;
+  }
+}
+
+const heroe = new Heroe();
+heroe.name = 'Logan';   // Ejecuta el setter
+console.log(heroe.name); // Ejecuta el getter: "Logan"
+```
+
+Son útiles para validar cambios o exponer datos calculados, como un nombre
+completo. Un getter sin setter permite leer, pero no asignar esa propiedad
+desde TypeScript. El dato de respaldo debe ser distinto del accesor: asignar
+`this.name` dentro de `set name` volvería a ejecutar el setter indefinidamente.
+Si el respaldo fuera público, se podría modificar directamente y omitir la validación.
+
+## 08.Clases abstractas
+
+Una clase `abstract` define una base común para otras clases. Puede tener
+constructor, propiedades y métodos con implementación, pero TypeScript impide
+crear instancias de ella directamente. Sus subclases concretas sí se pueden instanciar.
+
+```ts
+abstract class Mutante {
+  constructor(public name: string) {}
+
+  abstract usarPoder(): string;
+
+  presentarse(): string {
+    return `Soy ${this.name}`;
+  }
+}
+
+class Xmen extends Mutante {
+  usarPoder(): string {
+    return 'Regeneración';
+  }
+}
+
+const logan = new Xmen('Logan');
+console.log(logan.presentarse()); // "Soy Logan"
+console.log(logan.usarPoder());   // "Regeneración"
+// new Mutante('Logan');         // Error: la clase es abstracta
+```
+
+Un método marcado como `abstract` declara qué operación debe existir, sin
+definir su cuerpo. Cada subclase concreta debe implementarlo. Marcar solo la
+clase como abstracta no obliga a añadir métodos nuevos en las subclases.
+
+Úsala cuando varias clases compartan estado o comportamiento y necesiten una
+estructura común. También sirve como tipo: una variable `Mutante` puede recibir
+un `Xmen`. Una clase sin la palabra clave `abstract` es concreta y sí admite `new`.
+
+## 09.Constructor privado y Singleton
+
+Un `private constructor` impide que el código externo cree instancias con `new`. La propia clase puede crearlas y ofrecer un método estático que controle su obtención. También impide extender la clase desde fuera.
+
+El patrón **Singleton** utiliza ese control para crear una instancia una sola
+vez y devolver siempre la misma:
+
+```ts
+class Apocalipsis {
+  private static instance: Apocalipsis | undefined;
+
+  private constructor(public name: string) {}
+
+  static getInstance(): Apocalipsis {
+    if (!Apocalipsis.instance) {
+      Apocalipsis.instance = new Apocalipsis('Apocalipsis');
+    }
+    return Apocalipsis.instance;
+  }
+}
+
+const primero = Apocalipsis.getInstance();
+const segundo = Apocalipsis.getInstance();
+console.log(primero === segundo); // true: son el mismo objeto
+// new Apocalipsis('Otro');      // Error: el constructor es privado
+```
+
+El constructor privado por sí solo no crea un Singleton: la propiedad estática
+guarda la instancia y el método evita crear otra. Esa propiedad debe ser privada
+para que el código externo no la reemplace.
+
+Puede servir para un servicio que deba compartirse dentro de una aplicación.
+Como todos reciben el mismo objeto, cambiar sus propiedades afecta a todos sus
+usuarios; conviene evitarlo cuando se necesitan instancias independientes o
+aislamiento entre pruebas. `private` aplica estas restricciones en TypeScript,
+no como una barrera de acceso durante la ejecución de JavaScript.
+
 ## Resumen
 
 - Una clase agrupa datos y acciones; `new` crea una instancia y ejecuta el constructor.
@@ -164,3 +319,7 @@ modificador de un parámetro del constructor.
 - Los modificadores en parámetros del constructor permiten declarar y asignar propiedades a la vez.
 - Los métodos públicos ofrecen operaciones; los privados sirven de apoyo interno.
 - Los miembros `static` pertenecen a la clase y se accede a ellos mediante su nombre.
+- `extends` crea una subclase; `protected` permite compartir miembros internos con ella.
+- Los getters y setters permiten calcular lecturas y validar asignaciones como propiedades.
+- Una clase abstracta sirve de base; sus miembros abstractos exigen implementación en las subclases concretas.
+- Un constructor privado controla la creación; un Singleton conserva y devuelve una misma instancia.

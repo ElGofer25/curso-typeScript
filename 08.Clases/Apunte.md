@@ -30,6 +30,41 @@ creando: `this.name` es su propiedad y `name` es el parámetro recibido.
 Las clases existen en JavaScript desde ES6. TypeScript añade comprobaciones de
 tipos y modificadores como `public` y `private`.
 
+El **constructor sirve para darle a cada objeto sus datos iniciales al crearlo**.
+Se ejecuta automáticamente cuando usas `new`.
+
+```ts
+class Persona {
+  nombre: string;
+
+  constructor(nombre: string) {
+    this.nombre = nombre;
+  }
+}
+
+const persona = new Persona('Ana');
+```
+
+Aquí, el constructor recibe `'Ana'` y lo guarda en `persona.nombre`, dejando
+el objeto listo para usarse.
+
+La asignación `this.nombre = nombre` **guarda el valor recibido en la propiedad
+del objeto**:
+
+```ts
+constructor(nombre: string) {
+  this.nombre = nombre;
+  // destino    valor recibido como parámetro
+}
+```
+
+- `this.nombre`: la propiedad de la instancia que estás creando.
+- `nombre`: el parámetro que recibe el constructor.
+
+Al ejecutar `new Persona('Ana')`, esa línea guarda `'Ana'` en la propiedad
+`nombre` del nuevo objeto. **Recibir el parámetro no lo guarda automáticamente**:
+esta asignación lo hace.
+
 ## 02.Propiedades públicas, privadas y opcionales
 
 Los modificadores de acceso controlan desde dónde se puede utilizar un miembro
@@ -64,6 +99,40 @@ parámetro del constructor: ese parámetro también necesita `?` o un valor por 
 `private` restringe el acceso durante la comprobación de TypeScript; no oculta
 el dato al ejecutar JavaScript ni al imprimir el objeto. JavaScript dispone de
 campos `#nombre` para privacidad en tiempo de ejecución; son una sintaxis distinta.
+
+### Propiedades de solo lectura: `readonly`
+
+**`readonly` impide reasignar una propiedad después de inicializarla.** Puedes
+asignarle su valor al declararla o en el constructor de la clase que la declara.
+Después puedes leerla, pero TypeScript rechaza que le asignes otro valor, incluso
+desde un método normal de esa misma clase.
+
+```ts
+class Producto {
+  public readonly codigo: string;
+
+  constructor(codigo: string) {
+    this.codigo = codigo;
+  }
+}
+
+const producto = new Producto('IPAD-001');
+const otroProducto = new Producto('IPHONE-001');
+
+console.log(producto.codigo); // "IPAD-001"
+console.log(otroProducto.codigo); // "IPHONE-001"
+// producto.codigo = 'IPAD-002'; // Error de TypeScript: es de solo lectura.
+```
+
+Cada instancia tiene su propio código. **`public` controla desde dónde puedes
+acceder; `readonly` impide reasignar.** No necesitas añadir un método para activar
+la restricción: TypeScript la comprueba automáticamente. En un parámetro del
+constructor, `readonly codigo: string` crea una propiedad pública; escribir
+`public readonly codigo: string` hace explícito ese acceso.
+
+La restricción se comprueba en TypeScript; por sí sola no bloquea cambios durante
+la ejecución de JavaScript. Si la propiedad contiene un objeto o arreglo,
+`readonly` impide reemplazar esa referencia, pero no modificar su contenido.
 
 ## 03.Forma corta de asignar propiedades
 

@@ -20,3 +20,27 @@
 
 
 })();
+
+// readonly: cada instancia conserva su código y permite consultarlo.
+(() => {
+    class Producto {
+        public readonly codigo: string;
+
+        constructor(codigo: string) {
+            this.codigo = codigo;
+        }
+    }
+
+    const producto = new Producto('IPAD-001');
+    const otroProducto = new Producto('IPHONE-001');
+
+    console.log(producto.codigo); // "IPAD-001": la propiedad es pública.
+    console.log(otroProducto.codigo); // "IPHONE-001": cada objeto tiene su código.
+
+    // Descomenta para comprobar el error de TypeScript y luego vuelve a comentar:
+    // producto.codigo = 'IPAD-002'; // Error: codigo es de solo lectura.
+
+    // No hace falta un método adicional para aplicar readonly.
+    // Tampoco se permite reasignar codigo desde un método normal de Producto.
+    // La restricción se comprueba en TypeScript, no durante la ejecución de JavaScript.
+})();

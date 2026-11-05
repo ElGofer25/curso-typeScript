@@ -119,15 +119,15 @@ R: No, si no declaramos alguna de las palabras reservadas como 'public', la prop
     }
 
      //Pruebas
-    const iPad : Producto = new Producto('iPad Pro', 999, 'Feel the future')
-    console.log(iPad.obtenerPrecio())
-    console.log(iPad.cambiarPrecio(2000))
-    console.log(iPad)
+    // const iPad : Producto = new Producto('iPad Pro', 999, 'Feel the future')
+    // console.log(iPad.obtenerPrecio())
+    // console.log(iPad.cambiarPrecio(2000))
+    // console.log(iPad)
 
-    const iPhone : Producto = new Producto('iPhone Pro', 1999, 'Feel the future')
-    console.log(iPhone.obtenerPrecio())
-    console.log(iPhone.cambiarPrecio(5000))
-    console.log(iPhone)
+    // const iPhone : Producto = new Producto('iPhone Pro', 1999, 'Feel the future')
+    // console.log(iPhone.obtenerPrecio())
+    // console.log(iPhone.cambiarPrecio(5000))
+    // console.log(iPhone)
 })()
 
 
@@ -139,15 +139,17 @@ R: No, si no declaramos alguna de las palabras reservadas como 'public', la prop
 
 - Crea la clase `Cuenta`, cuyo constructor no recibe argumentos. Cada cuenta
   tiene una propiedad privada `saldo: number`, inicialmente `0`.
+- Implementa primero el método privado `esMontoValido(monto: number): boolean`.
+  Centraliza aquí la comprobación `monto > 0`; no repitas esa comparación en
+  los métodos públicos.
 - Declara dentro de `Cuenta` estos métodos públicos de instancia:
   - `consultarSaldo(): number`: devuelve su saldo actual sin modificarlo.
-  - `depositar(monto: number): boolean`: si el monto es mayor que `0`, aumenta
-    el saldo por ese monto y devuelve `true`; en otro caso devuelve `false`.
-  - `retirar(monto: number): boolean`: si el monto es mayor que `0` y no supera
-    el saldo, descuenta ese monto y devuelve `true`; en otro caso devuelve `false`.
-- Declara en `Cuenta` el método privado `esMontoValido(monto: number): boolean`:
-  devuelve `true` únicamente si el monto es mayor que `0`. Tanto `depositar`
-  como `retirar` deben utilizar ese método para comprobar el monto.
+  - `depositar(monto: number): boolean`: llama a `esMontoValido`. Si devuelve
+    `true`, suma el monto al saldo y devuelve `true`; si no, devuelve `false`.
+  - `retirar(monto: number): boolean`: llama a `esMontoValido` y comprueba además
+    que el monto sea menor o igual al saldo. Solo si se cumplen ambas condiciones,
+    descuenta el monto y devuelve `true`; en otro caso devuelve `false`.
+    La comprobación de saldo suficiente pertenece únicamente a `retirar`.
 - Ninguna operación rechazada modifica el saldo ni lanza un error.
 
 **Comprueba, en orden:** depositar `100` → `true` y saldo `100`; retirar `30` →
@@ -157,3 +159,48 @@ y saldo final `70`. Llamar al método privado desde fuera debe fallar al compila
 **Explica:** ¿por qué conviene ofrecer operaciones en lugar de permitir que
 cualquier código reasigne el saldo?
 */}
+
+{
+  class Cuenta {
+    private saldo: number = 0;
+
+    private esMontoValido(monto: number): boolean {
+      return monto > 0;
+    }
+
+    public consultarSaldo(): number {
+      return this.saldo;
+    }
+
+    public depositar(monto: number): boolean {
+      if (this.esMontoValido(monto)) {
+        this.saldo += monto;
+        return true;
+      }
+      return false;
+    }
+
+    public retirar(monto: number): boolean {
+      if (this.esMontoValido(monto) && monto <= this.saldo) {
+        this.saldo -= monto;
+        return true;
+      }
+      return false;
+    }
+  }
+
+  const myAccount: Cuenta = new Cuenta();
+
+  console.log(myAccount.depositar(100), myAccount.consultarSaldo()); // true, 100
+  console.log(myAccount.retirar(30), myAccount.consultarSaldo()); // true, 70
+  console.log(myAccount.retirar(80), myAccount.consultarSaldo()); // false, 70
+  console.log(myAccount.depositar(0), myAccount.consultarSaldo()); // false, 70
+  console.log(myAccount.depositar(-5), myAccount.consultarSaldo()); // false, 70
+
+  const otraCuenta: Cuenta = new Cuenta();
+  otraCuenta.depositar(50);
+  console.log(otraCuenta.retirar(50), otraCuenta.consultarSaldo()); // true, 0
+  console.log(myAccount.consultarSaldo()); // 70: las cuentas son independientes
+
+  // myAccount.esMontoValido(10); // Error de TypeScript: el método es privado.
+}

@@ -1,51 +1,7 @@
-# Práctica progresiva: clases en TypeScript
+# Serie progresiva de 15 ejercicios (referencia)
 
-Esta ruta sigue los temas de [la sección 8](../../08.Clases/Apunte.md).
-Son 15 ejercicios: empieza por el primero y añade conceptos poco a poco.
-Usarás tipos, funciones, condicionales y arreglos que ya conoces como apoyo.
-No necesitas interfaces, genéricos, decoradores, bases de datos ni librerías.
-
-## Cómo practicar
-
-1. Resuelve un ejercicio por archivo: `01-producto.ts`, `02-producto-opcional.ts`, etc.
-2. Encierra cada solución en `(() => { ... })();`, como en los ejemplos del curso,
-   para poder repetir nombres de clases entre archivos sin conflictos globales.
-3. Antes de ejecutar cada caso, escribe qué resultado esperas y por qué.
-4. Comprueba los casos indicados y responde las preguntas con tus palabras.
-5. Avanza cuando puedas explicar tu solución y reconstruirla sin copiarla.
-
-No se incluyen soluciones para que puedas intentar los ejercicios desde cero.
-Cada propiedad, método y accesor indicado pertenece a la clase que se nombra
-en el enunciado. Salvo que diga `static`, pertenece a cada instancia. Los métodos
-deben devolver los valores pedidos; imprimirlos no sustituye ese retorno.
-Puedes elegir los nombres de las variables usadas en las comprobaciones.
-Si ya usaste `name`, `price` y `description`, puedes conservarlos como equivalentes
-de `nombre`, `precio` y `descripcion` en los ejercicios de `Producto`.
-
-Cada ejercicio se resuelve de forma independiente. Cuando diga «parte del
-anterior», copia esa clase y aplica los cambios pedidos en la nueva solución.
-Los argumentos del constructor se enumeran en su orden de recepción.
-Los datos de entrada cumplen sus tipos; en estas prácticas, los números son
-finitos. Solo debes validar las reglas que se indiquen expresamente.
-Cuando se pida lanzar un `Error`, el texto del mensaje queda a tu elección.
-
-Desde la raíz del proyecto, comprueba un archivo con:
-
-```bash
-./node_modules/.bin/tsc --noEmit --strict --exactOptionalPropertyTypes --noUncheckedIndexedAccess --target es2022 '08.Clases/00.Ejercicios/01-producto.ts'
-```
-
-Para compilar y ejecutar ese mismo archivo:
-
-```bash
-./node_modules/.bin/tsc --strict --exactOptionalPropertyTypes --noUncheckedIndexedAccess --target es2022 --outDir /tmp/practica-clases '08.Clases/00.Ejercicios/01-producto.ts'
-node /tmp/practica-clases/01-producto.js
-```
-
-Cambia el nombre del archivo al avanzar. Estos comandos comprueban ese archivo
-con las opciones indicadas; no cargan el `tsconfig.json` del proyecto.
-Los casos que deben producir errores de tipos se prueban por separado: descomenta
-uno, comprueba el error y vuelve a comentarlo antes de ejecutar el programa.
+> Movido desde `AGENTS.md`. Es el enunciado de una serie independiente de los Compendios.
+> Para generar ejercicios nuevos consulta `AGENTS.md`.
 
 ## Bloque 1 — Crear objetos y entender sus datos
 

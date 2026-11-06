@@ -145,6 +145,7 @@ R: No, si no declaramos alguna de las palabras reservadas como 'public', la prop
     el saldo por ese monto y devuelve `true`; en otro caso devuelve `false`.
   - `retirar(monto: number): boolean`: si el monto es mayor que `0` y no supera
     el saldo, descuenta ese monto y devuelve `true`; en otro caso devuelve `false`.
+
 - Declara en `Cuenta` el método privado `esMontoValido(monto: number): boolean`:
   devuelve `true` únicamente si el monto es mayor que `0`. Tanto `depositar`
   como `retirar` deben utilizar ese método para comprobar el monto.
@@ -155,5 +156,45 @@ R: No, si no declaramos alguna de las palabras reservadas como 'public', la prop
 y saldo final `70`. Llamar al método privado desde fuera debe fallar al compilar.
 
 **Explica:** ¿por qué conviene ofrecer operaciones en lugar de permitir que
-cualquier código reasigne el saldo?
+cualquier código reasigne el saldo? ofrecer operaciones permite validar cada cambio del saldo. Si cualquier código pudiera reasignarlo, podría saltarse las reglas de la cuenta.
 */}
+(()=>{
+  class Cuenta {
+    private saldo: number = 0;
+
+    //Métodos
+    public consultarSaldo():number{
+      return this.saldo
+    }
+    private esMontoValido(monto: number): boolean{
+      return monto > 0
+
+    }
+
+    public depos(monto: number):boolean{
+      if(!this.esMontoValido(monto)){
+        return false
+      }
+
+      if(monto > 0){
+        this.saldo += monto
+        return true
+      }else{
+        return false
+      }
+    }
+    public retirar(monto: number): boolean{
+      if(!this.esMontoValido(monto)){
+        return false
+      }
+      if(monto > 0 && monto <= this.saldo){
+        this.saldo -= monto
+        return true
+      } else {
+        return false
+      }
+    }
+
+
+  }
+})();

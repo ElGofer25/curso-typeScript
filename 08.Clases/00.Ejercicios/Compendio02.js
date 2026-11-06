@@ -123,14 +123,14 @@ R: No, si no declaramos alguna de las palabras reservadas como 'public', la prop
         }
     }
     //Pruebas
-    const iPad = new Producto('iPad Pro', 999, 'Feel the future');
-    console.log(iPad.obtenerPrecio());
-    console.log(iPad.cambiarPrecio(2000));
-    console.log(iPad);
-    const iPhone = new Producto('iPhone Pro', 1999, 'Feel the future');
-    console.log(iPhone.obtenerPrecio());
-    console.log(iPhone.cambiarPrecio(5000));
-    console.log(iPhone);
+    // const iPad : Producto = new Producto('iPad Pro', 999, 'Feel the future')
+    // console.log(iPad.obtenerPrecio())
+    // console.log(iPad.cambiarPrecio(2000))
+    // console.log(iPad)
+    // const iPhone : Producto = new Producto('iPhone Pro', 1999, 'Feel the future')
+    // console.log(iPhone.obtenerPrecio())
+    // console.log(iPhone.cambiarPrecio(5000))
+    // console.log(iPhone)
 })();
 // ### 05. Una operación interna reutilizable
 { /*
@@ -158,3 +158,35 @@ y saldo final `70`. Llamar al método privado desde fuera debe fallar al compila
 cualquier código reasigne el saldo?
 */
 }
+class Cuenta {
+    balance;
+    constructor(balance = 0) {
+        this.balance = balance;
+    }
+    consultarSaldo() {
+        return this.balance;
+    }
+    depositarMonto(monto) {
+        if (monto > 0) {
+            this.balance += monto;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    retirarMonto(monto) {
+        if (monto > 0 && monto < this.balance) {
+            this.balance -= monto;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+}
+const myAccount = new Cuenta(1500);
+console.log(myAccount.consultarSaldo());
+console.log(myAccount.depositarMonto(2000));
+console.log(myAccount.consultarSaldo());
+console.log(myAccount.retirarMonto(6000));

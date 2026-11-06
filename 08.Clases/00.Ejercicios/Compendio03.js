@@ -1,86 +1,79 @@
 "use strict";
 /*
 COMPENDIO 03 — CLASES
-01–05: ejercicios centrados en 04.Extense.
-06–15: cada ejercicio integra las cuatro primeras subsecciones, con lógica
-progresiva; no se repasan subsecciones por separado.
+Ejercicios 01–05: refuerzo de 04.Extense (extends, super, protected).
+Ejercicios 06–15: cada uno integra las subsecciones 01 a 04.
 
-REGLAS COMUNES
-- Resuelve cada problema en su función inmediata. Los ejercicios son independientes.
-- Declara tipos de propiedades, parámetros y retornos; no uses any.
-- Declara cada método y propiedad DENTRO de la clase indicada. Los métodos son
-  públicos de instancia salvo indicación protected. No se piden funciones sueltas.
-- Los argumentos de constructor se reciben en el orden escrito y son obligatorios
-  salvo indicación contraria. «Supón» significa que el dato ya es válido: no lo valides.
-- Puedes conservar nombres equivalentes en inglés (nombre/name, edad/age,
-  esMayor/isOlder); adapta todas las llamadas y conserva tipos y comportamiento.
-- Cada subclase pasa a super(...) los argumentos del padre y guarda solo sus datos
-  nuevos. No vuelvas a declarar las propiedades heredadas.
-- Cada combinación distinta de argumentos de constructor en las pruebas requiere
-  una instancia nueva. Las operaciones sobre una misma instancia se ejecutan en orden.
-  true/50 significa «retorno true y estado posterior 50».
-- No necesitas modificar propiedades desde fuera para resolver los ejercicios.
-- Elige nombres para las colecciones privadas distintos de los métodos que las
-  consultan; por ejemplo, el array de inscritos no debe llamarse inscritos si
-  ya existe el método inscritos(). Las firmas de métodos sí deben conservarse.
-- Los números son finitos y los textos no vacíos, con comparación exacta y sensible
-  a mayúsculas. Solo valida las reglas expresamente indicadas.
-- Una operación booleana que modifica datos devuelve true al aceptar y false al
-  rechazar. Ante rechazo no cambia ningún dato ni lanza errores.
-- Las consultas no modifican datos. Imprimir no sustituye devolver un resultado.
-- Ejecuta las comprobaciones en orden, prediciendo primero los resultados.
-- Prueba accesos prohibidos por separado y deja esas instrucciones comentadas.
-- No uses métodos privados, accesores, clases abstractas, interfaces, genéricos,
-  decoradores ni librerías externas. Puedes usar tipos, objetos, arrays y funciones
-  de las secciones anteriores. No se incluyen soluciones.
-- Los textos entre {llaves} representan valores a sustituir.
+SUBSECCIONES
+  01 Definición ........ clase, new, this, propiedades opcionales y readonly
+  02 Forma corta ....... propiedades declaradas dentro del constructor
+  03 Métodos ........... propiedades private, métodos públicos, static (opcional)
+  04 Extense ........... extends, super(...), super.metodo(), protected
 
-INTEGRACIÓN OBLIGATORIA EN CADA PROBLEMA DEL 06 AL 15
-1. Define las clases base y derivada indicadas, crea instancias y utiliza this.
-2. Usa la forma corta del constructor para los datos recibidos que sean propiedades
-   propias de cada clase; no redeclares propiedades heredadas en la subclase.
-3. Conserva privados los datos indicados y ofrece los métodos públicos solicitados.
-4. Usa extends, super(...) y super.metodo() para reutilizar la operación protected
-   indicada sin duplicar su lógica. Los arrays internos comienzan vacíos.
-5. Crea una segunda instancia derivada y comprueba que mantiene estado independiente.
-6. Explica cómo colaboran constructor, encapsulación, métodos públicos y herencia.
-No es obligatorio usar todas las características de cada subsección, como static,
-pero sí combinar las cuatro subsecciones en cada solución.
+CÓMO TRABAJAR CADA EJERCICIO
+  1. Lee SITUACIÓN: te dice qué se está modelando.
+  2. Sigue QUÉ DEBES HACER en orden, paso por paso. Cada paso es una acción concreta.
+  3. Escribe las instrucciones de COMPRUEBA con console.log. Cada línea trae
+     el resultado esperado después de //. Antes de ejecutar, predice qué saldrá.
+  4. Si hay líneas en ESTO DEBE FALLAR, pruébalas una por una: descomenta, comprueba
+     que TypeScript marca error y vuelve a comentarla.
+  5. Responde EXPLICA en un comentario bajo tu solución.
+
+VOCABULARIO DE LOS ENUNCIADOS
+  «oculto» = private · «visible» = public · «solo jerarquía» = protected.
+  «Declarar en el constructor» = poner public/private/protected delante del parámetro.
+  «Supón» = el dato ya es válido; no lo compruebes.
+  {llaves} en un texto = valor que sustituyes; las llaves no se escriben.
+
+REGLAS
+  - Cada ejercicio va dentro de su función (() => { ... })(); son independientes.
+  - Pon tipos a propiedades, parámetros y retornos. No uses any.
+  - Todo va dentro de las clases pedidas; no hay funciones sueltas.
+  - Una subclase pasa a super(...) los datos del padre y NO los redeclara.
+  - Un método que modifica y devuelve boolean: true si acepta, false si rechaza.
+    Si rechaza, no cambia nada y no lanza errores.
+  - Un método que consulta no modifica nada. Imprimir no sustituye a devolver.
+  - Puedes usar nombres en inglés (nombre/name); los nombres de MÉTODOS se conservan.
+  - Un array oculto no puede llamarse igual que un método de la misma clase.
+  - No uses get/set, abstract, interfaces ni genéricos. Sí puedes usar type, arrays
+    y funciones. Métodos private: permitidos, nunca obligatorios.
+  - No hay soluciones incluidas.
 */
-// BLOQUE A — EXTENSE: EXACTAMENTE 5 EJERCICIOS
+// BLOQUE A — EXTENSE: EJERCICIOS 01 AL 05
 // EJERCICIO 01 — Persona y participante
 /*
-Objetivo: usar un método público heredado para decidir el texto de una inscripción.
+SITUACIÓN
+  Un club inscribe personas en actividades. Los menores de edad necesitan tutor.
+  La decisión «¿es mayor de edad?» pertenece a Persona; Participante solo la usa.
 
-1. Dentro de Persona:
-   - Declara nombre público de tipo string y edad privada de tipo number.
-   - Su constructor recibe (nombre: string, edad: number) y guarda ambos valores.
-     Supón edad entera >= 0; no necesitas validar el constructor.
-   - Declara el método público esMayor(): boolean, sin argumentos. Devuelve true
-     cuando la edad guardada sea al menos 18, y false cuando sea menor.
-     No cambia la edad ni devuelve un texto.
-2. Declara Participante extends Persona:
-   - Añade actividad pública de tipo string.
-   - Su constructor recibe (nombre: string, edad: number, actividad: string).
-     Pasa nombre y edad al constructor de Persona mediante super(...), y guarda
-     actividad en la subclase. No declares otra propiedad nombre ni edad.
-3. Dentro de Participante, declara el método público inscripcion(): string,
-   sin argumentos. Llama a esMayor() sobre ese mismo participante:
-   - Si devuelve true, retorna '{nombre}: {actividad}'.
-   - Si devuelve false, retorna '{nombre}: requiere tutor'.
-   Sustituye los valores entre llaves por los datos del participante. No repitas
-   la comparación de edad aquí: esa decisión ya pertenece a esMayor().
-   No accedas directamente a la edad privada desde Participante.
-4. Fuera de las clases, dentro del espacio de solución, crea dos participantes.
-   No necesitas crear una Persona aparte ni pasar argumentos a sus métodos.
+QUÉ DEBES HACER
+  1. Crea la clase Persona. Declara en su constructor dos datos, en este orden:
+     nombre (string, visible) y edad (number, oculta; supón entero >= 0).
+  2. En Persona crea el método esMayor(). No recibe nada y devuelve boolean:
+     true si la edad es 18 o más; false si es menor.
+  3. Crea la clase Participante que extienda Persona. Su constructor recibe
+     nombre, edad y actividad (string, visible). Pasa nombre y edad al padre con
+     super(...) y guarda solo actividad.
+  4. En Participante crea el método inscripcion(). No recibe nada y devuelve string:
+     a) llama a this.esMayor();
+     b) si da true, devuelve '{nombre}: {actividad}';
+     c) si da false, devuelve '{nombre}: requiere tutor'.
+     No compares la edad aquí ni intentes leerla: está oculta en Persona.
+  5. Fuera de las clases crea dos participantes y ejecuta las líneas de COMPRUEBA.
 
-Comprueba:
-- Participante('Ana', 18, 'Ajedrez'): esMayor() → true;
-  inscripcion() → 'Ana: Ajedrez'.
-- Participante('Luis', 17, 'Teatro'): esMayor() → false;
-  inscripcion() → 'Luis: requiere tutor'.
-- Repetir las consultas no cambia datos.
-Explica: ¿cómo conoce Participante la mayoría de edad sin leer edad directamente?
+COMPRUEBA
+  const ana = new Participante('Ana', 18, 'Ajedrez');
+  const luis = new Participante('Luis', 17, 'Teatro');
+  console.log(ana.esMayor());      // true
+  console.log(ana.inscripcion());  // 'Ana: Ajedrez'
+  console.log(luis.esMayor());     // false
+  console.log(luis.inscripcion()); // 'Luis: requiere tutor'
+
+ESTO DEBE FALLAR
+  // console.log(ana.edad);  → edad es private.
+
+EXPLICA
+  ¿Cómo sabe Participante si la persona es mayor sin leer la edad?
 */
 (() => {
     // Tu solución.
@@ -110,362 +103,656 @@ Explica: ¿cómo conoce Participante la mayoría de edad sin leer edad directame
             }
         }
     }
-    const participant1 = new Participante('Ana', 18, 'Ajderez');
-    const participant2 = new Participante('Diego', 12, 'Natación');
-    console.log(participant1.esMayor()); // true
-    console.log(participant1.inscripcion()); // Ana: Ajderez
-    console.log(participant2.esMayor()); // false
-    console.log(participant2.inscripcion()); // Diego: requiere tutor
+    // const participant1 = new Participante('Ana', 18, 'Ajderez')
+    // const participant2 = new Participante('Diego', 12, 'Natación')
+    // console.log(participant1.esMayor());     // true
+    // console.log(participant1.inscripcion()); // Ana: Ajderez
+    // console.log(participant2.esMayor());     // false
+    // console.log(participant2.inscripcion()); // Diego: requiere tutor
 })();
 // EJERCICIO 02 — Un encabezado protegido
 /*
-Objetivo: reutilizar un método protected mediante super.metodo().
-1. Crea Documento con titulo y autor públicos. Constructor (titulo: string,
-   autor: string). encabezado(): string es protected y devuelve '{titulo} - {autor}'.
-2. Crea Informe extends Documento con paginas públicas, enteras >= 0.
-   Constructor (titulo: string, autor: string, paginas: number); llama a super.
-3. ficha(): string en Informe llama a super.encabezado() y agrega ' | {extension}',
-   donde extension es 'Breve' hasta 5 páginas inclusive o 'Extenso' con más de 5.
-Precisiones:
-La etiqueta extension se calcula dentro de Informe.ficha(); no es una propiedad.
-Documento.encabezado() solo construye el título y autor; no decide la extensión.
+SITUACIÓN
+  Una biblioteca imprime fichas de documentos. Todo documento tiene un encabezado
+  con título y autor; un informe agrega a ese encabezado si es breve o extenso.
+  El encabezado no debe poder pedirse desde fuera, pero el informe sí lo reutiliza.
 
-Comprueba: TS/Ana/5 → 'TS - Ana | Breve'; Web/Luis/6 → 'Web - Luis | Extenso';
-TS/Ana/0 → 'TS - Ana | Breve'. Llamar encabezado() desde fuera debe dar error de tipos.
-Explica: ¿por qué protected permite esta reutilización sin hacer público el método?
+QUÉ DEBES HACER
+  1. Crea la clase Documento. Declara en su constructor, en este orden:
+     titulo (string, visible) y autor (string, visible).
+
+  2. En Documento crea el método encabezado(). No recibe nada y devuelve string:
+     '{titulo} - {autor}'. Márcalo protected.
+
+  3. Crea la clase Informe que extienda Documento. Su constructor recibe titulo,
+     autor y paginas (number, visible; supón entero >= 0). Pasa titulo y autor al
+     padre con super(...) y guarda solo paginas.
+
+  4. En Informe crea el método ficha(). No recibe nada, es público y devuelve string:
+     a) obtén el encabezado con super.encabezado();
+     b) calcula la extensión: 'Breve' si paginas es 5 o menos; 'Extenso' si es más de 5;
+     c) devuelve '{encabezado} | {extensión}'.
+     La extensión se calcula dentro de ficha(); no es una propiedad.
+  5. Fuera de las clases crea tres informes y ejecuta COMPRUEBA.
+
+COMPRUEBA
+  console.log(new Informe('TS', 'Ana', 5).ficha());   // 'TS - Ana | Breve'
+  console.log(new Informe('Web', 'Luis', 6).ficha()); // 'Web - Luis | Extenso'
+  console.log(new Informe('TS', 'Ana', 0).ficha());   // 'TS - Ana | Breve'
+
+ESTO DEBE FALLAR
+  // new Informe('TS', 'Ana', 5).encabezado();  → encabezado es protected.
+
+EXPLICA
+  ¿Por qué protected permite que Informe use encabezado() sin que sea público?
 */
 (() => {
-    // Tu solución.
+    // Ejercicio 2
+    class Documento {
+        title;
+        autor;
+        constructor(title, autor) {
+            this.title = title;
+            this.autor = autor;
+        }
+        Encabezado() {
+            return `${this.title} - ${this.autor}`;
+        }
+    }
+    class Informe extends Documento {
+        pages;
+        constructor(title, autor, pages) {
+            super(title, autor);
+            this.pages = pages;
+        }
+        counterPages() {
+            return this.pages >= 0;
+        }
+        ficha() {
+            if (this.pages > 5) {
+                return `${super.Encabezado()} | Extenso`;
+            }
+            else {
+                return `${super.Encabezado()} | Breve`;
+            }
+        }
+    }
+    console.log(new Informe('TS', 'Ana', 5).ficha()); // 'TS - Ana | Breve'
+    console.log(new Informe('Web', 'Luis', 6).ficha()); // 'Web - Luis | Extenso'
+    console.log(new Informe('TS', 'Ana', 0).ficha()); // 'TS - Ana | Breve'
 })();
 // EJERCICIO 03 — Costo de un envío asegurado
 /*
-Objetivo: separar el cálculo heredado de la lógica propia de la subclase.
-1. Crea Envio con destino público y pesoKg privado. Constructor (destino: string,
-   pesoKg: number); supón pesoKg > 0. costoBase(): number es protected y devuelve
-   30 + pesoKg * 10, sin modificar datos.
-2. Crea EnvioAsegurado extends Envio con valorDeclarado privado, supuesto >= 0.
-   Constructor (destino: string, pesoKg: number, valorDeclarado: number).
-3. total(): number es público en la subclase y reutiliza super.costoBase().
-   Suma un seguro de 5 si valorDeclarado <= 500; con un valor mayor suma el 2%
-   de TODO el valor declarado. No copies el cálculo del peso en la subclase.
-Precisiones:
-En EnvioAsegurado, pasa destino y pesoKg a super(...). total() suma al costo
-base exactamente uno de los dos seguros; no suma ambos ni cambia valorDeclarado.
+SITUACIÓN
+  Una paquetería cobra un costo base que depende del peso. Si el cliente asegura
+  el envío, se suma un seguro. El envío normal es la clase base; el asegurado la
+  amplía y reutiliza su costo base sin copiar la fórmula del peso.
 
-Comprueba para 2 kg: valor 0 → 55; valor 500 → 55; valor 1000 → 70.
-Repetir total() conserva los resultados. El código externo no puede llamar costoBase().
-Explica: ¿qué parte cambiarías si se modificara el precio por kilogramo?
+QUÉ DEBES HACER
+  1. Crea la clase Envio. Declara en su constructor, en este orden:
+     destino (string, visible) y pesoKg (number, oculto; supón que es mayor que 0).
+  2. En Envio crea el método costoBase(). No recibe nada y devuelve number:
+     30 más 10 por cada kilo. Márcalo protected.
+  3. Crea la clase EnvioAsegurado que extienda Envio. Su constructor recibe destino,
+     pesoKg y valorDeclarado (number, oculto; supón >= 0). Pasa destino y pesoKg al
+     padre con super(...) y guarda solo valorDeclarado.
+  4. En EnvioAsegurado crea el método total(). No recibe nada, es público y
+     devuelve number:
+     a) obtén el costo base con super.costoBase();
+     b) calcula el seguro: 5 si valorDeclarado es 500 o menos; si es mayor, el 2%
+        del valor declarado COMPLETO (no solo del excedente);
+     c) devuelve costo base + seguro. Se suma un solo seguro, nunca los dos.
+  5. Fuera de las clases crea tres envíos y ejecuta COMPRUEBA.
+
+COMPRUEBA (todos con destino 'Puebla' y 2 kg; el costo base es 50)
+  console.log(new EnvioAsegurado('Puebla', 2, 0).total());    // 55
+  console.log(new EnvioAsegurado('Puebla', 2, 500).total());  // 55
+  console.log(new EnvioAsegurado('Puebla', 2, 1000).total()); // 70
+  Llama total() dos veces sobre el mismo envío: debe dar el mismo número.
+
+ESTO DEBE FALLAR
+  // envio.costoBase();  → es protected.
+
+EXPLICA
+  Si el precio por kilo cambiara, ¿qué clase y qué método modificarías?
 */
 (() => {
     // Tu solución.
 })();
 // EJERCICIO 04 — Reservas con dos especializaciones
 /*
-Objetivo: dos subclases reutilizan una misma operación protegida.
-1. Crea Reserva con personas privadas, enteras > 0. Constructor (personas: number).
-   costoGrupo(): number es protected: 100 por persona con menos de 4 personas;
-   desde 4 personas, 80 por persona. El descuento abarca a todo el grupo.
-2. Crea ReservaDesayuno extends Reserva. Constructor (personas: number,
-   desayunos: number); guarda desayunos privados. Supón desayunos enteros entre
-   0 y personas inclusive. total(): number devuelve super.costoGrupo() +
-   25 por desayuno. No necesitas acceder al número de personas en la subclase.
-3. Crea ReservaEstacionamiento extends Reserva. Constructor (personas: number,
-   requiereLugar: boolean); guarda requiereLugar privado. total(): number
-   reutiliza super.costoGrupo() y suma 40 si requiereLugar, o 0 en caso contrario.
-Precisiones:
-Ambas subclases pasan personas al constructor de Reserva con super(...).
-Los desayunos y el estacionamiento se suman después del cálculo del grupo.
+SITUACIÓN
+  Un hotel cobra a un grupo según cuántas personas son. Hay dos tipos de reserva
+  especial: con desayunos y con estacionamiento. Ambas parten del mismo cálculo de
+  grupo, que vive solo en la clase base, y le suman cada una lo suyo.
 
-Comprueba: ReservaDesayuno(3, 2) → 350; ReservaDesayuno(4, 0) → 320;
-ReservaEstacionamiento(4, true) → 360; con (4, false) → 320.
-Explica: ¿por qué ambas subclases llaman a la misma implementación de costoGrupo()?
+QUÉ DEBES HACER
+  1. Crea la clase Reserva. Declara en su constructor personas (number, oculto;
+     supón entero > 0).
+  2. En Reserva crea el método costoGrupo(). No recibe nada, devuelve number y es
+     protected: si hay menos de 4 personas, 100 por persona; si hay 4 o más, 80 por
+     persona (el descuento aplica a todo el grupo).
+  3. Crea ReservaDesayuno que extienda Reserva. Su constructor recibe personas y
+     desayunos (number, oculto; supón entero entre 0 y personas). Pasa personas al
+     padre con super(...) y guarda solo desayunos.
+  4. En ReservaDesayuno crea total(): público, sin argumentos, devuelve number.
+     Es super.costoGrupo() más 25 por cada desayuno.
+  5. Crea ReservaEstacionamiento que extienda Reserva. Su constructor recibe
+     personas y requiereLugar (boolean, oculto). Pasa personas al padre y guarda
+     solo requiereLugar.
+  6. En ReservaEstacionamiento crea total(): público, sin argumentos, devuelve number.
+     Es super.costoGrupo() más 40 si requiereLugar es true, o más 0 si es false.
+  7. Ninguna subclase necesita conocer personas: el grupo se calcula solo en Reserva.
+
+COMPRUEBA
+  console.log(new ReservaDesayuno(3, 2).total());              // 350
+  console.log(new ReservaDesayuno(4, 0).total());              // 320
+  console.log(new ReservaEstacionamiento(4, true).total());    // 360
+  console.log(new ReservaEstacionamiento(4, false).total());   // 320
+
+ESTO DEBE FALLAR
+  // reserva.costoGrupo();  → es protected.
+
+EXPLICA
+  ¿Por qué las dos subclases usan la misma implementación de costoGrupo()?
 */
 (() => {
     // Tu solución.
 })();
 // EJERCICIO 05 — Capacidad heredada en una sesión
 /*
-Objetivo: reutilizar desde una subclase una operación protected que cambia estado.
-1. Crea Sesion con nombre público y cupos privados. Constructor (nombre: string,
-   cupos: number); supón cupos enteros >= 0.
-2. ocupar(cantidad: number): boolean es protected. Valida aquí que cantidad sea
-   entera > 0 y no supere los cupos; si cumple, descuenta y devuelve true; si no,
-   devuelve false sin cambios. consultarCupos(): number es público y devuelve cupos.
-3. Crea SesionGuiada extends Sesion con guia público. Constructor (nombre: string,
-   cupos: number, guia: string); inicializa el padre con super.
-4. reservarGrupo(cantidad: number): boolean es público en SesionGuiada. Aplica
-   solamente la regla adicional de máximo 3 personas por reserva; si no la supera,
-   delega en super.ocupar(cantidad) y devuelve su resultado. No repitas las
-   validaciones del padre ni vuelvas a declarar cupos en la subclase.
-5. ficha(): string devuelve '{nombre} | Guía: {guia} | Cupos: {disponibles}',
-   consultando el método público heredado para obtener los cupos restantes.
-Precisiones:
-disponibles representa el retorno de consultarCupos() sobre esta sesión.
-No necesitas guardar otra propiedad con los cupos ni modificarla en la subclase.
+SITUACIÓN
+  Un museo ofrece sesiones con cupos limitados. La clase base sabe ocupar cupos
+  (y valida que se pueda). Una sesión guiada agrega una regla extra: máximo 3
+  personas por reserva. La subclase aplica solo su regla y deja el resto al padre.
 
-Comprueba con ('Museo', 5, 'Ana'): reservarGrupo(4) → false/5 cupos;
-reservarGrupo(3) → true/2; reservarGrupo(3) → false/2; reservarGrupo(0) → false/2;
-reservarGrupo(1.5) → false/2; reservarGrupo(2) → true/0. Ficha final:
-'Museo | Guía: Ana | Cupos: 0'. Ocupar cupos desde fuera debe dar error de tipos.
-Explica: ¿qué regla protege cada clase y por qué no debes duplicarlas?
+QUÉ DEBES HACER
+  1. Crea la clase Sesion. Declara en su constructor, en este orden: nombre (string,
+     visible) y cupos (number, oculto; supón entero >= 0).
+  2. En Sesion crea consultarCupos(): público, sin argumentos, devuelve los cupos
+     que quedan (number).
+  3. En Sesion crea ocupar(cantidad: number): boolean, protected. Rechaza (false, sin
+     cambios) si cantidad no es un entero mayor que 0 o si supera los cupos que
+     quedan. Si no, resta cantidad a los cupos y devuelve true.
+  4. Crea SesionGuiada que extienda Sesion. Su constructor recibe nombre, cupos y
+     guia (string, visible). Pasa nombre y cupos al padre y guarda solo guia.
+  5. En SesionGuiada crea reservarGrupo(cantidad: number): boolean, público:
+     a) si cantidad es mayor que 3, devuelve false sin llamar al padre;
+     b) si no, devuelve el resultado de super.ocupar(cantidad).
+     No repitas aquí las validaciones del padre.
+  6. En SesionGuiada crea ficha(): público, sin argumentos, devuelve string:
+     '{nombre} | Guía: {guia} | Cupos: {cupos}'. Obtén los cupos llamando a
+     consultarCupos().
+
+COMPRUEBA (una sola sesión: new SesionGuiada('Museo', 5, 'Ana'), en este orden)
+  console.log(s.reservarGrupo(4));   // false  (más de 3 por reserva)
+  console.log(s.consultarCupos());   // 5
+  console.log(s.reservarGrupo(3));   // true
+  console.log(s.consultarCupos());   // 2
+  console.log(s.reservarGrupo(3));   // false  (solo quedan 2)
+  console.log(s.reservarGrupo(0));   // false
+  console.log(s.reservarGrupo(1.5)); // false
+  console.log(s.reservarGrupo(2));   // true
+  console.log(s.ficha());            // 'Museo | Guía: Ana | Cupos: 0'
+
+ESTO DEBE FALLAR
+  // s.ocupar(1);  → es protected.
+
+EXPLICA
+  ¿Qué regla protege cada clase y por qué no conviene copiarla en la otra?
 */
 (() => {
     // Tu solución.
 })();
-// BLOQUE B — INTEGRACIÓN DE LAS CUATRO SUBSECCIONES: EXACTAMENTE 10 EJERCICIOS
+// BLOQUE B — INTEGRACIÓN DE LAS SUBSECCIONES 01 A 04: EJERCICIOS 06 AL 15
+/*
+En cada ejercicio de este bloque:
+  - 01: creas la clase base y la derivada, las instancias y usas this.
+  - 02: declaras en el constructor los datos propios de cada clase.
+  - 03: los datos internos son private y los expones con métodos públicos.
+  - 04: la derivada usa extends, super(...) y super.metodo() sobre un método
+        protected de la base, sin copiar su lógica.
+  - Los arrays internos empiezan vacíos.
+  - Al final creas una SEGUNDA instancia de la derivada y compruebas que no
+    comparte estado con la primera.
+*/
 // EJERCICIO 06 — Compra con cupón
 /*
-Objetivo: integrar las cuatro subsecciones con cálculos por tramos.
-1. Compra: constructor (nombre: string, precio: number, cantidad: number).
-   nombre público; precio y cantidad privados. Supón precio > 0 y cantidad entera > 0.
-   subtotal(): number es protected: precio por cantidad, con descuento del 10%
-   sobre todo el importe si cantidad >= 5.
-2. CompraConCupon extends Compra: constructor (nombre: string, precio: number,
-   cantidad: number, cupon: boolean), cupón privado. total(): number reutiliza
-   super.subtotal(), resta 15 si hay cupón y evita que el total sea negativo.
-Precisiones:
-Si cupon es false, total() devuelve el subtotal ya descontado sin restar 15.
-Si es true y al restar 15 queda un número negativo, devuelve exactamente 0.
+SITUACIÓN
+  Una tienda calcula el subtotal de una compra (con descuento por volumen). Una
+  compra con cupón parte de ese subtotal y resta un descuento fijo.
 
-Comprueba: precio 20/cantidad 4/sin cupón → 80; precio 20/cantidad 5/con cupón
-→ 75; precio 10/cantidad 1/con cupón → 0. Repetir total conserva resultados.
-Explica: ¿qué cálculo pertenece a cada clase?
+QUÉ DEBES HACER
+  1. Crea la clase Compra. Declara en su constructor, en este orden: nombre (string,
+     visible), precio (number, oculto; supón > 0) y cantidad (number, oculto;
+     supón entero > 0).
+  2. En Compra crea subtotal(): protected, sin argumentos, devuelve number.
+     Calcula precio por cantidad. Si cantidad es 5 o más, descuenta el 10% de
+     TODO ese importe.
+  3. Crea CompraConCupon que extienda Compra. Su constructor recibe nombre, precio,
+     cantidad y cupon (boolean, oculto). Pasa los tres primeros al padre.
+  4. En CompraConCupon crea total(): público, sin argumentos, devuelve number:
+     a) obtén super.subtotal();
+     b) si cupon es false, devuélvelo tal cual;
+     c) si cupon es true, réstale 15; si el resultado fuera negativo, devuelve 0.
+
+COMPRUEBA
+  console.log(new CompraConCupon('Lápiz', 20, 4, false).total()); // 80
+  console.log(new CompraConCupon('Lápiz', 20, 5, true).total());  // 75
+  console.log(new CompraConCupon('Goma', 10, 1, true).total());   // 0
+  Crea otra compra con valores distintos y comprueba que su total no cambia el de la anterior.
+
+ESTO DEBE FALLAR
+  // compra.subtotal();  // compra.precio;
+
+EXPLICA
+  ¿Qué cálculo hace cada clase? ¿Cómo colaboran constructor, datos ocultos,
+  métodos públicos y herencia?
 */
 (() => {
     // Tu solución.
 })();
 // EJERCICIO 07 — Batería con reserva
 /*
-Objetivo: integrar las cuatro subsecciones con validación y estado.
-1. Bateria: constructor (nombre: string, carga: number), nombre público y carga
-   privada, supuesta entre 0 y 100. consultarCarga(): number devuelve la carga.
-   consumir(cantidad: number): boolean es protected: exige cantidad > 0 y carga
-   suficiente; si acepta, descuenta.
-2. BateriaEmergencia extends Bateria: constructor (nombre: string, carga: number,
-   reserva: number), reserva privada supuesta entre 0 y carga inicial inclusive.
-   usar(cantidad: number): boolean exige que la carga resultante no quede por
-   debajo de reserva y delega en super.consumir. No dupliques las reglas del padre.
-Precisiones:
-Antes de consumir, consulta consultarCarga() y evalúa si carga-cantidad queda
-por debajo de reserva. Si ocurre, devuelve false; si no, devuelve el resultado de
-super.consumir(cantidad). No descuentes antes de llamar al padre ni repitas su
-validación de monto positivo. La reserva es un mínimo que no se consume.
+SITUACIÓN
+  Una batería se descarga con consumir(), que valida el monto. Una batería de
+  emergencia protege una reserva mínima que nunca se gasta; solo agrega esa regla
+  y deja el resto al padre.
 
-Comprueba con ('Radio',50,10): usar(41) → false/50; usar(40) → true/10;
-usar(1), usar(0), usar(-5) → false y carga sigue en 10.
-Explica: ¿cómo consultas la carga sin acceder a la propiedad privada?
+QUÉ DEBES HACER
+  1. Crea la clase Bateria. Declara en su constructor: nombre (string, visible) y
+     carga (number, oculta; supón entre 0 y 100).
+  2. En Bateria crea consultarCarga(): público, sin argumentos, devuelve la carga actual.
+  3. En Bateria crea consumir(cantidad: number): boolean, protected. Devuelve false
+     (sin cambios) si cantidad es 0 o negativa, o si supera la carga. Si no, resta
+     cantidad a la carga y devuelve true.
+  4. Crea BateriaEmergencia que extienda Bateria. Su constructor recibe nombre,
+     carga y reserva (number, oculta; supón entre 0 y la carga inicial). Pasa nombre
+     y carga al padre y guarda solo reserva.
+  5. En BateriaEmergencia crea usar(cantidad: number): boolean, público:
+     a) obtén la carga con consultarCarga();
+     b) si carga menos cantidad quedaría por debajo de reserva, devuelve false;
+     c) si no, devuelve super.consumir(cantidad).
+     No restes tú: eso es trabajo de consumir. Tampoco compruebes si cantidad es positiva.
+
+COMPRUEBA (b = new BateriaEmergencia('Radio', 50, 10), en este orden)
+  console.log(b.usar(41), b.consultarCarga()); // false 50  (quedaría en 9)
+  console.log(b.usar(40), b.consultarCarga()); // true 10
+  console.log(b.usar(1),  b.consultarCarga()); // false 10
+  console.log(b.usar(0),  b.consultarCarga()); // false 10  (lo rechaza el padre)
+  console.log(b.usar(-5), b.consultarCarga()); // false 10
+  Crea una segunda batería y comprueba que tiene su propia carga.
+
+ESTO DEBE FALLAR
+  // b.consumir(1);  // b.carga;
+
+EXPLICA
+  ¿Cómo lee la subclase la carga si la propiedad es privada?
 */
 (() => {
     // Tu solución.
 })();
 // EJERCICIO 08 — Promedio ajustado
 /*
-Objetivo: integrar las cuatro subsecciones con suma, mínimo y casos vacíos.
-1. Evaluacion: constructor (nombre: string), nombre público y notas privadas
-   en number[]. agregar(nota: number): boolean acepta y guarda de 0 a 10 inclusive.
-   datos(): number[] es protected y devuelve copia de las notas.
-   cantidad(): number devuelve cuántas notas hay.
-2. EvaluacionAjustada extends Evaluacion: constructor (nombre: string,
-   minimo: number), mínimo privado supuesto entre 0 y 10 inclusive.
-   promedio(): number | undefined usa super.datos(): vacío → undefined;
-   una o dos notas → promedio de todas; desde tres → descarta exactamente UNA
-   mínima y promedia el resto sin modificar las notas almacenadas.
-   resultado(): string devuelve 'Sin notas', 'Aprobado' si promedio >= minimo,
-   o 'Reprobado' en otro caso.
-Precisiones:
-En resultado(), comprueba primero si promedio() devuelve undefined. Las notas
-admiten decimales. Descartar una mínima afecta solo al cálculo, no al array.
+SITUACIÓN
+  Un profesor guarda notas. Para calificar, se descarta la nota más baja cuando
+  hay tres o más. Las notas guardadas no deben alterarse al calcular.
 
-Comprueba con mínimo 7: vacío → undefined/'Sin notas'; agrega 4,8,9 → true;
-agregar(11) → false; promedio 8.5, cantidad 3, resultado 'Aprobado'.
-Otro alumno con 5,5,5 tiene promedio 5 y resultado 'Reprobado'.
-Explica: ¿qué pasa si la nota mínima se repite?
+QUÉ DEBES HACER
+  1. Crea la clase Evaluacion. Declara en su constructor nombre (string, visible).
+     Además crea un array oculto de notas (number[]), vacío al empezar.
+  2. En Evaluacion crea agregar(nota: number): boolean. Acepta notas de 0 a 10
+     inclusive (con decimales): la agrega al final y devuelve true. Si no, false.
+  3. En Evaluacion crea cantidad(): devuelve cuántas notas hay.
+  4. En Evaluacion crea datos(): number[], protected. Devuelve una COPIA del array
+     (por ejemplo con [...]), no el array original.
+  5. Crea EvaluacionAjustada que extienda Evaluacion. Su constructor recibe nombre
+     y minimo (number, oculto; supón entre 0 y 10). Pasa nombre al padre.
+  6. En EvaluacionAjustada crea promedio(): number | undefined, público:
+     a) obtén las notas con super.datos();
+     b) sin notas, devuelve undefined;
+     c) con una o dos notas, devuelve el promedio de todas;
+     d) con tres o más, quita UNA sola nota mínima (aunque se repita) y devuelve el
+        promedio de las demás. Hazlo sobre la copia: no alteres las notas guardadas.
+  7. En EvaluacionAjustada crea resultado(): string, público:
+     a) si promedio() es undefined, devuelve 'Sin notas';
+     b) si promedio es mayor o igual que minimo, 'Aprobado';
+     c) en otro caso, 'Reprobado'.
+
+COMPRUEBA (e = new EvaluacionAjustada('Ana', 7), en este orden)
+  console.log(e.promedio(), e.resultado());   // undefined 'Sin notas'
+  console.log(e.agregar(4), e.agregar(8), e.agregar(9)); // true true true
+  console.log(e.agregar(11));                 // false
+  console.log(e.promedio());                  // 8.5  (se quita el 4: (8+9)/2)
+  console.log(e.cantidad());                  // 3    (el 4 sigue guardado)
+  console.log(e.resultado());                 // 'Aprobado'
+  Segunda instancia, mínimo 7, con notas 5, 5, 5: promedio() → 5; resultado() → 'Reprobado'.
+
+ESTO DEBE FALLAR
+  // e.datos();  // e.notas;
+
+EXPLICA
+  ¿Qué pasa si la nota mínima aparece dos veces? ¿Por qué datos() devuelve una copia?
 */
 (() => {
     // Tu solución.
 })();
 // EJERCICIO 09 — Cupo y lista de espera
 /*
-Objetivo: integrar las cuatro subsecciones con búsquedas y dos colecciones.
-1. Taller: constructor (nombre: string, cupo: number), nombre público y cupo
-   privado entero > 0; inscritos privados en string[]. registrar(nombre: string):
-   boolean es protected: rechaza repetidos o cupo lleno; si acepta agrega al final.
-   inscritos(): string[] devuelve una copia de los nombres inscritos.
-2. TallerConEspera extends Taller: constructor (nombre: string, cupo: number,
-   limiteEspera: number), límite privado entero >= 0 y espera privada en string[].
-   solicitar(nombre: string): boolean rechaza nombres ya inscritos o en espera.
-   Luego intenta super.registrar; si acepta, devuelve true. Si falla por cupo,
-   agrega al final de espera si tiene espacio y devuelve true; sin espacio, false.
-   pendientes(): string[] devuelve copia de espera. No implementes cancelaciones.
-Precisiones:
-Consulta inscritos() para comprobar la inscripción sin leer la colección privada
-del padre. true de solicitar indica inscripción O entrada a espera; consulta las
-listas para distinguirlo. No se piden promociones de espera ni cancelaciones.
+SITUACIÓN
+  Un taller tiene cupo limitado. Una versión con lista de espera guarda a quienes
+  no caben, hasta un límite. Inscribir sigue siendo trabajo de la clase base.
 
-Comprueba con cupo 1 y espera 2: Ana → true/inscrita; Luis → true/en espera;
-Luis otra vez → false; Eva → true/en espera; Sol → false.
-inscritos() → ['Ana']; pendientes() → ['Luis','Eva']. Vaciar las copias no cambia datos.
-Explica: ¿por qué verificas duplicados antes de registrar?
+QUÉ DEBES HACER
+  1. Crea la clase Taller. Declara en su constructor nombre (string, visible) y cupo
+     (number, oculto; supón entero > 0). Crea además un array oculto de nombres
+     inscritos (string[]), vacío. Nómbralo distinto del método inscritos().
+  2. En Taller crea registrar(nombre: string): boolean, protected. Devuelve false si
+     el nombre ya está inscrito o si ya se llenó el cupo. Si no, lo agrega al final
+     y devuelve true.
+  3. En Taller crea inscritos(): string[], público. Devuelve una COPIA de la lista.
+  4. Crea TallerConEspera que extienda Taller. Su constructor recibe nombre, cupo y
+     limiteEspera (number, oculto; supón entero >= 0). Pasa nombre y cupo al padre.
+     Crea además un array oculto para la espera (string[]), vacío.
+  5. En TallerConEspera crea solicitar(nombre: string): boolean, público:
+     a) si el nombre ya está inscrito (usa inscritos()) o ya está en espera, devuelve false;
+     b) intenta super.registrar(nombre); si da true, devuelve true;
+     c) si no hubo cupo y la espera aún tiene lugar (menos de limiteEspera), agrégalo
+        al final de la espera y devuelve true;
+     d) si la espera está llena, devuelve false.
+  6. En TallerConEspera crea pendientes(): string[], público. Devuelve una COPIA de la espera.
+  true en solicitar significa «quedó inscrito o entró a espera»: para distinguirlo
+  consulta inscritos() y pendientes().
+
+COMPRUEBA (t = new TallerConEspera('JS', 1, 2), en este orden)
+  console.log(t.solicitar('Ana'));  // true   → inscritos ['Ana'], pendientes []
+  console.log(t.solicitar('Luis')); // true   → pendientes ['Luis']
+  console.log(t.solicitar('Luis')); // false  (ya está en espera)
+  console.log(t.solicitar('Eva'));  // true   → pendientes ['Luis', 'Eva']
+  console.log(t.solicitar('Sol'));  // false  (espera llena)
+  console.log(t.inscritos(), t.pendientes()); // ['Ana'] ['Luis', 'Eva']
+  Vacía una copia devuelta (copia.length = 0) y comprueba que el taller no cambió.
+
+ESTO DEBE FALLAR
+  // t.registrar('X');
+
+EXPLICA
+  ¿Por qué se revisan los duplicados antes de llamar a registrar()?
 */
 (() => {
     // Tu solución.
 })();
 // EJERCICIO 10 — Selección con presupuesto
 /*
-Objetivo: integrar las cuatro subsecciones con selección sucesiva.
-1. Declara type Propuesta con codigo: string y costo: number. Catalogo:
-   constructor (nombre: string), nombre público y propuestas privadas.
-   agregar(codigo: string, costo: number): boolean acepta costo > 0 y código nuevo,
-   guardando al final. datos(): Propuesta[] es protected y devuelve copias de los
-   objetos en un array nuevo, en orden de registro.
-2. CatalogoLimitado extends Catalogo: constructor (nombre: string,
-   presupuesto: number), presupuesto privado supuesto >= 0.
-   seleccionar(): string[] recorre super.datos() en orden: incluye cada propuesta
-   que quepa en el presupuesto restante y descuenta su costo del restante LOCAL;
-   salta las que no caben y continúa. No busca la combinación óptima ni cambia
-   el presupuesto almacenado. Si no hay seleccionadas devuelve [].
-Precisiones:
-Cada llamada a seleccionar() comienza con el presupuesto original. costo es el
-precio completo de una propuesta, que se selecciona como máximo una vez por llamada.
+SITUACIÓN
+  Un catálogo guarda propuestas con costo. La versión limitada elige propuestas
+  en orden mientras quepan en el presupuesto; si una no cabe, la salta y sigue.
 
-Comprueba con presupuesto 100: vacío → []; agrega A/70,B/50,C/30 → true;
-A/5 → false; D/0 → false. seleccionar() dos veces → ['A','C'].
-Explica: ¿por qué el rechazo de B no impide seleccionar C?
+QUÉ DEBES HACER
+  1. Antes de las clases declara: type Propuesta = { codigo: string; costo: number }
+  2. Crea la clase Catalogo. Declara en su constructor nombre (string, visible).
+     Además crea un array oculto de propuestas (Propuesta[]), vacío.
+  3. En Catalogo crea agregar(codigo: string, costo: number): boolean. Acepta si
+     costo es mayor que 0 y el código no existe: la guarda al final y devuelve true.
+     Si no, false.
+  4. En Catalogo crea datos(): Propuesta[], protected. Devuelve un array NUEVO con
+     copias de las propuestas, en el mismo orden.
+  5. Crea CatalogoLimitado que extienda Catalogo. Su constructor recibe nombre y
+     presupuesto (number, oculto; supón >= 0). Pasa nombre al padre.
+  6. En CatalogoLimitado crea seleccionar(): string[], público:
+     a) guarda el presupuesto en una variable local llamada restante;
+     b) recorre super.datos() en orden;
+     c) si el costo cabe en restante, agrega el código al resultado y réstalo de restante;
+     d) si no cabe, sigue con la siguiente;
+     e) devuelve los códigos elegidos ([] si no hubo).
+     No cambies el presupuesto guardado: cada llamada empieza con el original.
+
+COMPRUEBA (c = new CatalogoLimitado('Obras', 100), en este orden)
+  console.log(c.seleccionar());                                   // []
+  console.log(c.agregar('A', 70), c.agregar('B', 50), c.agregar('C', 30)); // true true true
+  console.log(c.agregar('A', 5));  // false (código repetido)
+  console.log(c.agregar('D', 0));  // false (costo no positivo)
+  console.log(c.seleccionar());    // ['A', 'C']  (A deja 30; B no cabe; C sí)
+  console.log(c.seleccionar());    // ['A', 'C']  (el presupuesto no se gastó)
+
+ESTO DEBE FALLAR
+  // c.datos();  // c.propuestas;
+
+EXPLICA
+  ¿Por qué rechazar B no impide seleccionar C?
 */
 (() => {
     // Tu solución.
 })();
 // EJERCICIO 11 — La mayor racha
 /*
-Objetivo: integrar las cuatro subsecciones con recorridos y estado consecutivo.
-1. Actividad: constructor (nombre: string), nombre público y registros privados
-   en boolean[]. registrar(cumplido: boolean): void guarda un registro por llamada.
-   datos(): boolean[] es protected y devuelve una copia en orden de registro.
-2. ActividadConMeta extends Actividad: constructor (nombre: string, meta: number),
-   meta privada entera > 0. mejorRacha(): number usa super.datos() para calcular
-   la mayor cantidad de true consecutivos; vacío → 0. cumplioMeta(): boolean
-   indica si la mejor racha alcanza meta.
-Precisiones:
-Para añadir el último false usa registrar(false). registrar devuelve void;
-los resultados 3/true corresponden a mejorRacha() y cumplioMeta(), respectivamente.
+SITUACIÓN
+  Una app registra si una persona cumplió su actividad cada día. Se quiere saber
+  la mayor racha de días cumplidos seguidos y si alcanza una meta.
 
-Comprueba con meta 3: vacío → 0/false; registra true,true,false,true,true,true,
-false,true → 3/true; registrar(false) después conserva 3/true.
-Explica: ¿por qué no basta contar todos los true?
+QUÉ DEBES HACER
+  1. Crea la clase Actividad. Declara en su constructor nombre (string, visible).
+     Además crea un array oculto de registros (boolean[]), vacío.
+  2. En Actividad crea registrar(cumplido: boolean): void. Agrega el valor al final.
+     No devuelve nada.
+  3. En Actividad crea datos(): boolean[], protected. Devuelve una COPIA del historial.
+  4. Crea ActividadConMeta que extienda Actividad. Su constructor recibe nombre y
+     meta (number, oculto; supón entero > 0). Pasa nombre al padre.
+  5. En ActividadConMeta crea mejorRacha(): number, público:
+     a) obtén el historial con super.datos();
+     b) recórrelo contando los true seguidos; un false reinicia la cuenta a 0;
+     c) devuelve la cuenta más alta que viste (0 si no hay registros).
+  6. En ActividadConMeta crea cumplioMeta(): boolean, público: true si
+     mejorRacha() es mayor o igual que meta.
+
+COMPRUEBA (a = new ActividadConMeta('Correr', 3), en este orden)
+  console.log(a.mejorRacha(), a.cumplioMeta()); // 0 false
+  Registra con a.registrar(...): true, true, false, true, true, true, false, true
+  console.log(a.mejorRacha(), a.cumplioMeta()); // 3 true
+  a.registrar(false);
+  console.log(a.mejorRacha(), a.cumplioMeta()); // 3 true  (un false final no borra la racha)
+  Segunda instancia con meta 5 y el mismo historial: cumplioMeta() → false.
+
+ESTO DEBE FALLAR
+  // a.datos();  // a.registros;
+
+EXPLICA
+  ¿Por qué no basta con contar todos los true del historial?
 */
 (() => {
     // Tu solución.
 })();
 // EJERCICIO 12 — Pedido sin descuentos parciales
 /*
-Objetivo: integrar las cuatro subsecciones con agrupación y validación completa.
-1. Declara type Existencia con codigo: string y cantidad: number. Almacen:
-   constructor (nombre: string), nombre público y existencias privadas.
-   registrar(codigo: string, cantidad: number): boolean acepta código nuevo y
-   cantidad entera >= 0. stock(codigo: string): number | undefined consulta el stock.
-   descontar(codigo: string, cantidad: number): boolean es protected: exige código
-   existente, cantidad entera > 0 y stock suficiente; si acepta descuenta.
-2. AlmacenPedidos extends Almacen: constructor (nombre: string, maximo: number),
-   máximo privado entero > 0. comprar(codigos: string[]): boolean interpreta cada
-   aparición como una unidad. Rechaza vacío, más de maximo unidades, códigos
-   desconocidos o stock insuficiente para TODAS las apariciones juntas.
-   Valida el pedido completo mediante stock antes de hacer cualquier descuento;
-   solo si todo cumple, descuenta mediante super.descontar. No cambies el argumento.
-Precisiones:
-registrar guarda la nueva existencia con su cantidad inicial. stock devuelve
-undefined si no existe el código; stock 0 significa que sí existe, pero está agotado.
-maximo cuenta unidades totales del pedido, no códigos distintos. Si todo se acepta,
-comprar devuelve true; no se piden precios ni descuentos monetarios.
+SITUACIÓN
+  Un almacén guarda existencias. Un pedido se acepta completo o no se acepta:
+  nunca debe quedar descontada solo una parte.
 
-Comprueba con máximo 4: registra A/2 y B/1; comprar(['A','A','B','B']) → false,
-stock sigue A=2/B=1; comprar(['A','A','B']) → true, ambos stocks 0;
-comprar([]) y comprar(['X']) → false.
-Explica: ¿por qué es necesario contar las apariciones repetidas?
+QUÉ DEBES HACER
+  1. Antes de las clases declara: type Existencia = { codigo: string; cantidad: number }
+  2. Crea la clase Almacen. Declara en su constructor nombre (string, visible).
+     Además crea un array oculto de existencias (Existencia[]), vacío.
+  3. En Almacen crea registrar(codigo: string, cantidad: number): boolean. Acepta si
+     el código es nuevo y cantidad es un entero >= 0: la guarda y devuelve true.
+     Si no, false.
+  4. En Almacen crea stock(codigo: string): number | undefined. Devuelve la
+     cantidad del código, o undefined si no existe. Ojo: stock 0 significa que existe
+     pero está agotado; no es lo mismo que undefined.
+  5. En Almacen crea descontar(codigo: string, cantidad: number): boolean, protected.
+     Exige código existente, cantidad entera > 0 y stock suficiente. Si cumple,
+     descuenta y devuelve true; si no, false.
+  6. Crea AlmacenPedidos que extienda Almacen. Su constructor recibe nombre y
+     maximo (number, oculto; supón entero > 0). Pasa nombre al padre.
+  7. En AlmacenPedidos crea comprar(codigos: string[]): boolean, público. Cada
+     aparición en el array es UNA unidad:
+     a) si el array está vacío, devuelve false;
+     b) si hay más unidades que maximo (se cuentan todas las apariciones), false;
+     c) cuenta cuántas veces aparece cada código;
+     d) con stock(), si algún código no existe o su stock no alcanza para TODAS sus
+        apariciones, devuelve false. Todavía no descuentes nada;
+     e) solo si todo se cumple, descuenta con super.descontar y devuelve true.
+     No modifiques el array recibido.
+
+COMPRUEBA (a = new AlmacenPedidos('Central', 4); a.registrar('A', 2); a.registrar('B', 1))
+  console.log(a.comprar(['A','A','B','B']));       // false (B pide 2 y hay 1)
+  console.log(a.stock('A'), a.stock('B'));         // 2 1   (nada cambió)
+  console.log(a.comprar(['A','A','B']));           // true
+  console.log(a.stock('A'), a.stock('B'));         // 0 0
+  console.log(a.comprar([]));                      // false
+  console.log(a.comprar(['X']));                   // false
+
+ESTO DEBE FALLAR
+  // a.descontar('A', 1);
+
+EXPLICA
+  ¿Por qué hay que contar las apariciones repetidas? ¿Qué pasaría si descontaras
+  mientras validas?
 */
 (() => {
     // Tu solución.
 })();
 // EJERCICIO 13 — Clasificación con desempates
 /*
-Objetivo: integrar las cuatro subsecciones con agrupación y comparación múltiple.
-1. Declara type Marca con nombre: string y puntos: number. Torneo: constructor
-   (titulo: string), título público y marcas privadas. registrar(nombre: string,
-   puntos: number): boolean acepta puntos enteros >= 0, guarda al final y permite
-   nombres repetidos. datos(): Marca[] es protected y devuelve copias de los
-   objetos en un array nuevo, conservando orden.
-2. TorneoClasificatorio extends Torneo: constructor (titulo: string,
-   minimo: number), mínimo privado entero >= 0. clasificados(): string[] usa
-   super.datos(), agrupa por nombre y suma los puntos de cada participante.
-   Incluye solo sumas >= minimo, ordenadas de mayor a menor suma. En empate,
-   conserva primero a quien apareció antes por primera vez. Sin elegibles → [].
-Precisiones:
-Cada nombre aparece UNA sola vez en la salida. Los puntos acumulados sirven
-para filtrar y ordenar; no se incluyen en el string[] devuelto.
-No reordenes las marcas almacenadas al construir la clasificación.
+SITUACIÓN
+  Un torneo registra marcas; una misma persona puede aparecer varias veces. Se
+  suman sus puntos y se listan los que alcanzan un mínimo, de mayor a menor.
 
-Comprueba con mínimo 10: vacío → []; registra Ana/6,Luis/10,Ana/4,Eva/12;
-Sol/-1 → false. clasificados() dos veces → ['Eva','Ana','Luis'].
-Explica: ¿qué información conservas para desempatar?
+QUÉ DEBES HACER
+  1. Antes de las clases declara: type Marca = { nombre: string; puntos: number }
+  2. Crea la clase Torneo. Declara en su constructor titulo (string, visible).
+     Además crea un array oculto de marcas (Marca[]), vacío.
+  3. En Torneo crea registrar(nombre: string, puntos: number): boolean. Acepta si
+     puntos es un entero >= 0: la guarda al final y devuelve true. Si no, false.
+     Se permiten nombres repetidos.
+  4. En Torneo crea datos(): Marca[], protected. Devuelve un array NUEVO con
+     copias de las marcas, en el mismo orden.
+  5. Crea TorneoClasificatorio que extienda Torneo. Su constructor recibe titulo y
+     minimo (number, oculto; supón entero >= 0). Pasa titulo al padre.
+  6. En TorneoClasificatorio crea clasificados(): string[], público:
+     a) obtén las marcas con super.datos();
+     b) agrupa por nombre y suma sus puntos; anota en qué posición apareció cada
+        nombre por primera vez;
+     c) quédate solo con quienes sumen minimo o más;
+     d) ordena de mayor a menor suma; si empatan, va primero quien apareció antes;
+     e) devuelve solo los nombres, sin puntos y sin repetir ([] si no hay).
+     No reordenes las marcas guardadas.
+
+COMPRUEBA (t = new TorneoClasificatorio('Liga', 10), en este orden)
+  console.log(t.clasificados());   // []
+  console.log(t.registrar('Ana', 6), t.registrar('Luis', 10),
+              t.registrar('Ana', 4), t.registrar('Eva', 12)); // true true true true
+  console.log(t.registrar('Sol', -1)); // false
+  console.log(t.clasificados());   // ['Eva', 'Ana', 'Luis']  (Eva 12; Ana 10 y Luis 10: Ana apareció antes)
+  console.log(t.clasificados());   // ['Eva', 'Ana', 'Luis']
+
+ESTO DEBE FALLAR
+  // t.datos();  // t.marcas;
+
+EXPLICA
+  ¿Qué dato guardas para poder desempatar y por qué?
 */
 (() => {
     // Tu solución.
 })();
 // EJERCICIO 14 — Reservas sin traslapes
 /*
-Objetivo: integrar las cuatro subsecciones con intervalos y cancelación.
-1. Declara type Reserva con codigo: string, inicio: number y fin: number.
-   Agenda: constructor (nombre: string), nombre público y reservas privadas.
-   intentarReserva(codigo: string, inicio: number, fin: number): boolean es
-   protected: exige horas enteras con 0 <= inicio < fin <= 24, código no repetido
-   y ningún traslape con reservas vigentes. El intervalo incluye inicio y excluye
-   fin: una reserva puede empezar justo al terminar otra. Si acepta guarda al final.
-   cancelar(codigo: string): boolean elimina la reserva si existe; si no, false.
-   listar(): string[] devuelve códigos vigentes en orden de registro.
-2. AgendaLimitada extends Agenda: constructor (nombre: string, maxHoras: number),
-   máximo privado entero entre 1 y 24 inclusive. reservar(codigo: string,
-   inicio: number, fin: number): boolean exige fin-inicio <= maxHoras y delega
-   las demás validaciones en super.intentarReserva; no las dupliques.
-Precisiones:
-cancelar elimina la reserva completa, devuelve true y conserva el orden de las
-demás. El código cancelado puede usarse otra vez. El conflicto se comprueba contra
-todas las reservas vigentes, sin depender del orden en que se registraron.
+SITUACIÓN
+  Una sala se reserva por horas enteras de un día (0 a 24). Dos reservas no
+  pueden solaparse; una puede empezar justo cuando termina otra. La versión
+  limitada impone una duración máxima por reserva.
 
-Comprueba con máximo 3: A/9/11 → true; B/11/13 → true; C/10/12 → false;
-D/14/18 → false; E/8/8 → false; listar() → ['A','B']; cancelar('A') → true;
-C/9/11 → true; listar() → ['B','C']; cancelar('X') → false.
-Explica: ¿por qué compartir un extremo no implica traslape?
+QUÉ DEBES HACER
+  1. Antes de las clases declara: type Reserva = { codigo: string; inicio: number; fin: number }
+  2. Crea la clase Agenda. Declara en su constructor nombre (string, visible).
+     Además crea un array oculto de reservas (Reserva[]), vacío.
+  3. En Agenda crea intentarReserva(codigo: string, inicio: number, fin: number):
+     boolean, protected. Acepta solo si se cumple TODO:
+     - inicio y fin son enteros con 0 <= inicio < fin <= 24;
+     - el código no existe entre las reservas vigentes;
+     - no se traslapa con ninguna reserva vigente. Dos intervalos se traslapan si
+       cada uno empieza antes de que el otro termine (el fin NO cuenta como ocupado:
+       compartir un extremo no es traslape).
+     Si acepta, la guarda al final y devuelve true; si no, false.
+  4. En Agenda crea cancelar(codigo: string): boolean. Si existe, elimina esa reserva
+     (las demás conservan su orden) y devuelve true; si no, false. El código
+     cancelado puede usarse otra vez.
+  5. En Agenda crea listar(): string[]. Devuelve los códigos vigentes en orden de registro.
+  6. Crea AgendaLimitada que extienda Agenda. Su constructor recibe nombre y
+     maxHoras (number, oculto; supón entero entre 1 y 24). Pasa nombre al padre.
+  7. En AgendaLimitada crea reservar(codigo: string, inicio: number, fin: number):
+     boolean, público:
+     a) si fin menos inicio supera maxHoras, devuelve false;
+     b) si no, devuelve super.intentarReserva(codigo, inicio, fin).
+     No repitas las demás validaciones.
+
+COMPRUEBA (a = new AgendaLimitada('Sala', 3), en este orden)
+  console.log(a.reservar('A', 9, 11));   // true
+  console.log(a.reservar('B', 11, 13));  // true   (empieza donde termina A)
+  console.log(a.reservar('C', 10, 12));  // false  (traslapa con A y con B)
+  console.log(a.reservar('D', 14, 18));  // false  (4 horas > 3)
+  console.log(a.reservar('E', 8, 8));    // false  (inicio no es menor que fin)
+  console.log(a.listar());               // ['A', 'B']
+  console.log(a.cancelar('A'));          // true
+  console.log(a.reservar('C', 9, 11));   // true
+  console.log(a.listar());               // ['B', 'C']
+  console.log(a.cancelar('X'));          // false
+
+ESTO DEBE FALLAR
+  // a.intentarReserva('Z', 1, 2);
+
+EXPLICA
+  ¿Por qué compartir un extremo no es un traslape? ¿Por qué la hija no repite las
+  validaciones de la base?
 */
 (() => {
     // Tu solución.
 })();
 // EJERCICIO 15 — Transferencias con comisión
 /*
-Objetivo: integrar las cuatro subsecciones con cambios coordinados entre objetos.
-1. Cuenta: constructor (titular: string, saldo: number), titular público y saldo
-   privado supuesto >= 0. consultarSaldo(): number devuelve el saldo.
-   depositar(monto: number): boolean acepta monto > 0 y lo suma.
-   debitar(monto: number): boolean es protected: exige monto > 0 y saldo suficiente;
-   solo si acepta descuenta.
-2. CuentaTransferencias extends Cuenta: constructor (titular: string, saldo: number,
-   limite: number), límite privado supuesto > 0 y enviado privado inicialmente 0.
-   transferir(destino: Cuenta, monto: number): boolean rechaza destino igual a this,
-   monto <= 0 o enviado+monto > limite. Comisión: 5 si monto < 100; 2% del monto
-   si monto >= 100. Si super.debitar acepta monto MÁS comisión, deposita exactamente
-   monto en destino, acumula monto en enviado y devuelve true. La comisión no se
-   abona a destino ni consume límite. No hay reinicio de límite.
-   consultarEnviado(): number devuelve enviado. Ante rechazo ambas cuentas y enviado
-   conservan su estado. Usa solo estas clases sin redefinir sus métodos.
-Precisiones:
-Las operaciones son secuenciales, sin concurrencia. No se pide redondear los
-montos ni la comisión. Al probar independencia, una transferencia aceptada SÍ
-cambia la cuenta destino; una cuenta ajena a la operación debe conservar su estado.
+SITUACIÓN
+  Un banco permite transferir dinero entre cuentas con comisión y un límite
+  acumulado de envíos. Si algo falla, ninguna de las dos cuentas debe cambiar.
 
-Comprueba con origen Ana/300/límite 200 y destino Luis/0: transferir 100 → true,
-Ana=198/Luis=100/enviado=100; transferir 110 → false sin cambios; transferir 100
-→ true, Ana=96/Luis=200/enviado=200; transferir 1 → false sin cambios.
-Otra cuenta Eva/10/límite 100 intenta transferir 10 a Luis → false por comisión;
-Eva sigue en 10 y Luis en 200. Transferirse a sí misma → false.
-Explica: ¿por qué no debes acreditar al destinatario antes de verificar los rechazos?
+QUÉ DEBES HACER
+  1. Crea la clase Cuenta. Declara en su constructor titular (string, visible) y
+     saldo (number, oculto; supón >= 0).
+  2. En Cuenta crea consultarSaldo(): devuelve el saldo (number).
+  3. En Cuenta crea depositar(monto: number): boolean. Si monto es mayor que 0, lo
+     suma al saldo y devuelve true; si no, false.
+  4. En Cuenta crea debitar(monto: number): boolean, protected. Si monto es mayor
+     que 0 y el saldo alcanza, lo descuenta y devuelve true; si no, false.
+  5. Crea CuentaTransferencias que extienda Cuenta. Su constructor recibe titular,
+     saldo y limite (number, oculto; supón > 0). Pasa titular y saldo al padre.
+     Crea además enviado (number, oculto) que empieza en 0 y NO se recibe en el
+     constructor.
+  6. En CuentaTransferencias crea consultarEnviado(): devuelve enviado.
+  7. En CuentaTransferencias crea transferir(destino: Cuenta, monto: number): boolean,
+     público:
+     a) devuelve false si destino es this, si monto no es mayor que 0 o si
+        enviado + monto superaría limite;
+     b) calcula la comisión: 5 si monto < 100; 2% del monto si monto >= 100;
+     c) intenta super.debitar(monto + comisión); si da false, devuelve false;
+     d) solo entonces: destino.depositar(monto), suma monto a enviado y devuelve true.
+     La comisión no llega al destino ni cuenta para el límite. No hay redondeo.
+     No redefinas métodos de Cuenta.
+
+COMPRUEBA (ana = new CuentaTransferencias('Ana', 300, 200); luis = new Cuenta('Luis', 0))
+  console.log(ana.transferir(luis, 100));  // true
+  // Ana 198 · Luis 100 · enviado 100    (comisión 2: Ana pierde 102)
+  console.log(ana.transferir(luis, 110));  // false  (100 + 110 > 200); nada cambia
+  console.log(ana.transferir(luis, 100));  // true
+  // Ana 96 · Luis 200 · enviado 200
+  console.log(ana.transferir(luis, 1));    // false  (200 + 1 > 200)
+  const eva = new CuentaTransferencias('Eva', 10, 100);
+  console.log(eva.transferir(luis, 10));   // false  (10 + comisión 5 > 10); Eva 10, Luis 200
+  console.log(eva.transferir(eva, 5));     // false  (destino es ella misma)
+
+ESTO DEBE FALLAR
+  // ana.debitar(1);  // ana.saldo;
+
+EXPLICA
+  ¿Por qué no se acredita al destinatario antes de comprobar los rechazos?
+  ¿Por qué la comisión sale del origen pero no llega al destino?
 */
 (() => {
     // Tu solución.

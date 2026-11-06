@@ -106,13 +106,13 @@ EXPLICA
             }
         }
     }
-const participant1 = new Participante('Ana', 18, 'Ajderez')
-const participant2 = new Participante('Diego', 12, 'Natación')
-console.log(participant1.esMayor());     // true
-console.log(participant1.inscripcion()); // Ana: Ajderez
+// const participant1 = new Participante('Ana', 18, 'Ajderez')
+// const participant2 = new Participante('Diego', 12, 'Natación')
+// console.log(participant1.esMayor());     // true
+// console.log(participant1.inscripcion()); // Ana: Ajderez
 
-console.log(participant2.esMayor());     // false
-console.log(participant2.inscripcion()); // Diego: requiere tutor
+// console.log(participant2.esMayor());     // false
+// console.log(participant2.inscripcion()); // Diego: requiere tutor
 
 })();
 
@@ -126,11 +126,14 @@ SITUACIÓN
 QUÉ DEBES HACER
   1. Crea la clase Documento. Declara en su constructor, en este orden:
      titulo (string, visible) y autor (string, visible).
+
   2. En Documento crea el método encabezado(). No recibe nada y devuelve string:
      '{titulo} - {autor}'. Márcalo protected.
+
   3. Crea la clase Informe que extienda Documento. Su constructor recibe titulo,
      autor y paginas (number, visible; supón entero >= 0). Pasa titulo y autor al
      padre con super(...) y guarda solo paginas.
+
   4. En Informe crea el método ficha(). No recibe nada, es público y devuelve string:
      a) obtén el encabezado con super.encabezado();
      b) calcula la extensión: 'Breve' si paginas es 5 o menos; 'Extenso' si es más de 5;
@@ -172,8 +175,20 @@ EXPLICA
         }
         public counterPages():boolean{
             return this.pages >= 0;
+     
+        }
+
+        public ficha():string{
+            if(this.pages > 5){
+                return `${super.Encabezado()} | Extenso`
+            } else{
+                return `${super.Encabezado()} | Breve`
+            }
         }
     }
+    console.log(new Informe('TS', 'Ana', 5).ficha());   // 'TS - Ana | Breve'
+    console.log(new Informe('Web', 'Luis', 6).ficha()); // 'Web - Luis | Extenso'
+    console.log(new Informe('TS', 'Ana', 0).ficha());   // 'TS - Ana | Breve'
 })();
 
 // EJERCICIO 03 — Costo de un envío asegurado

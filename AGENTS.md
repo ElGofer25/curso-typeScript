@@ -78,3 +78,5 @@ Las reglas sobre referencias y autorización para editar apuntes corresponden
 a tareas de apuntes; no añaden requisitos a la generación de ejercicios.
 Para tareas dentro de `00.Ejercicios`, consulta también su `AGENTS.md`, que
 contiene las instrucciones específicas para elaborar los bloques de ejercicios.
+Para compendios de repaso con el formato del `Compendio03.ts` (pasos concretos
+de qué hacer), sigue `EJERCICIOS.md` en la raíz del proyecto.

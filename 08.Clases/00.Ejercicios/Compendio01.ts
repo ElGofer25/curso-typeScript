@@ -1,7 +1,7 @@
 /*
 COMPENDIO 01 — CLASES (sección 08 completa)
 50 ejercicios con dificultad creciente. Los primeros refuerzan un solo tema de la
-sección; cada tramo siguiente añade un tema nuevo y recupera los anteriores; los
+sección; cada bloque siguiente añade un tema nuevo y recupera los anteriores; los
 últimos integran todo lo permitido, incluidos conocimientos de las secciones previas.
 
 SUBSECCIONES EJERCITADAS (08.Clases)
@@ -24,26 +24,37 @@ SECCIONES PREVIAS QUE TAMBIÉN SE USAN
   07 ES6: const/let, for...of, for...in, desestructuración, typeof, Array.isArray,
      Object.hasOwn y Record<string, number>
 
-PROGRESIÓN
-  Ejercicios   Tema nuevo                        Se combina con
-  01–06        01 Definición                     tipos básicos, funciones, for...of
-  07–11        02 Formas cortas                  01, tuplas, enum, Record, rest/defecto
-  12–19        03 Métodos públicos y privados    01–02, arrays, Record, tuplas, rest
-  20–24        03 static                         01–03
-  25–31        04 extends, super y protected     01–03
-  32–37        06 get y set                      01–04, never, tuplas
-  38–42        07 Clases abstractas              01–06
-  43–45        08 Constructor privado, Singleton 01–07
-  46–50        Integración final                 todo lo anterior
+ORGANIZACIÓN
+  Bloque A · Ejercicios 01–06 .... 01 Definición (tipos básicos, funciones, for...of)
+  Bloque B · Ejercicios 07–11 .... 02 Formas cortas (01, tuplas, enum, Record, rest/defecto)
+  Bloque C · Ejercicios 12–19 .... 03 Métodos públicos y privados (01–02, arrays, Record, tuplas, rest)
+  Bloque D · Ejercicios 20–24 .... 03 static (01–03)
+  Bloque E · Ejercicios 25–31 .... 04 extends, super y protected (01–03)
+  Bloque F · Ejercicios 32–37 .... 06 get y set (01–04, never, tuplas)
+  Bloque G · Ejercicios 38–42 .... 07 Clases abstractas (01–06)
+  Bloque H · Ejercicios 43–45 .... 08 Constructor privado y Singleton (01–07)
+  Bloque I · Ejercicios 46–50 .... Integración final (todo lo anterior)
 
 CÓMO TRABAJAR CADA EJERCICIO
-  1. Lee SITUACIÓN: te dice qué se está modelando.
-  2. Sigue QUÉ DEBES HACER en orden, paso por paso. Cada paso es una acción concreta.
-  3. Copia las líneas de COMPRUEBA y, antes de ejecutar, predice qué saldrá. El
-     resultado esperado va después de //.
-  4. Prueba ESTO DEBE FALLAR una por una: descomenta la línea, comprueba que
-     TypeScript marca error y vuelve a comentarla.
-  5. Responde EXPLICA en un comentario bajo tu solución.
+  1. Lee SITUACIÓN y RESTRICCIONES: te dicen qué se modela, un ejemplo resuelto, la idea
+     que se entrena, qué datos esperar y con qué herramientas puedes (y no puedes) resolverlo.
+  2. Sigue QUÉ DEBES HACER en orden, paso por paso. Cada paso es una acción concreta que
+     se puede teclear sin deducir nada.
+  3. Escribe tu solución dentro de la función del ejercicio, debajo de «// Tu solución.»,
+     con los nombres exactos que pide el enunciado.
+  4. Antes de ejecutar, predice a mano el resultado de cada línea de COMPRUEBA (haz una
+     tabla de seguimiento: variable por variable, paso por paso).
+  5. Copia las líneas de COMPRUEBA debajo de tu solución, ejecuta el archivo y compara
+     con el resultado que aparece después de //.
+  6. Prueba ESTO DEBE FALLAR una por una: descomenta la línea, comprueba que TypeScript
+     marca error y vuelve a comentarla. Si una comprobación falla, NO cambies código al
+     azar: haz la tabla de seguimiento con el caso que falló.
+  7. Responde EXPLICA en un comentario bajo tu solución.
+
+RESTRICCIONES (en cada ejercicio)
+  Datos ..... qué entradas puedes esperar (rangos, vacío, repetidos...).
+  Usa ....... las herramientas del curso que debes emplear.
+  No uses ... lo que está prohibido en ESE ejercicio (lo que aún no se ha visto).
 
 VOCABULARIO DE LOS ENUNCIADOS
   «oculto» = private · «visible» = public · «solo jerarquía» = protected
@@ -84,41 +95,64 @@ PROHIBIDO (no se ha visto en el curso)
   campos con #, accesores static, abstract en propiedades o accesores, any.
   Una subclase no redefine con el mismo nombre un método concreto de su padre:
   solo añade métodos nuevos o implementa los métodos abstract.
-  Un ejercicio solo usa lo que su tramo y los anteriores permiten: static no se usa
+  Un ejercicio solo usa lo que su bloque y los anteriores permiten: static no se usa
   antes del ejercicio 20, extends no antes del 25, get/set no antes del 32,
   abstract no antes del 38 y el constructor private no antes del 43.
 
 INTEGRACIÓN
-  Cada tramo añade un tema y repasa los anteriores. Los ejercicios 46–50 combinan
+  Cada bloque añade un tema y repasa los anteriores. Los ejercicios 46–50 combinan
   clases abstractas, herencia, static, accesores, constructor privado, colecciones,
   enum, tuplas, Record y funciones como parámetro.
 
 No hay soluciones incluidas.
 */
 
-// ============================================================================
-// TRAMO 1 — EJERCICIOS 01 AL 06: 01 DEFINICIÓN DE UNA CLASE
+// ═══════════════════════════════════════════════════════════════════════════
+// BLOQUE A — EJERCICIOS 01 AL 06: 01 DEFINICIÓN DE UNA CLASE
 // Propiedades declaradas en la clase y asignadas en el constructor con this.
 // Todavía no hay métodos: la lógica vive en el constructor y en funciones sueltas.
-// ============================================================================
+// ═══════════════════════════════════════════════════════════════════════════
 
 // !EJERCICIO 01 — Termómetro de pared
 /*
 SITUACIÓN
-  Un termómetro guarda la temperatura en Celsius al crearse y, en ese mismo
-  momento, calcula su equivalente en Fahrenheit y un estado.
+  Una tienda de clima vende termómetros de pared. Cada termómetro se fabrica con la
+  temperatura en grados Celsius y queda con tres datos visibles: esa temperatura (celsius),
+  su equivalente en Fahrenheit (celsius * 9 / 5 + 32) y un estado que la describe: 'helado'
+  si celsius es 0 o menos, 'caluroso' si es 30 o más y 'templado' en cualquier otro caso.
+  Los tres datos se fijan al fabricarlo.
+
+  La tienda también necesita saber, dada una lista de termómetros y un estado, cuántos
+  termómetros de la lista tienen ese estado (0 si la lista está vacía).
+
+  Ejemplo: new Termometro(25) guarda celsius 25, fahrenheit 77 y estado 'templado'. Con la
+    lista [new Termometro(0), new Termometro(25), new Termometro(30)], contarEstado(lista,
+    'templado') devuelve 1 (solo el de 25), contarEstado(lista, 'helado') devuelve 1 y con
+    una lista vacía cualquier estado da 0.
+
+  Idea: un constructor que calcula datos derivados con if / else if / else, y una función
+    externa que usa la clase como tipo: Termometro[] significa «un array donde cada elemento
+    es un Termometro», así que dentro del for...of cada elemento tiene .estado. El contador
+    se declara antes del bucle. Trampa: los bordes (0 o menos es 'helado'; 30 o más es
+    'caluroso').
+
+RESTRICCIONES
+  Datos:
+  - celsius: número entero (puede ser negativo o 0).
+  - La lista puede estar vacía; estado es cualquier texto.
+  Usa:
+  - class, new, this y propiedades visibles.
+  - if / else if / else en el constructor.
+  - for...of para recorrer la lista.
+  No uses:
+  - propiedades de parámetro, métodos de clase, static, extends, get/set, abstract.
+  - Modificar los termómetros de la lista.
 
 QUÉ DEBES HACER
-  1. Crea la clase Termometro. Dentro de la clase, arriba del constructor, declara
-     tres propiedades visibles: celsius (number), fahrenheit (number) y estado (string).
-  2. Crea el constructor. Recibe celsius (number; supón entero). Dentro, con this:
-     a) guarda celsius en this.celsius;
-     b) guarda en this.fahrenheit el resultado de celsius * 9 / 5 + 32;
-     c) guarda en this.estado: 'helado' si celsius es 0 o menos; 'caluroso' si es
-        30 o más; 'templado' en cualquier otro caso.
-  3. Fuera de la clase crea la función contarEstado(lista: Termometro[], estado: string): number.
-     Recorre la lista con for...of y devuelve cuántos termómetros tienen ese estado.
-  4. Fuera de la clase crea las instancias y ejecuta las líneas de COMPRUEBA.
+  1. Crea la clase Termometro con las propiedades visibles celsius (number), fahrenheit
+     (number) y estado (string). Su constructor recibe celsius (number).
+  2. Fuera de la clase, crea contarEstado(lista: Termometro[], estado: string): number.
+  3. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const t1 = new Termometro(0);
@@ -143,53 +177,76 @@ EXPLICA
 */
 (() => {
     // Tu solución.
-    class Termometro{
-      //celsius (number), fahrenheit (number) y estado (string).
-      public celsius : number;
+    class Termometro {
+      public celsius: number;
       public fahrenheit: number;
-      public state: string;
-      constructor( celsius: number){
-         this.celsius =  celsius;
-         this.fahrenheit = celsius*9/5+32;
-      //    guarda en this.estado: 'helado' si celsius es 0 o menos; 'caluroso' si es
-      //   30 o más; 'templado' en cualquier otro caso.
-         if(celsius <= 0){
-            this.state = 'Helado';
-         } else if (celsius >= 30) {
-            this.state = 'caluroso';
-        } else {
-            this.state = 'templado';
-        }
+      public estado: string;
+      constructor(celsius: number) {
+        this.celsius = celsius;
+        this.fahrenheit = celsius * 9 / 5 + 32;
+        this.estado = celsius <= 0 ? 'helado'
+                    : celsius >= 30 ? 'caluroso'
+                    : 'templado';
       }
     }
-    function contarEstado(lista: Termometro[], estado: string):number{
-
-      return contador
+    function contarEstado(lista: Termometro[], estado: string): number {
+      let contador = 0;
+      // Con una lista vacía, el for...of no itera y la función devuelve contador, que vale 0.
+      for (const termometro of lista) {
+        if (termometro.estado === estado) {
+          contador += 1;
+        }
+      }
+      return contador;
     }
 })();
 
 // !EJERCICIO 02 — Etiquetas con código fijo
 /*
 SITUACIÓN
-  Un almacén imprime etiquetas. El código de una etiqueta se arma al crearla y
-  nunca debe cambiar; la descripción sí puede corregirse.
+  Un almacén imprime etiquetas para sus productos. Cada etiqueta se crea con un prefijo
+  (texto), un número y una descripción. Su código se arma una sola vez, al crearla, con el
+  formato prefijo-número, donde el número siempre lleva tres dígitos: de 1 a 9 se rellena
+  con dos ceros a la izquierda, de 10 a 99 con uno y de 100 a 999 con ninguno. Así, 'ROP' y
+  7 dan 'ROP-007'; 42 da 'ROP-042' y 105 da 'ROP-105'. El código nunca cambia después; la
+  descripción sí puede corregirse.
+
+  El almacén necesita además dos consultas sobre una lista de etiquetas. La primera, dado un
+  código, devuelve la primera etiqueta de la lista que tenga ese código, o undefined si
+  ninguna lo tiene. La segunda cuenta cuántas etiquetas repiten un código que ya había
+  aparecido antes en la lista: la primera aparición de un código no cuenta y las siguientes
+  sí (0 en una lista vacía).
+
+  Ejemplo: new Etiqueta('ROP', 7, 'Camisa') guarda el código 'ROP-007'; con 42 sería
+    'ROP-042' y con 105, 'ZAP-105'. En la lista [ROP-007, ROP-042, ZAP-105, ROP-007],
+    buscarEtiqueta(lista, 'ZAP-105') devuelve la tercera etiqueta, buscarEtiqueta(lista,
+    'XXX-001') devuelve undefined y repetidos(lista) devuelve 1 (la segunda aparición de
+    'ROP-007').
+
+  Idea: una propiedad readonly se asigna una sola vez, en el constructor. La trampa está en
+    rellenar con ceros según el tamaño del número.
+
+RESTRICCIONES
+  Datos:
+  - numero: entero entre 1 y 999.
+  - prefijo y descripcion: cualquier texto (pueden ser '').
+  - La lista puede estar vacía y tener códigos repetidos.
+  Usa:
+  - readonly para el código.
+  - Una variable local con los ceros de relleno.
+  - for...of y un array local con los códigos ya vistos.
+  No uses:
+  - propiedades de parámetro, métodos de clase, static, extends, get/set, abstract.
+  - Modificar las etiquetas de la lista.
 
 QUÉ DEBES HACER
-  1. Crea la clase Etiqueta. Declara dos propiedades visibles: codigo (string,
-     de solo lectura) y descripcion (string).
-  2. Crea el constructor. Recibe, en este orden: prefijo (string), numero (number;
-     supón entero entre 1 y 999) y descripcion (string). Dentro:
-     a) crea una variable local ceros: '00' si numero es menor que 10; '0' si es
-        menor que 100; '' en cualquier otro caso;
-     b) guarda en this.codigo el texto '{prefijo}-{ceros}{numero}';
-     c) guarda descripcion en this.descripcion.
-  3. Fuera de la clase crea buscarEtiqueta(lista: Etiqueta[], codigo: string): Etiqueta | undefined.
-     Recorre con for...of y devuelve la primera etiqueta con ese código; undefined
-     si ninguna lo tiene.
-  4. Fuera de la clase crea repetidos(lista: Etiqueta[]): number. Cuenta cuántas
-     etiquetas tienen un código que ya apareció antes en la lista (la primera
-     aparición no cuenta). Apoya la cuenta en un array local de códigos vistos.
-  5. Crea las instancias y ejecuta COMPRUEBA.
+  1. Crea la clase Etiqueta con las propiedades visibles codigo (string, de solo lectura) y
+     descripcion (string). Su constructor recibe, en este orden, prefijo (string), numero
+     (number) y descripcion (string).
+  2. Fuera de la clase, crea buscarEtiqueta(lista: Etiqueta[], codigo: string): Etiqueta |
+     undefined.
+  3. Fuera de la clase, crea repetidos(lista: Etiqueta[]): number.
+  4. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const e1 = new Etiqueta('ROP', 7, 'Camisa');
@@ -217,30 +274,89 @@ EXPLICA
   descripcion sí se pudo cambiar?
 */
 (() => {
-    // Tu solución.
+    class Etiqueta{
+       public readonly codigo: string;
+       public descripcion: string;
+
+      constructor(prefijo:string, numero: number, descripcion: string){
+     
+         let relleno = ''
+         if(numero < 10){
+            relleno = '00';
+          } else if( numero < 100){
+             relleno = '0'
+          } else{
+             relleno = ''
+          }
+          this.codigo = prefijo + '-' + relleno + numero;
+          this.descripcion = descripcion;
+      }
+    }
+
+    function buscarEtiqueta(lista: Etiqueta[], codigo: string): Etiqueta | undefined{
+       for( const etiqueta of lista){
+          if(etiqueta.codigo === codigo ){
+             return etiqueta
+          }
+       }
+       return undefined
+    }
+
+    function repetidos(lista: Etiqueta[]): number{
+      
+       const vistos: string[] = [];
+       let contador = 0;
+       for(const etiqueta of lista){
+          if(vistos.includes(etiqueta.codigo)){
+             contador += 1
+          }else{
+             vistos.push(etiqueta.codigo)
+          }
+       }
+       return contador
+    }
 })();
 
 // !EJERCICIO 03 — Contactos con teléfono opcional
 /*
 SITUACIÓN
-  Una agenda guarda contactos. Algunos no tienen teléfono, así que esa propiedad
-  puede no existir.
+  Una agenda guarda contactos con su nombre y, solo si lo tienen, su teléfono. Un contacto
+  no tiene teléfono cuando se crea sin él, con undefined o con el texto vacío '': en esos
+  casos el contacto no guarda la propiedad teléfono.
+
+  La agenda ofrece tres consultas. Describir un contacto da el texto 'nombre: teléfono' si
+  tiene teléfono y 'nombre: sin teléfono' si no. Dada una lista de contactos, se piden los
+  nombres (en el orden de la lista) de los que sí tienen teléfono, [] si ninguno; y el
+  primer contacto de la lista que no tiene teléfono, o undefined si todos tienen.
+
+  Ejemplo: new Contacto('Beto') no tiene teléfono; describir(beto) devuelve 'Beto: sin
+    teléfono'. Con 'Carla' y '' ocurre lo mismo. Con new Contacto('Ana', '555'), describir
+    devuelve 'Ana: 555'. En la lista [ana, beto], conTelefono(lista) devuelve ['Ana'] y
+    primerSinTelefono(lista) devuelve a Beto.
+
+  Idea: una propiedad opcional (?) solo se asigna cuando hay dato. Trampa: con
+    exactOptionalPropertyTypes no se asigna undefined a una propiedad con ?.
+
+RESTRICCIONES
+  Datos:
+  - nombre: cualquier texto.
+  - telefono: puede faltar, ser undefined o ser ''.
+  - La lista puede estar vacía.
+  Usa:
+  - Una propiedad opcional (?).
+  - Comparación con undefined.
+  - for...of y arrays.
+  No uses:
+  - propiedades de parámetro, métodos de clase, static, extends, get/set, abstract.
+  - Modificar los contactos de la lista.
 
 QUÉ DEBES HACER
-  1. Crea la clase Contacto. Declara dos propiedades visibles: nombre (string) y
-     telefono (string, opcional: escribe ? después del nombre).
-  2. Crea el constructor. Recibe nombre (string) y telefono (string, opcional).
-     Dentro: guarda nombre; guarda telefono solo si no es undefined y no es el
-     texto vacío ''. En caso contrario, no asignes telefono.
-  3. Fuera de la clase crea describir(c: Contacto): string. Devuelve
-     '{nombre}: {telefono}' si c.telefono no es undefined; si es undefined,
-     '{nombre}: sin teléfono'.
-  4. Fuera de la clase crea conTelefono(lista: Contacto[]): string[]. Devuelve, en el
-     orden de la lista, los nombres de los contactos que sí tienen teléfono
-     ([] si ninguno).
-  5. Fuera de la clase crea primerSinTelefono(lista: Contacto[]): Contacto | undefined.
-     Devuelve el primer contacto sin teléfono, o undefined.
-  6. Crea las instancias y ejecuta COMPRUEBA.
+  1. Crea la clase Contacto con las propiedades visibles nombre (string) y telefono (string,
+     opcional). Su constructor recibe nombre (string) y telefono (string, opcional).
+  2. Fuera de la clase, crea describir(c: Contacto): string.
+  3. Fuera de la clase, crea conTelefono(lista: Contacto[]): string[].
+  4. Fuera de la clase, crea primerSinTelefono(lista: Contacto[]): Contacto | undefined.
+  5. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const a = new Contacto('Ana', '555-1010');
@@ -270,23 +386,43 @@ EXPLICA
 // !EJERCICIO 04 — Candado con pin oculto
 /*
 SITUACIÓN
-  Un gimnasio registra candados para sus casilleros. El pin no debe poder leerse
-  desde fuera, pero el candado clasifica su propia seguridad al crearse.
+  Un gimnasio registra los candados de sus casilleros. Cada candado se crea con una etiqueta
+  y un pin (texto). El pin es secreto: no debe poder leerse desde fuera; la etiqueta sí es
+  visible. Al crearse, el candado clasifica la seguridad de su pin y deja visible ese nivel,
+  que se decide en este orden: 'débil' si el pin tiene menos de 4 caracteres; 'débil' si
+  todos los caracteres del pin son iguales entre sí (por ejemplo '1111'); 'fuerte' si no, y
+  el pin tiene 6 caracteres o más; 'media' en cualquier otro caso.
+
+  El gimnasio quiere saber, dada una lista de candados y un nivel, cuántos candados de la
+  lista tienen ese nivel (0 si no hay ninguno).
+
+  Ejemplo: new Candado('Gym 6', '111111') es 'débil' aunque tenga 6 caracteres, porque todos
+    son iguales; '123456' sí es 'fuerte'. '1234' es 'media' (4 caracteres, no todos
+    iguales). Con los candados de pin '111111', '123456' y '1234' en una lista,
+    contarNivel(lista, 'débil') devuelve 1 y contarNivel(lista, 'fuerte') devuelve 1.
+
+  Idea: el orden de las reglas decide el resultado: se evalúa de la más restrictiva a la
+    menos restrictiva.
+
+RESTRICCIONES
+  Datos:
+  - pin: texto de al menos 1 carácter.
+  - etiqueta y nivel: cualquier texto.
+  - La lista puede estar vacía.
+  Usa:
+  - private para el pin.
+  - for...of y charAt(0) para comprobar si todos los caracteres son iguales.
+  - for...of para recorrer la lista.
+  No uses:
+  - propiedades de parámetro, métodos de clase, static, extends, get/set, abstract.
+  - Modificar los candados de la lista.
 
 QUÉ DEBES HACER
-  1. Crea la clase Candado. Declara tres propiedades: pin (string, oculta),
-     etiqueta (string, visible) y nivel (string, visible).
-  2. Crea el constructor. Recibe, en este orden: etiqueta (string) y pin (string;
-     supón que tiene al menos 1 carácter). Dentro, guarda ambos y calcula nivel
-     evaluando en este orden:
-     a) si pin tiene menos de 4 caracteres, nivel es 'débil';
-     b) si todos los caracteres del pin son iguales al primero, nivel es 'débil'
-        (recorre el pin con for...of y compáralo con pin.charAt(0));
-     c) si no, y el pin tiene 6 caracteres o más, nivel es 'fuerte';
-     d) en cualquier otro caso, nivel es 'media'.
-  3. Fuera de la clase crea contarNivel(lista: Candado[], nivel: string): number.
-     Recorre la lista y devuelve cuántos candados tienen ese nivel.
-  4. Crea las instancias y ejecuta COMPRUEBA.
+  1. Crea la clase Candado con las propiedades pin (string, oculta), etiqueta (string,
+     visible) y nivel (string, visible). Su constructor recibe, en este orden, etiqueta
+     (string) y pin (string).
+  2. Fuera de la clase, crea contarNivel(lista: Candado[], nivel: string): number.
+  3. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const c1 = new Candado('Gym 1', '12');
@@ -318,27 +454,44 @@ EXPLICA
 // !EJERCICIO 05 — Tarifa de estacionamiento
 /*
 SITUACIÓN
-  Un estacionamiento cobra por hora según el tipo de vehículo. Cada vehículo
-  calcula su tarifa y su total al registrarse; después se suma la recaudación.
+  Un estacionamiento cobra por hora. Cada vehículo se registra con su placa, su tipo
+  ('moto', 'auto' o 'camion') y las horas que estuvo. Al registrarse, el vehículo calcula su
+  tarifa por hora (10 si es moto, 20 si es auto, 35 si es camion) y su total: horas por
+  tarifa. Si estuvo más de 8 horas (8 exactas no cuentan), al total se le descuenta su
+  quinta parte.
+
+  El estacionamiento necesita, dada una lista de vehículos, la recaudación (la suma de los
+  totales; 0 si la lista está vacía) y el vehículo con mayor total: si dos tienen el mismo
+  total gana el que aparece antes en la lista, y si la lista está vacía no hay ninguno
+  (undefined).
+
+  Ejemplo: new Vehiculo('A-3', 'auto', 9) cobra 9 * 20 = 180 y, como pasa de 8 horas,
+    descuenta la quinta parte: total 144. Con [ese auto, new Vehiculo('M-1', 'moto', 2)] (la
+    moto cobra 2 * 10 = 20), recaudacion devuelve 164 y masCaro devuelve el auto.
+
+  Idea: calcular en el constructor valores derivados a partir de varios datos. Trampa: 8
+    horas exactas no tienen descuento y 9 sí.
+
+RESTRICCIONES
+  Datos:
+  - tipo: solo 'moto', 'auto' o 'camion'.
+  - horas: entero >= 1.
+  - La lista puede estar vacía.
+  Usa:
+  - if / else if en el constructor.
+  - for...of con un acumulador para la suma.
+  - Una comparación con el mayor encontrado hasta el momento.
+  No uses:
+  - propiedades de parámetro, métodos de clase, static, extends, get/set, abstract.
+  - Modificar los vehículos de la lista.
 
 QUÉ DEBES HACER
-  1. Crea la clase Vehiculo. Declara cinco propiedades visibles: placa (string),
-     tipo (string), horas (number), tarifa (number) y total (number).
-  2. Crea el constructor. Recibe, en este orden: placa (string), tipo (string; supón
-     que es 'moto', 'auto' o 'camion') y horas (number; supón entero >= 1). Dentro:
-     a) guarda placa, tipo y horas;
-     b) guarda en tarifa el precio por hora: 10 si es 'moto', 20 si es 'auto', 35
-        si es 'camion';
-     c) calcula total como horas * tarifa;
-     d) si horas es mayor que 8 (8 exactas no cuentan), descuenta la quinta parte:
-        total pasa a ser total - total / 5;
-     e) guarda total.
-  3. Fuera de la clase crea recaudacion(lista: Vehiculo[]): number: la suma de los
-     totales (0 si la lista está vacía).
-  4. Fuera de la clase crea masCaro(lista: Vehiculo[]): Vehiculo | undefined. Devuelve
-     el vehículo con mayor total; si hay empate gana el que aparece antes;
-     undefined si la lista está vacía.
-  5. Crea las instancias y ejecuta COMPRUEBA.
+  1. Crea la clase Vehiculo con las propiedades visibles placa (string), tipo (string),
+     horas (number), tarifa (number) y total (number). Su constructor recibe, en este orden,
+     placa, tipo y horas.
+  2. Fuera de la clase, crea recaudacion(lista: Vehiculo[]): number.
+  3. Fuera de la clase, crea masCaro(lista: Vehiculo[]): Vehiculo | undefined.
+  4. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const v1 = new Vehiculo('M-1', 'moto', 3);
@@ -371,21 +524,41 @@ EXPLICA
 // !EJERCICIO 06 — Cadena de eslabones
 /*
 SITUACIÓN
-  Una cadena de montaje enlaza estaciones. Cada eslabón conoce al anterior (si lo
-  hay), así que una clase puede usarse como el tipo de una de sus propias propiedades.
+  Una cadena de montaje enlaza estaciones. Cada eslabón tiene un nombre y, si no es el
+  primero, conoce al eslabón anterior (su previo). El primer eslabón de la cadena no tiene
+  previo.
+
+  Se piden tres consultas que parten de un eslabón y retroceden por la cadena hasta el
+  primero: cuántos eslabones tiene la cadena (contando el propio, mínimo 1); la lista de
+  nombres, empezando por el eslabón dado y siguiendo previo tras previo; y el primer eslabón
+  de la cadena, el que no tiene previo (si el eslabón dado no tiene previo, es él mismo).
+
+  Ejemplo: c apunta a b y b apunta a a: recorrido(c) devuelve [ 'C', 'B', 'A' ]. Aquí a =
+    new Eslabon('A'), b = new Eslabon('B', a) y c = new Eslabon('C', b); longitud(c)
+    devuelve 3 y raiz(c) devuelve a. Con a solo: longitud(a) es 1, recorrido(a) es ['A'] y
+    raiz(a) es a.
+
+  Idea: una clase puede ser el tipo de una de sus propias propiedades; se avanza de eslabón
+    en eslabón con un while hasta que previo sea undefined.
+
+RESTRICCIONES
+  Datos:
+  - nombre: cualquier texto.
+  - Las cadenas no tienen ciclos.
+  Usa:
+  - Una propiedad opcional cuyo tipo es la propia clase.
+  - while para avanzar de eslabón en eslabón.
+  No uses:
+  - propiedades de parámetro, métodos de clase, static, extends, get/set, abstract.
+  - Modificar los eslabones.
 
 QUÉ DEBES HACER
-  1. Crea la clase Eslabon. Declara dos propiedades visibles: nombre (string) y
-     previo (de tipo Eslabon, opcional).
-  2. Crea el constructor. Recibe nombre (string) y previo (Eslabon, opcional).
-     Dentro: guarda nombre; guarda previo solo si no es undefined.
-  3. Fuera de la clase crea longitud(e: Eslabon): number. Con un while, cuenta e y
-     todos sus previos hasta llegar a uno sin previo.
-  4. Fuera de la clase crea recorrido(e: Eslabon): string[]. Devuelve los nombres
-     empezando por e y siguiendo previo tras previo hasta el primero.
-  5. Fuera de la clase crea raiz(e: Eslabon): Eslabon. Devuelve el último eslabón de
-     la cadena (el que no tiene previo). Si e no tiene previo, devuelve e.
-  6. Crea las instancias y ejecuta COMPRUEBA.
+  1. Crea la clase Eslabon con las propiedades visibles nombre (string) y previo (Eslabon,
+     opcional). Su constructor recibe nombre (string) y previo (Eslabon, opcional).
+  2. Fuera de la clase, crea longitud(e: Eslabon): number.
+  3. Fuera de la clase, crea recorrido(e: Eslabon): string[].
+  4. Fuera de la clase, crea raiz(e: Eslabon): Eslabon.
+  5. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const a = new Eslabon('A');
@@ -412,33 +585,50 @@ EXPLICA
     // Tu solución.
 })();
 
-// ============================================================================
-// TRAMO 2 — EJERCICIOS 07 AL 11: 02 FORMAS CORTAS DE ASIGNAR PROPIEDADES
+// ═══════════════════════════════════════════════════════════════════════════
+// BLOQUE B — EJERCICIOS 07 AL 11: 02 FORMAS CORTAS DE ASIGNAR PROPIEDADES
 // Propiedades de parámetro (public, private, readonly delante del parámetro del
-// constructor) combinadas con lo del tramo 1.
-// ============================================================================
+// constructor) combinadas con lo del bloque A.
+// ═══════════════════════════════════════════════════════════════════════════
 
 // !EJERCICIO 07 — Precio de una entrada de cine
 /*
 SITUACIÓN
-  Un cine vende entradas. El precio depende de la edad y de la sala; cada entrada
-  lo calcula al crearse. La sala nunca cambia.
+  Un cine vende entradas. Cada entrada se crea con la película, la edad del espectador y el
+  número de sala. Al crearse calcula su precio: 40 si la edad es 12 o menos; 50 si no, y la
+  edad es 65 o más; 80 en cualquier otro caso. Si la sala es la 3 (sala VIP) se suman 30 al
+  precio ya calculado. La sala de una entrada nunca cambia.
+
+  El cine necesita, dada una lista de entradas, la recaudación (la suma de los precios; 0 si
+  la lista está vacía) y cuántas entradas son de una sala dada.
+
+  Ejemplo: new Entrada('Cars', 10, 3): a los 10 años el precio base es 40 y, por ser sala
+    VIP (3), se suman 30: precio 70. Con [esa entrada, new Entrada('Cars', 30, 1)] (precio
+    80), recaudacion devuelve 150 y entradasDeSala(lista, 3) devuelve 1.
+
+  Idea: propiedades de parámetro (sala, de solo lectura) combinadas con una propiedad
+    declarada aparte (precio), calculada en el cuerpo del constructor.
+
+RESTRICCIONES
+  Datos:
+  - edad: entero >= 0.
+  - sala: número entero.
+  - La lista puede estar vacía.
+  Usa:
+  - Propiedades de parámetro (public y readonly) en el constructor.
+  - if / else if / else en el cuerpo del constructor.
+  - for...of para recorrer la lista.
+  No uses:
+  - métodos de clase, static, extends, get/set, abstract.
+  - Modificar las entradas de la lista.
 
 QUÉ DEBES HACER
-  1. Crea la clase Entrada. Dentro de la clase declara una propiedad visible: precio (number).
-  2. Crea el constructor con tres propiedades de parámetro, en este orden:
-     pelicula (string, visible), edad (number, visible; supón entero >= 0) y
-     sala (number, visible y de solo lectura).
-  3. En el cuerpo del constructor calcula this.precio evaluando en este orden:
-     a) si edad es 12 o menos, precio es 40;
-     b) si no, y edad es 65 o más, precio es 50;
-     c) en cualquier otro caso, precio es 80;
-     d) después, si sala es 3 (sala VIP), suma 30 al precio ya calculado.
-  4. Fuera de la clase crea recaudacion(lista: Entrada[]): number: la suma de los
-     precios (0 si la lista está vacía).
-  5. Fuera de la clase crea entradasDeSala(lista: Entrada[], sala: number): number:
-     cuántas entradas son de esa sala.
-  6. Crea las instancias y ejecuta COMPRUEBA.
+  1. Crea la clase Entrada con una propiedad visible declarada aparte, precio (number), y un
+     constructor con tres propiedades de parámetro, en este orden: pelicula (string,
+     visible), edad (number, visible) y sala (number, visible y de solo lectura).
+  2. Fuera de la clase, crea recaudacion(lista: Entrada[]): number.
+  3. Fuera de la clase, crea entradasDeSala(lista: Entrada[], sala: number): number.
+  4. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const e1 = new Entrada('Dune', 12, 1);
@@ -470,23 +660,44 @@ EXPLICA
 // !EJERCICIO 08 — Totales por cliente
 /*
 SITUACIÓN
-  Un restaurante registra pedidos. Algunos llevan propina y nota; otros no. Al final
-  del día se suma lo que gastó cada cliente y se busca al mejor.
+  Un restaurante registra pedidos. Cada pedido tiene el cliente, el monto, una propina (0 si
+  no se indica) y una nota opcional; todos esos datos son visibles. Al final del día se
+  quiere saber cuánto gastó cada cliente: la suma de monto más propina de todos sus pedidos.
+  Ese resultado es un objeto que asocia el nombre de cada cliente con su total.
+
+  Con ese objeto se pide el cliente que más gastó. Si dos clientes empatan, gana el que
+  aparece primero en el objeto (el primero que pidió); si el objeto está vacío no hay
+  ninguno (undefined).
+
+  Ejemplo: Ana pide 100 con propina 20 y luego 50 sin propina: totalesPorCliente da { Ana:
+    170 }. Si Beto pide 120, totalesPorCliente da { Ana: 170, Beto: 120 } y mejorCliente de
+    ese objeto devuelve 'Ana'.
+
+  Idea: un parámetro con valor por defecto dentro de una propiedad de parámetro; un Record
+    se acumula con ??. Trampa: un empate lo gana el primero insertado.
+
+RESTRICCIONES
+  Datos:
+  - monto y propina: números >= 0.
+  - nota: puede faltar.
+  - La lista de pedidos y el objeto de totales pueden estar vacíos.
+  Usa:
+  - Propiedades de parámetro (public), con valor por defecto y opcional.
+  - Record<string, number> y ?? (también al leer totales[clave], que con
+    noUncheckedIndexedAccess puede ser undefined).
+  - for...of para los pedidos; for...in con Object.hasOwn para el objeto.
+  No uses:
+  - métodos de clase, static, extends, get/set, abstract.
+  - Modificar los pedidos ni el objeto de totales recibido.
 
 QUÉ DEBES HACER
-  1. Crea la clase Pedido con un constructor de cuatro propiedades de parámetro, en
-     este orden: cliente (string, visible), monto (number, visible), propina (number,
-     visible, con valor por defecto 0) y nota (string, visible y opcional con ?).
-     El cuerpo del constructor queda vacío.
-  2. Fuera de la clase crea totalesPorCliente(pedidos: Pedido[]): Record<string, number>.
-     Crea un objeto vacío de ese tipo y recorre los pedidos con for...of: a la clave
-     cliente le suma monto + propina (si la clave aún no existe, parte de 0 con ??).
-     Devuelve el objeto.
-  3. Fuera de la clase crea mejorCliente(totales: Record<string, number>): string | undefined.
-     Recórrelo con for...in usando Object.hasOwn. Devuelve el cliente con el total
-     mayor; si hay empate, el que se insertó primero; undefined si el objeto está vacío.
-     (Con noUncheckedIndexedAccess, totales[clave] puede ser undefined: usa ?? 0.)
-  4. Crea las instancias y ejecuta COMPRUEBA.
+  1. Crea la clase Pedido con un constructor de cuatro propiedades de parámetro visibles, en
+     este orden: cliente (string), monto (number), propina (number, con valor por defecto 0)
+     y nota (string, opcional). El cuerpo del constructor queda vacío.
+  2. Fuera de la clase, crea totalesPorCliente(pedidos: Pedido[]): Record<string, number>.
+  3. Fuera de la clase, crea mejorCliente(totales: Record<string, number>): string |
+     undefined.
+  4. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const p1 = new Pedido('Ana', 100);
@@ -519,26 +730,42 @@ EXPLICA
 // !EJERCICIO 09 — Estación meteorológica
 /*
 SITUACIÓN
-  Una estación recibe una lista de temperaturas al crearse. Guarda su nombre y el
-  resumen de la lista, pero no la lista misma.
+  Una estación meteorológica se crea con su nombre y una lista de temperaturas medidas. No
+  conserva la lista: solo guarda un resumen visible con la cantidad de mediciones, la
+  temperatura máxima, la mínima y el promedio (la suma entre la cantidad, sin redondear). Si
+  la lista está vacía, máximo, mínimo y promedio valen 0. Las temperaturas pueden ser
+  negativas.
+
+  Se pide, dada una lista de estaciones y un límite, los nombres (en orden) de las
+  estaciones cuya temperatura máxima es el límite o más.
+
+  Ejemplo: new Estacion('Norte', [10, 20, 30]) guarda cantidad 3, maximo 30, minimo 10 y
+    promedio 20; la lista no queda guardada. Con otra estación new Estacion('Sur', [5, 8])
+    (maximo 8), conAlerta([norte, sur], 25) devuelve ['Norte'].
+
+  Idea: un parámetro del constructor sin modificador es solo un parámetro, no una propiedad.
+    Trampa: arrancar maximo en 0 falla con temperaturas negativas; por eso se usa la bandera
+    primero.
+
+RESTRICCIONES
+  Datos:
+  - muestras: puede estar vacío y tener números negativos.
+  - La lista de estaciones puede estar vacía.
+  Usa:
+  - El nombre como propiedad de parámetro; muestras como parámetro sin modificador.
+  - for...of con una bandera booleana que marca la primera muestra.
+  - for...of para recorrer la lista de estaciones.
+  No uses:
+  - métodos de clase, static, extends, get/set, abstract.
+  - Math.max, Math.min ni guardar la lista de muestras en la clase.
+  - Modificar las estaciones de la lista.
 
 QUÉ DEBES HACER
-  1. Crea la clase Estacion. Dentro de la clase declara cuatro propiedades visibles
-     de tipo number: cantidad, maximo, minimo y promedio.
-  2. Crea el constructor con dos parámetros, en este orden: nombre (string, propiedad
-     de parámetro visible) y muestras (number[], SIN modificador: es solo un parámetro).
-  3. En el cuerpo del constructor:
-     a) guarda en this.cantidad la longitud de muestras;
-     b) si cantidad es 0, pon maximo, minimo y promedio en 0 y no hagas nada más
-        (usa un if/else);
-     c) si no, recorre muestras con for...of acumulando la suma. Usa una variable
-        booleana primero (empieza en true): en la primera vuelta maximo y minimo
-        toman ese valor y primero pasa a false; en las demás, actualízalos si el
-        valor es mayor o menor;
-     d) guarda en promedio la suma entre cantidad, sin redondear.
-  4. Fuera de la clase crea conAlerta(lista: Estacion[], limite: number): string[]:
-     los nombres, en orden, de las estaciones cuyo maximo sea limite o más.
-  5. Crea las instancias y ejecuta COMPRUEBA.
+  1. Crea la clase Estacion con las propiedades visibles cantidad, maximo, minimo y promedio
+     (todas number). Su constructor recibe, en este orden, nombre (string, propiedad de
+     parámetro visible) y muestras (number[], sin modificador).
+  2. Fuera de la clase, crea conAlerta(lista: Estacion[], limite: number): string[].
+  3. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const es1 = new Estacion('Norte', [10, 20, 30]);
@@ -570,26 +797,44 @@ EXPLICA
 // !EJERCICIO 10 — Rutas con coordenadas
 /*
 SITUACIÓN
-  Una app de reparto guarda rutas entre dos puntos de una cuadrícula. Cada punto es
-  una pareja [x, y]. La distancia se mide en cuadras: lo que se avanza en x más lo
-  que se avanza en y, siempre como número positivo.
+  Una app de reparto guarda rutas entre dos puntos de una cuadrícula; cada punto es una
+  pareja [x, y]. Cada ruta tiene un nombre, un origen y un destino que no se pueden
+  reasignar. Al crearse calcula su distancia en cuadras: lo que se avanza en x más lo que se
+  avanza en y, siempre como número positivo (no importa el sentido). También indica si es
+  redonda: true cuando origen y destino tienen las dos coordenadas iguales y false en otro
+  caso.
+
+  Se piden dos consultas sobre una lista de rutas: la de mayor distancia (si hay empate, la
+  que aparece antes; si la lista está vacía, undefined) y los nombres, en orden, de las
+  rutas cuya distancia es menor o igual a un máximo dado.
+
+  Ejemplo: new Ruta('R', [1, 2], [4, 6]): dx = 3 y dy = 4, así que distancia es 7 y redonda
+    es false. Con otra ruta new Ruta('S', [0, 0], [1, 1]) (distancia 2), masLarga([r, s])
+    devuelve R y rutasCortas([r, s], 5) devuelve ['S'].
+
+  Idea: tuplas [number, number] guardadas como readonly; el valor absoluto se obtiene sin
+    Math. Trampa: readonly impide reasignar origen, no cambiar origen[0].
+
+RESTRICCIONES
+  Datos:
+  - Cada punto es una pareja de números; las coordenadas pueden ser negativas.
+  - La lista de rutas puede estar vacía.
+  Usa:
+  - Tuplas [number, number].
+  - Propiedades de parámetro visibles y de solo lectura.
+  - if para obtener el valor absoluto.
+  No uses:
+  - métodos de clase, static, extends, get/set, abstract.
+  - Math.abs.
+  - Modificar las rutas de la lista.
 
 QUÉ DEBES HACER
-  1. Crea la clase Ruta. Dentro de la clase declara dos propiedades visibles:
-     distancia (number) y redonda (boolean).
-  2. Crea el constructor con tres propiedades de parámetro visibles y de solo lectura,
-     en este orden: nombre (string), origen ([number, number]) y destino ([number, number]).
-  3. En el cuerpo del constructor:
-     a) calcula dx como destino[0] - origen[0] y dy como destino[1] - origen[1];
-     b) si dx es negativo, multiplícalo por -1; haz lo mismo con dy;
-     c) guarda en this.distancia la suma de dx y dy;
-     d) guarda en this.redonda true si origen y destino tienen las dos coordenadas
-        iguales; false en otro caso.
-  4. Fuera de la clase crea masLarga(rutas: Ruta[]): Ruta | undefined: la de mayor
-     distancia; si hay empate, la que aparece antes; undefined si la lista está vacía.
-  5. Fuera de la clase crea rutasCortas(rutas: Ruta[], maximo: number): string[]: los
-     nombres, en orden, de las rutas con distancia menor o igual a maximo.
-  6. Crea las instancias y ejecuta COMPRUEBA.
+  1. Crea la clase Ruta con las propiedades visibles distancia (number) y redonda (boolean),
+     y un constructor con tres propiedades de parámetro visibles y de solo lectura, en este
+     orden: nombre (string), origen ([number, number]) y destino ([number, number]).
+  2. Fuera de la clase, crea masLarga(rutas: Ruta[]): Ruta | undefined.
+  3. Fuera de la clase, crea rutasCortas(rutas: Ruta[], maximo: number): string[].
+  4. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const r1 = new Ruta('Casa-Trabajo', [0, 0], [3, 4]);
@@ -622,25 +867,47 @@ EXPLICA
 // !EJERCICIO 11 — Costo de paquetes por prioridad
 /*
 SITUACIÓN
-  Una mensajería calcula el costo de cada paquete según su peso y su prioridad.
-  La prioridad es un enum; si no se indica, es la más baja.
+  Una mensajería calcula el costo de cada paquete según su peso y su prioridad, que puede
+  ser Baja, Media o Alta; si no se indica, es Baja. El costo se calcula al crear el paquete:
+  10 por cada kilo; más 30 si la prioridad es Media o 80 si es Alta; más 50 si el peso es
+  mayor que 20 kilos (20 exactos no cuentan). El destino de un paquete no cambia.
+
+  Se piden dos consultas sobre una lista de paquetes. La primera es un resumen: cuántos
+  paquetes hay de prioridad Baja, de Media y de Alta, en ese orden. La segunda es el costo
+  total: la suma de los costos de todos los paquetes o, si se indica una prioridad, solo de
+  los paquetes de esa prioridad (0 si no hay ninguno).
+
+  Ejemplo: new Paquete('Lima', 25, Prioridad.Alta): 25 * 10 = 250, más 80 por Alta y 50 por
+    pasar de 20 kilos: costo 380. Con [ese paquete, new Paquete('Cusco', 2)] (costo 20,
+    prioridad Baja), resumen devuelve [1, 0, 1], costoTotal(lista) devuelve 400 y
+    costoTotal(lista, Prioridad.Alta) devuelve 380.
+
+  Idea: un enum y un parámetro opcional que puede valer 0. Trampa: Prioridad.Baja vale 0,
+    así que preguntar if (prioridad) la descartaría; se compara con undefined.
+
+RESTRICCIONES
+  Datos:
+  - peso: entero >= 1.
+  - prioridad: puede omitirse (entonces es Baja).
+  - La lista puede estar vacía.
+  Usa:
+  - enum Prioridad { Baja, Media, Alta } declarado dentro de tu función, antes de la clase.
+  - Propiedades de parámetro, una de ellas con valor por defecto.
+  - Una tupla [number, number, number] como retorno y un parámetro opcional comparado con
+    undefined (Prioridad.Baja vale 0: no preguntes «si hay valor»).
+  No uses:
+  - métodos de clase, static, extends, get/set, abstract.
+  - Modificar los paquetes de la lista.
 
 QUÉ DEBES HACER
   1. Dentro de tu función, antes de la clase, declara: enum Prioridad { Baja, Media, Alta }
-  2. Crea la clase Paquete. Dentro de la clase declara una propiedad visible: costo (number).
-  3. Crea el constructor con tres propiedades de parámetro, en este orden: destino
-     (string, visible y de solo lectura), peso (number, visible; supón entero >= 1)
-     y prioridad (Prioridad, visible, con valor por defecto Prioridad.Baja).
-  4. En el cuerpo del constructor calcula this.costo en este orden:
-     a) parte de peso * 10;
-     b) si prioridad es Media, suma 30; si es Alta, suma 80;
-     c) si peso es mayor que 20 (20 exactos no cuentan), suma además 50.
-  5. Fuera de la clase crea resumen(lista: Paquete[]): [number, number, number]. Es una
-     tupla con cuántos paquetes hay de prioridad Baja, Media y Alta, en ese orden.
-  6. Fuera de la clase crea costoTotal(lista: Paquete[], prioridad?: Prioridad): number.
-     Si se recibe prioridad, suma solo los costos de esa prioridad; si no, suma todos.
-     Cuidado: Prioridad.Baja vale 0; pregunta por undefined, no por «si hay valor».
-  7. Crea las instancias y ejecuta COMPRUEBA.
+  2. Crea la clase Paquete con la propiedad visible costo (number) y un constructor con tres
+     propiedades de parámetro, en este orden: destino (string, visible y de solo lectura),
+     peso (number, visible) y prioridad (Prioridad, visible, con valor por defecto
+     Prioridad.Baja).
+  3. Fuera de la clase, crea resumen(lista: Paquete[]): [number, number, number].
+  4. Fuera de la clase, crea costoTotal(lista: Paquete[], prioridad?: Prioridad): number.
+  5. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const p1 = new Paquete('Lima', 5);
@@ -672,30 +939,47 @@ EXPLICA
     // Tu solución.
 })();
 
-// ============================================================================
-// TRAMO 3 — EJERCICIOS 12 AL 19: 03 MÉTODOS PÚBLICOS Y PRIVADOS
+// ═══════════════════════════════════════════════════════════════════════════
+// BLOQUE C — EJERCICIOS 12 AL 19: 03 MÉTODOS PÚBLICOS Y PRIVADOS
 // Estado oculto (private) que solo cambia mediante métodos públicos; métodos
 // privados de apoyo. Se combina con 01 y 02, arrays, tuplas, Record y rest.
-// ============================================================================
+// ═══════════════════════════════════════════════════════════════════════════
 
 // !EJERCICIO 12 — Podómetro diario
 /*
 SITUACIÓN
-  Un podómetro acumula los pasos del día. Solo acepta lecturas razonables y nunca
-  deja pasar de un tope diario. Nadie fuera de la clase puede cambiar el contador.
+  Un podómetro acumula los pasos del día, que empiezan en 0. Cada vez que se le informa una
+  lectura, la acepta o la rechaza. Una lectura se rechaza si no es un número entero, si es
+  menor que 1 o mayor que 2000 (1 y 2000 sí valen), o si sumada a los pasos acumulados
+  superaría 20000 (20000 exactos sí se aceptan). Si se acepta, se suma a los pasos; un
+  rechazo no modifica nada. Cada lectura informa con true si se aceptó y false si se
+  rechazó. Nadie fuera del podómetro puede cambiar el contador.
+
+  También se puede consultar el total de pasos acumulados y si ya se alcanzó una meta, es
+  decir, si los pasos son iguales o mayores que ella.
+
+  Ejemplo: Con pasos en 0, registrar(1500) devuelve true y total() da 1500; registrar(2500)
+    devuelve false y total() sigue en 1500. Después de registrar 1500, metaCumplida(1500)
+    devuelve true y metaCumplida(2000) devuelve false.
+
+  Idea: estado private que solo cambia mediante un método público que valida en orden. Un
+    rechazo no modifica nada.
+
+RESTRICCIONES
+  Datos:
+  - cantidad: cualquier número (puede no ser entero o ser negativo).
+  - meta: cualquier número.
+  Usa:
+  - Una propiedad private para los pasos.
+  - Métodos públicos y if.
+  No uses:
+  - static, extends, get/set, abstract.
 
 QUÉ DEBES HACER
-  1. Crea la clase Podometro. Declara una propiedad oculta pasos (number) que
-     empieza en 0.
-  2. En Podometro crea registrar(cantidad: number): boolean, público. Evalúa en este orden:
-     a) rechaza (false) si cantidad no es entero;
-     b) rechaza si cantidad es menor que 1 o mayor que 2000 (1 y 2000 sí se aceptan);
-     c) rechaza si pasos + cantidad supera 20000 (20000 exactos sí se aceptan);
-     d) si pasa todo, suma cantidad a pasos y devuelve true.
-  3. En Podometro crea total(): number, público. Devuelve pasos.
-  4. En Podometro crea metaCumplida(meta: number): boolean, público. Devuelve true
-     si pasos es igual o mayor que meta.
-  5. Fuera de la clase crea las instancias y ejecuta COMPRUEBA.
+  1. Crea la clase Podometro con la propiedad oculta pasos (number), con valor inicial 0.
+  2. En Podometro crea los métodos públicos registrar(cantidad: number): boolean, total():
+     number y metaCumplida(meta: number): boolean.
+  3. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const p = new Podometro();
@@ -728,23 +1012,45 @@ EXPLICA
 // !EJERCICIO 13 — Ascensor con límites
 /*
 SITUACIÓN
-  Un ascensor se mueve entre el piso 0 y el último piso. Recuerda en qué piso está
-  y cuántos pisos ha recorrido en total.
+  Un ascensor se mueve entre el piso 0 y el último piso, que se indica al crearlo y no
+  cambia. Empieza en el piso 0 y recuerda en qué piso está y cuántos pisos ha recorrido en
+  total; ambos datos son privados. Un viaje a un destino se rechaza si el destino es menor
+  que 0 o mayor que el último piso, o si es el mismo piso en que ya está. Si se acepta, el
+  recorrido total aumenta con la distancia entre el piso actual y el destino (siempre
+  positiva) y el ascensor queda en el destino. Cada viaje informa con true si se hizo y
+  false si se rechazó.
+
+  También se pueden pedir varios destinos seguidos: cada uno, en orden, se intenta como un
+  viaje normal y se informa cuántos se aceptaron. Se pueden consultar el piso actual y los
+  pisos recorridos.
+
+  Ejemplo: Con ultimoPiso 10: irA(4) devuelve true (recorrido 4); luego irA(1) devuelve true
+    (recorrido 4 + 3 = 7) y irA(1) otra vez devuelve false. En otro ascensor con ultimoPiso
+    10, llamar([3, 3, 11, 5]) devuelve 2: acepta el 3 y el 5; rechaza el segundo 3 (ya está
+    en ese piso) y el 11 (no existe).
+
+  Idea: un método público reutiliza a otro (llamar usa irA) en lugar de repetir sus reglas.
+    Trampa: la distancia recorrida siempre es positiva.
+
+RESTRICCIONES
+  Datos:
+  - ultimoPiso: entero >= 1.
+  - destino: número entero.
+  - La lista de destinos puede estar vacía.
+  Usa:
+  - readonly y private en una propiedad de parámetro del constructor.
+  - Un método que reutiliza a otro con this (en lugar de repetir sus reglas).
+  - for...of para recorrer los destinos.
+  No uses:
+  - static, extends, get/set, abstract.
 
 QUÉ DEBES HACER
-  1. Crea la clase Ascensor. Declara en su constructor ultimoPiso (number, oculto y
-     de solo lectura; supón entero >= 1). Además declara dos propiedades ocultas que
-     empiezan en 0: piso (number) y recorrido (number).
-  2. En Ascensor crea irA(destino: number): boolean, público (supón destino entero):
-     a) rechaza (false) si destino es menor que 0 o mayor que ultimoPiso;
-     b) rechaza si destino es igual al piso actual;
-     c) suma a recorrido la distancia entre destino y piso, siempre positiva;
-     d) guarda destino como nuevo piso y devuelve true.
-  3. En Ascensor crea llamar(destinos: number[]): number, público. Recorre destinos
-     en orden con for...of; para cada uno llama a this.irA. Devuelve cuántos aceptó.
-  4. En Ascensor crea pisoActual(): number y pisosRecorridos(): number, públicos.
-     Devuelven piso y recorrido.
-  5. Fuera de la clase crea las instancias y ejecuta COMPRUEBA.
+  1. Crea la clase Ascensor con un constructor que declara ultimoPiso (number, oculto y de
+     solo lectura) y con dos propiedades ocultas, piso y recorrido (number), ambas con valor
+     inicial 0.
+  2. En Ascensor crea los métodos públicos irA(destino: number): boolean, llamar(destinos:
+     number[]): number, pisoActual(): number y pisosRecorridos(): number.
+  3. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const a = new Ascensor(10);
@@ -775,28 +1081,43 @@ EXPLICA
 // !EJERCICIO 14 — Cajero con billetes limitados
 /*
 SITUACIÓN
-  Un cajero guarda billetes de 100, 50 y 20. Para entregar un monto toma primero los
-  billetes grandes. Si no puede completar el monto exacto, no entrega nada y su
-  stock queda igual.
+  Un cajero guarda billetes de 100, 50 y 20; cuántos hay de cada uno se indica al crearlo y
+  es privado. Para entregar un monto usa primero billetes de 100, luego de 50 y por último
+  de 20, tomando de cada denominación todos los que pueda sin pasarse del monto restante ni
+  de los que tiene. Si con eso no llega exactamente al monto, no entrega nada y su stock
+  queda igual y responde 'imposible'. Si llega, resta de su stock los billetes entregados y
+  responde con el texto '{n100}x100 {n50}x50 {n20}x20', con las cantidades usadas de cada
+  billete (por ejemplo '1x100 1x50 1x20').
+
+  También informa cuánto dinero tiene en total: 100 por cada billete de 100, 50 por cada uno
+  de 50 y 20 por cada uno de 20.
+
+  Ejemplo: con stock [1, 2, 3] (billetes de 100, 50 y 20): retirar(170) entrega '1x100 1x50
+    1x20'; retirar(30) devuelve 'imposible' y el stock no cambia. Tras el primer retiro el
+    stock queda [0, 1, 2] y disponible() devuelve 90 (50 + 2 * 20).
+
+  Idea: separar el cálculo (calcular, privado y sin efectos) de la acción (retirar, que sí
+    modifica). Así un monto imposible no deja el cajero a medias.
+
+RESTRICCIONES
+  Datos:
+  - monto: entero >= 1.
+  - stock: tres números con la cantidad de billetes de 100, de 50 y de 20, en ese orden.
+  Usa:
+  - Un método private (calcular) que hace la cuenta sin modificar el stock y devuelve las
+    cantidades usadas, o undefined si no se puede.
+  - Una tupla [number, number, number] y while.
+  No uses:
+  - static, extends, get/set, abstract.
 
 QUÉ DEBES HACER
-  1. Crea la clase Cajero. Declara en su constructor stock ([number, number, number],
-     oculto): cuántos billetes hay de 100, de 50 y de 20, en ese orden.
-  2. En Cajero crea calcular(monto: number): [number, number, number] | undefined,
-     privado (supón monto entero >= 1). No modifica el stock:
-     a) crea restante igual a monto y usados igual a [0, 0, 0];
-     b) mientras restante sea 100 o más y usados[0] sea menor que stock[0], resta 100
-        a restante y suma 1 a usados[0];
-     c) repite lo mismo con 50 (usados[1], stock[1]) y después con 20 (usados[2], stock[2]);
-     d) si restante no es 0, devuelve undefined; si es 0, devuelve usados.
-  3. En Cajero crea retirar(monto: number): string, público:
-     a) llama a this.calcular(monto);
-     b) si devuelve undefined, devuelve 'imposible' sin tocar el stock;
-     c) si no, resta de stock cada cantidad usada y devuelve '{n100}x100 {n50}x50 {n20}x20'
-        con las cantidades usadas de cada billete.
-  4. En Cajero crea disponible(): number, público. Devuelve el dinero total del
-     stock: 100 por cada billete de 100, 50 por cada de 50 y 20 por cada de 20.
-  5. Fuera de la clase crea las instancias y ejecuta COMPRUEBA.
+  1. Crea la clase Cajero con un constructor que declara stock ([number, number, number],
+     oculto).
+  2. En Cajero crea el método privado calcular(monto: number): [number, number, number] |
+     undefined.
+  3. En Cajero crea los métodos públicos retirar(monto: number): string y disponible():
+     number.
+  4. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const c = new Cajero([2, 1, 5]);
@@ -829,24 +1150,39 @@ EXPLICA
 // !EJERCICIO 15 — Lista de reproducción
 /*
 SITUACIÓN
-  Una playlist guarda títulos sin repetir. Quien la usa puede agregar, eliminar y
-  consultar, pero nunca debe poder modificar la lista interna sin pasar por la clase.
+  Una playlist guarda títulos de canciones sin repetir, en el orden en que se agregan.
+  Agregar un título se rechaza si es el texto vacío '' o si ya existe uno exactamente igual
+  (se distinguen mayúsculas y minúsculas); si no, se añade al final. Eliminar un título se
+  rechaza si no existe; si existe, sale de la lista y los demás conservan su orden. Cada
+  operación informa con true si se realizó y false si se rechazó.
+
+  También se pueden consultar los títulos (como una copia: quien la recibe no puede alterar
+  la lista interna), cuántos hay y el título con más caracteres (si hay empate, el que
+  aparece primero; si no hay títulos, undefined).
+
+  Ejemplo: Tras agregar('Sol') y agregar('Luna'), agregar('Sol') devuelve false y cantidad()
+    sigue siendo 2. Con 'Sol' y 'Luna' guardadas, masLargo() devuelve 'Luna';
+    eliminar('Sol') devuelve true y titulos() da ['Luna'].
+
+  Idea: el array interno nunca sale de la clase: titulos() devuelve una copia. Trampa: el
+    array oculto no puede llamarse titulos.
+
+RESTRICCIONES
+  Datos:
+  - titulo: cualquier texto; las mayúsculas y las minúsculas cuentan como distintas.
+  Usa:
+  - Un array private (no lo llames titulos: ese es el nombre de un método).
+  - Métodos públicos y un array nuevo al eliminar y para la copia.
+  No uses:
+  - static, extends, get/set, abstract.
+  - Devolver el array interno.
 
 QUÉ DEBES HACER
-  1. Crea la clase Playlist. Declara un array oculto canciones (string[]), vacío.
-     No lo llames titulos: ese será el nombre de un método.
-  2. En Playlist crea agregar(titulo: string): boolean, público. Rechaza (false) si
-     titulo es '' o si ya existe uno exactamente igual (mayúsculas y minúsculas se
-     distinguen). Si no, lo añade al final y devuelve true.
-  3. En Playlist crea eliminar(titulo: string): boolean, público. Rechaza si el título
-     no existe. Si existe, crea un array nuevo con los demás títulos en el mismo orden,
-     reemplaza canciones por él y devuelve true.
-  4. En Playlist crea titulos(): string[], público. Devuelve una copia de canciones
-     (un array nuevo con los mismos títulos, no el array interno).
-  5. En Playlist crea cantidad(): number, público.
-  6. En Playlist crea masLargo(): string | undefined, público. Devuelve el título con
-     más caracteres; si hay empate, el que aparece primero; undefined si no hay títulos.
-  7. Fuera de la clase crea las instancias y ejecuta COMPRUEBA.
+  1. Crea la clase Playlist con un array oculto canciones (string[]), vacío.
+  2. En Playlist crea los métodos públicos agregar(titulo: string): boolean,
+     eliminar(titulo: string): boolean, titulos(): string[], cantidad(): number y
+     masLargo(): string | undefined.
+  3. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const p = new Playlist();
@@ -880,27 +1216,41 @@ EXPLICA
 // !EJERCICIO 16 — Despensa por producto
 /*
 SITUACIÓN
-  Una despensa lleva la cuenta de unidades por producto. Un producto agotado sigue
-  apareciendo en el registro con 0 unidades.
+  Una despensa lleva la cuenta de unidades por producto. Guardar un producto suma unidades a
+  las que ya hay (si no existía, parte de 0); se rechaza si el nombre es '' o si la cantidad
+  no es un entero mayor que 0. Sacar unidades se rechaza si la cantidad no es un entero
+  mayor que 0, si el producto nunca existió o si hay menos unidades que las pedidas; si no,
+  se restan. Un producto que llega a 0 unidades sigue existiendo en el registro. Cada
+  operación informa con true si se realizó y false si se rechazó.
+
+  También se pueden consultar las unidades de un producto (0 si nunca existió), los
+  productos agotados (los que tienen 0 unidades, en el orden en que se registraron por
+  primera vez) y el total de unidades de todos los productos.
+
+  Ejemplo: Tras guardar('arroz', 5) y sacar('arroz', 5), unidades('arroz') es 0 y 'arroz'
+    aparece en agotados(); 'sal', que nunca existió, no aparece. Si además se
+    guarda('frijol', 3), total() devuelve 3.
+
+  Idea: un Record oculto con ?? para acumular y Object.hasOwn para distinguir un producto
+    agotado de uno inexistente.
+
+RESTRICCIONES
+  Datos:
+  - producto: cualquier texto.
+  - cantidad: cualquier número.
+  Usa:
+  - Un Record<string, number> private y ?? para acumular.
+  - for...in con Object.hasOwn, para distinguir un producto agotado de uno inexistente.
+  No uses:
+  - static, extends, get/set, abstract.
 
 QUÉ DEBES HACER
-  1. Crea la clase Despensa. Declara un objeto oculto existencias (Record<string, number>),
+  1. Crea la clase Despensa con un objeto oculto existencias (Record<string, number>),
      vacío.
-  2. En Despensa crea guardar(producto: string, cantidad: number): boolean, público.
-     Rechaza (false) si producto es '' o si cantidad no es un entero mayor que 0. Si
-     no, suma cantidad a las unidades del producto (si no existe, parte de 0 con ??)
-     y devuelve true.
-  3. En Despensa crea sacar(producto: string, cantidad: number): boolean, público.
-     Rechaza si cantidad no es un entero mayor que 0, si el producto no existe
-     (compruébalo con Object.hasOwn) o si hay menos unidades que cantidad. Si no,
-     resta cantidad y devuelve true. Aunque queden 0 unidades, el producto sigue existiendo.
-  4. En Despensa crea unidades(producto: string): number, público. Devuelve sus
-     unidades, o 0 si el producto no existe.
-  5. En Despensa crea agotados(): string[], público. Recorre existencias con for...in
-     (con Object.hasOwn) y devuelve, en orden de inserción, los productos con 0 unidades.
-  6. En Despensa crea total(): number, público. Devuelve la suma de las unidades de
-     todos los productos.
-  7. Fuera de la clase crea las instancias y ejecuta COMPRUEBA.
+  2. En Despensa crea los métodos públicos guardar(producto: string, cantidad: number):
+     boolean, sacar(producto: string, cantidad: number): boolean, unidades(producto:
+     string): number, agotados(): string[] y total(): number.
+  3. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const d = new Despensa();
@@ -934,24 +1284,42 @@ EXPLICA
 // !EJERCICIO 17 — Cronómetro con formato
 /*
 SITUACIÓN
-  Un cronómetro guarda segundos y los muestra como horas:minutos:segundos. El
-  formato de dos dígitos es un detalle interno de la clase.
+  Un cronómetro acumula segundos, que empiezan en 0, y los muestra como
+  horas:minutos:segundos. Se le pueden sumar segundos (se rechaza si no es un entero o es
+  negativo; 0 se acepta) y restar segundos (se rechaza si no es un entero, es negativo o es
+  mayor que los segundos acumulados). Cada operación informa con true si se realizó y false
+  si se rechazó.
+
+  El texto se forma así: las horas van sin ceros a la izquierda y los minutos y los segundos
+  siempre con dos dígitos (de 0 a 9 se les antepone un 0), separados por ':'. Por ejemplo,
+  3725 segundos son 1 hora, 2 minutos y 5 segundos: '1:02:05'. Poner los dos dígitos es un
+  detalle interno del cronómetro que nadie fuera de la clase usa.
+
+  Ejemplo: Con segundos en 3725, formato() devuelve '1:02:05' (1 hora, 2 minutos, 5
+    segundos). Si después restar(3700) devuelve true, formato() da '0:00:25'; y restar(100)
+    devuelve false porque solo quedan 25 segundos.
+
+  Idea: un método privado auxiliar (dosDigitos) que solo usa la propia clase. Trampa: restar
+    más de los segundos acumulados se rechaza.
+
+RESTRICCIONES
+  Datos:
+  - s: cualquier número.
+  - dosDigitos recibe un entero de 0 a 99.
+  Usa:
+  - Una propiedad private y un método private (dosDigitos).
+  - El operador % y divisiones calculadas sin Math.
+  No uses:
+  - static, extends, get/set, abstract.
+  - Math.floor ni padStart.
 
 QUÉ DEBES HACER
-  1. Crea la clase Cronometro. Declara una propiedad oculta segundos (number) que
-     empieza en 0.
-  2. En Cronometro crea dosDigitos(n: number): string, privado (supón entero de 0 a
-     99). Si n es menor que 10, devuelve '0' seguido de n; si no, devuelve n como texto.
-  3. En Cronometro crea sumar(s: number): boolean, público. Rechaza (false) si s no es
-     entero o es negativo (0 se acepta). Si no, suma s a segundos y devuelve true.
-  4. En Cronometro crea restar(s: number): boolean, público. Rechaza si s no es entero,
-     es negativo o es mayor que segundos. Si no, resta s y devuelve true.
-  5. En Cronometro crea formato(): string, público:
-     a) resto es segundos % 3600;
-     b) horas es (segundos - resto) / 3600;
-     c) minutos es (resto - resto % 60) / 60 y segs es resto % 60;
-     d) devuelve '{horas}:{mm}:{ss}', donde horas va sin ceros y mm y ss pasan por dosDigitos.
-  6. Fuera de la clase crea la instancia y ejecuta COMPRUEBA, en este orden.
+  1. Crea la clase Cronometro con la propiedad oculta segundos (number), con valor inicial
+     0.
+  2. En Cronometro crea el método privado dosDigitos(n: number): string.
+  3. En Cronometro crea los métodos públicos sumar(s: number): boolean, restar(s: number):
+     boolean y formato(): string.
+  4. Fuera de la clase, crea la instancia y ejecuta COMPRUEBA en el orden dado.
 
 COMPRUEBA
   const c = new Cronometro();
@@ -982,30 +1350,48 @@ EXPLICA
 // !EJERCICIO 18 — Duelo entre jugadores
 /*
 SITUACIÓN
-  Dos jugadores se atacan por turnos. La vida de cada uno es privada: solo cambia al
-  recibir daño o al curarse, y nunca baja de 0 ni supera su máximo.
+  Dos jugadores se atacan por turnos. Cada jugador tiene un nombre (visible), una vida y una
+  fuerza (privadas) y una vida máxima, igual a la vida con la que empezó. Su vida nunca baja
+  de 0 ni supera la máxima, y está vivo mientras sea mayor que 0. Al recibir daño, el daño
+  real es el daño recibido pero nunca más que su vida actual: se resta de la vida y se
+  informa cuánto fue. Al atacar a un rival, si cualquiera de los dos está muerto no pasa
+  nada y el daño es 0; si no, el rival recibe un daño igual a la fuerza del atacante. Al
+  curarse se rechaza (false) si el jugador está muerto o si los puntos no son un entero
+  mayor que 0; si no, recupera esos puntos sin pasar de su vida máxima (true).
+
+  Un combate entre dos jugadores vivos se juega por rondas: el primero ataca al segundo y,
+  si el segundo sigue vivo, contraataca; así hasta que uno cae. El combate informa el nombre
+  del jugador que sigue vivo.
+
+  Ejemplo: Un jugador con vida 20 recibe dano 50: el daño real es 20 y su vida queda en 0.
+    Al curarse nunca supera su vidaMaxima. Con Ana (vida 30, fuerza 10) y Beto (vida 25,
+    fuerza 8), pelear(ana, beto) devuelve 'Ana': Ana golpea 3 veces y la vida de Beto llega
+    a 0 antes de que él la derribe.
+
+  Idea: dos objetos que se coordinan (atacar llama a recibirDano del rival) y límites en
+    ambos extremos de la vida.
+
+RESTRICCIONES
+  Datos:
+  - vida y fuerza: enteros >= 1.
+  - dano: entero >= 0; puntos: cualquier número.
+  - Los dos jugadores de un combate empiezan vivos.
+  Usa:
+  - readonly y private.
+  - Objetos como argumento (atacar recibe al rival) y while.
+  No uses:
+  - static, extends, get/set, abstract.
 
 QUÉ DEBES HACER
-  1. Crea la clase Jugador. Declara en su constructor, en este orden: nombre
-     (string, visible y de solo lectura), vida (number, oculta; supón entero >= 1) y
-     fuerza (number, oculta; supón entero >= 1). Declara además una propiedad
-     oculta y de solo lectura vidaMaxima (number) y en el cuerpo del constructor
-     guárdala igual a la vida inicial.
-  2. En Jugador crea estaVivo(): boolean, público: true si vida es mayor que 0.
-  3. En Jugador crea vidaRestante(): number, público. Devuelve vida.
-  4. En Jugador crea recibirDano(dano: number): number, público (supón entero >= 0).
-     El daño real es dano, pero nunca más que la vida actual. Resta el daño real a
-     vida y devuelve el daño real.
-  5. En Jugador crea atacar(rival: Jugador): number, público. Si este jugador o el
-     rival no están vivos, devuelve 0 y no cambia nada. Si no, devuelve el resultado
-     de rival.recibirDano(this.fuerza).
-  6. En Jugador crea curar(puntos: number): boolean, público. Rechaza (false) si el
-     jugador no está vivo o si puntos no es un entero mayor que 0. Si no, suma
-     puntos a vida sin pasar de vidaMaxima y devuelve true.
-  7. Fuera de la clase crea pelear(a: Jugador, b: Jugador): string. Supón que ambos
-     empiezan vivos. Mientras los dos estén vivos: a ataca a b; si b sigue vivo, b
-     ataca a a. Al terminar, devuelve el nombre del que sigue vivo.
-  8. Crea las instancias y ejecuta COMPRUEBA, en este orden.
+  1. Crea la clase Jugador con un constructor de propiedades de parámetro, en este orden:
+     nombre (string, visible y de solo lectura), vida (number, oculta) y fuerza (number,
+     oculta); y con una propiedad oculta y de solo lectura vidaMaxima (number), que el
+     constructor guarda igual a la vida inicial.
+  2. En Jugador crea los métodos públicos estaVivo(): boolean, vidaRestante(): number,
+     recibirDano(dano: number): number, atacar(rival: Jugador): number y curar(puntos:
+     number): boolean.
+  3. Fuera de la clase, crea pelear(a: Jugador, b: Jugador): string.
+  4. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const ana = new Jugador('Ana', 30, 8);
@@ -1038,23 +1424,37 @@ EXPLICA
 // !EJERCICIO 19 — Partida de boliche
 /*
 SITUACIÓN
-  Una partida de boliche registra los pinos derribados en cada tiro. Una llamada puede
-  traer varios tiros seguidos; al primer valor inválido se corta el registro.
+  Una partida de boliche registra los pinos derribados en cada tiro. Un tiro es válido si es
+  un entero entre 0 y 10 (ambos incluidos), y la partida admite como máximo 12 tiros. Se
+  pueden registrar varios tiros en una sola llamada: se guardan en orden y, al primer valor
+  que no es válido, o cuando ya hay 12 tiros guardados, se deja de registrar: ese valor y
+  todos los siguientes se descartan. Se informa cuántos tiros se guardaron en esa llamada.
+
+  También se consultan el total de pinos derribados, el mejor tiro (el mayor valor guardado;
+  0 si no hay tiros) y cuántos tiros fueron limpios, es decir, de exactamente 10 pinos.
+
+  Ejemplo: tirar(4, 11, 5) guarda solo el 4 y devuelve 1: el 11 no es válido y corta el
+    registro, así que el 5 tampoco se guarda. Si luego se hace tirar(10, 7), se guardan
+    ambos: total() da 21, mejorTiro() da 10 y limpios() da 1.
+
+  Idea: un parámetro rest (...pinos) y un corte con break o return al primer valor inválido.
+
+RESTRICCIONES
+  Datos:
+  - Cada valor: cualquier número.
+  - Se puede llamar sin ningún tiro.
+  Usa:
+  - Un parámetro rest (...pinos) y un array private.
+  - for...of con break o return.
+  No uses:
+  - static, extends, get/set, abstract.
+  - Math.max.
 
 QUÉ DEBES HACER
-  1. Crea la clase Boliche. Declara un array oculto tiros (number[]), vacío.
-  2. En Boliche crea tirar(...pinos: number[]): number, público (parámetro rest). Recorre
-     pinos en orden; para cada valor:
-     a) si ya hay 12 tiros guardados, deja de registrar;
-     b) si el valor no es entero o no está entre 0 y 10 (ambos incluidos), deja de
-        registrar;
-     c) si no, lo guarda en tiros y cuenta uno.
-     «Deja de registrar» significa que ese valor y los siguientes no se guardan (usa
-     break o return). Devuelve cuántos tiros guardó en esta llamada.
-  3. En Boliche crea total(): number, público: la suma de los pinos de todos los tiros.
-  4. En Boliche crea mejorTiro(): number, público: el mayor valor guardado (0 si no hay tiros).
-  5. En Boliche crea limpios(): number, público: cuántos tiros valen exactamente 10.
-  6. Fuera de la clase crea las instancias y ejecuta COMPRUEBA, en este orden.
+  1. Crea la clase Boliche con un array oculto tiros (number[]), vacío.
+  2. En Boliche crea los métodos públicos tirar(...pinos: number[]): number, total():
+     number, mejorTiro(): number y limpios(): number.
+  3. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const b = new Boliche();
@@ -1085,32 +1485,46 @@ EXPLICA
     // Tu solución.
 })();
 
-// ============================================================================
-// TRAMO 4 — EJERCICIOS 20 AL 24: 03 MIEMBROS STATIC
+// ═══════════════════════════════════════════════════════════════════════════
+// BLOQUE D — EJERCICIOS 20 AL 24: 03 MIEMBROS STATIC
 // Propiedades y métodos que pertenecen a la clase y no a cada instancia. Se usan
 // con el nombre de la clase (Clase.miembro), nunca con una instancia.
-// ============================================================================
+// ═══════════════════════════════════════════════════════════════════════════
 
 // !EJERCICIO 20 — Turnos numerados por tipo
 /*
 SITUACIÓN
-  Un banco entrega turnos. Los normales se numeran N-1, N-2... y los prioritarios
-  P-1, P-2..., cada tipo con su propia cuenta. Las cuentas pertenecen a la clase,
-  no a un turno concreto.
+  Un banco entrega turnos de dos tipos: los normales se numeran N-1, N-2, N-3... y los
+  prioritarios P-1, P-2... Cada tipo lleva su propia cuenta, que empieza en 0 y sube de uno
+  en uno cada vez que se emite un turno de ese tipo. Las cuentas pertenecen al banco (a la
+  clase), no a un turno concreto; cada turno solo guarda su número, que no cambia.
+
+  El banco también puede consultar cuántos turnos se han emitido de un tipo, cuántos en
+  total y reiniciar ambas cuentas a 0.
+
+  Ejemplo: new Ticket(false), new Ticket(true) y new Ticket(false) reciben 'N-1', 'P-1' y
+    'N-2': cada tipo tiene su propia cuenta. Después, Ticket.emitidos(false) devuelve 2,
+    Ticket.total() devuelve 3 y, tras Ticket.reiniciar(), Ticket.total() devuelve 0.
+
+  Idea: propiedades static: pertenecen a la clase, no a cada instancia, y se usan con el
+    nombre de la clase.
+
+RESTRICCIONES
+  Datos:
+  - prioritario: booleano.
+  Usa:
+  - Propiedades y métodos static.
+  - private para las cuentas y readonly para el número.
+  No uses:
+  - extends, get/set, abstract.
 
 QUÉ DEBES HACER
-  1. Crea la clase Ticket. Declara dos propiedades de clase (static) ocultas:
-     contadorN y contadorP (number), cada una con valor inicial 0. Declara también
-     numero (string, visible y de solo lectura) como propiedad de instancia.
-  2. Crea el constructor. Recibe prioritario (boolean). Dentro:
-     a) si prioritario es true, suma 1 a Ticket.contadorP y guarda en this.numero
-        el texto 'P-{contadorP}';
-     b) si es false, suma 1 a Ticket.contadorN y guarda 'N-{contadorN}'.
-  3. En Ticket crea emitidos(prioritarios: boolean): number, static y público.
-     Devuelve contadorP si prioritarios es true, o contadorN si es false.
-  4. En Ticket crea total(): number, static y público: la suma de ambos contadores.
-  5. En Ticket crea reiniciar(): void, static y público: pone ambos contadores en 0.
-  6. Fuera de la clase crea las instancias y ejecuta COMPRUEBA, en este orden.
+  1. Crea la clase Ticket con dos propiedades static ocultas, contadorN y contadorP
+     (number), ambas con valor inicial 0, y con la propiedad de instancia numero (string,
+     visible y de solo lectura). Su constructor recibe prioritario (boolean).
+  2. En Ticket crea los métodos static y públicos emitidos(prioritarios: boolean): number,
+     total(): number y reiniciar(): void.
+  3. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const t1 = new Ticket(false);
@@ -1142,27 +1556,43 @@ EXPLICA
 // !EJERCICIO 21 — Utilidades de calendario
 /*
 SITUACIÓN
-  Un calendario ofrece cálculos de fechas que no dependen de ningún objeto: basta la
-  clase. Por eso todo es static.
+  Un calendario ofrece cálculos de fechas que no dependen de ningún objeto, solo de los
+  números que se le dan. Un año es bisiesto si es divisible entre 4, salvo los divisibles
+  entre 100 que no lo sean también entre 400. Febrero tiene 29 días en año bisiesto y 28 si
+  no; abril, junio, septiembre y noviembre (meses 4, 6, 9 y 11) tienen 30 días; los demás
+  meses, 31. Una fecha es válida si el mes está entre 1 y 12 y el día entre 1 y los días de
+  ese mes. El día del año de una fecha es la suma de los días de todos los meses anteriores
+  más el día del mes (el 1 de marzo de 2023 es el día 60).
+
+  Se piden cuatro cálculos: si un año es bisiesto, los días de un mes de un año, si una
+  fecha es válida y el día del año de una fecha válida. La lista de los meses de 30 días es
+  un dato público y de solo lectura del calendario.
+
+  Ejemplo: Calendario.diasDelMes(2, 2024) devuelve 29 y Calendario.esBisiesto(1900) devuelve
+    false. fechaValida(31, 4, 2024) devuelve false (abril tiene 30 días) y diaDelAnio(1, 3,
+    2023) devuelve 60 (31 + 28 + 1).
+
+  Idea: una clase como caja de utilidades: todo es static y no hace falta ninguna instancia.
+
+RESTRICCIONES
+  Datos:
+  - anio: entero >= 1.
+  - mes y dia: números enteros (fuera de rango en fechaValida; diasDelMes recibe un mes de 1
+    a 12).
+  - diaDelAnio recibe siempre una fecha válida.
+  Usa:
+  - static y static readonly.
+  - for...of para recorrer los meses de 30 días y for para sumar los meses anteriores.
+  No uses:
+  - extends, get/set, abstract.
 
 QUÉ DEBES HACER
-  1. Crea la clase Calendario. Declara una propiedad static pública y de solo
-     lectura MESES_DE_30 (number[]) con el valor [4, 6, 9, 11].
-  2. En Calendario crea esBisiesto(anio: number): boolean, static (supón entero >= 1):
-     true si anio es divisible entre 4 y, además, no es divisible entre 100 o sí es
-     divisible entre 400; false en otro caso.
-  3. En Calendario crea diasDelMes(mes: number, anio: number): number, static (supón
-     mes de 1 a 12). Evalúa en este orden:
-     a) si mes es 2: 29 si el año es bisiesto, 28 si no (llama a this.esBisiesto);
-     b) si mes aparece en MESES_DE_30 (recórrelo con for...of): 30;
-     c) en cualquier otro caso: 31.
-  4. En Calendario crea fechaValida(dia: number, mes: number, anio: number): boolean,
-     static (supón enteros). Devuelve false si mes es menor que 1 o mayor que 12; false
-     si dia es menor que 1 o mayor que los días de ese mes; true en otro caso.
-  5. En Calendario crea diaDelAnio(dia: number, mes: number, anio: number): number,
-     static (supón una fecha válida). Suma los días de todos los meses anteriores a mes
-     (con un for desde 1 hasta mes - 1) más dia.
-  6. Ejecuta las líneas de COMPRUEBA. No se necesita ninguna instancia.
+  1. Crea la clase Calendario con la propiedad static, pública y de solo lectura MESES_DE_30
+     (number[]), con el valor [4, 6, 9, 11].
+  2. En Calendario crea los métodos static esBisiesto(anio: number): boolean,
+     diasDelMes(mes: number, anio: number): number, fechaValida(dia: number, mes: number,
+     anio: number): boolean y diaDelAnio(dia: number, mes: number, anio: number): number.
+  3. Ejecuta COMPRUEBA sin new: no se necesita ninguna instancia.
 
 COMPRUEBA
   console.log(Calendario.esBisiesto(2024), Calendario.esBisiesto(1900));  // true false
@@ -1193,23 +1623,40 @@ EXPLICA
 // !EJERCICIO 22 — Rifa con números únicos
 /*
 SITUACIÓN
-  Una rifa vende boletos con número único. La lista de números ya vendidos es de la
-  clase: la comparten todos los boletos. Para crear un boleto se usa un método static
-  que antes comprueba que el número esté libre.
+  Una rifa vende boletos numerados y cada número se vende una sola vez. Los números ya
+  vendidos los recuerda la rifa (la clase), no cada boleto. Para emitir un boleto se pide un
+  número: se rechaza (no se crea ningún boleto) si no es un entero, es menor que 1 o ya fue
+  vendido; si no, el número queda registrado como vendido y se obtiene el boleto. Todos los
+  boletos de la rifa se crean así.
+
+  La rifa también indica el menor número libre entre 1 y un máximo dado (ambos incluidos;
+  ninguno si todos están vendidos o el máximo es menor que 1) y cuántos números se han
+  vendido.
+
+  Ejemplo: Tras Boleto.emitir(1) y Boleto.emitir(2), siguienteLibre(5) devuelve 3 y
+    emitir(2) otra vez devuelve undefined. Con esos dos boletos emitidos, vendidos()
+    devuelve 2.
+
+  Idea: un método static que controla la creación (emitir) con un array static compartido
+    por todos los boletos.
+
+RESTRICCIONES
+  Datos:
+  - numero y maximo: cualquier número.
+  Usa:
+  - Un array static private para los números vendidos.
+  - Métodos static públicos y undefined como rechazo.
+  No uses:
+  - extends, get/set, abstract.
 
 QUÉ DEBES HACER
-  1. Crea la clase Boleto. Declara una propiedad static oculta asignados (number[]),
-     vacía. Declara en su constructor numero (number, visible y de solo lectura).
-     El constructor tiene el cuerpo vacío.
-  2. En Boleto crea emitir(numero: number): Boleto | undefined, static y público.
-     Rechaza (devuelve undefined) si numero no es entero, es menor que 1 o ya está en
-     asignados. Si no, lo añade a asignados y devuelve new Boleto(numero).
-     (Para crear boletos de la rifa usa siempre emitir.)
-  3. En Boleto crea siguienteLibre(maximo: number): number | undefined, static y público.
-     Devuelve el menor número entre 1 y maximo (ambos incluidos) que no esté en
-     asignados; undefined si todos están tomados o maximo es menor que 1.
-  4. En Boleto crea vendidos(): number, static y público: cuántos números hay en asignados.
-  5. Ejecuta las líneas de COMPRUEBA, en este orden.
+  1. Crea la clase Boleto con la propiedad static oculta asignados (number[]), vacía, y un
+     constructor con una propiedad de parámetro numero (number, visible y de solo lectura) y
+     cuerpo vacío.
+  2. En Boleto crea los métodos static y públicos emitir(numero: number): Boleto |
+     undefined, siguienteLibre(maximo: number): number | undefined y vendidos(): number. Los
+     boletos se crean siempre con emitir.
+  3. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   console.log(Boleto.emitir(5)?.numero);  // 5
@@ -1241,21 +1688,41 @@ EXPLICA
 // !EJERCICIO 23 — Tasa de impuesto compartida
 /*
 SITUACIÓN
-  Todas las facturas aplican el mismo porcentaje de impuesto. Ese porcentaje es de la
-  clase: si cambia, cambia el total de todas las facturas, también las ya creadas.
+  Todas las facturas de un negocio aplican el mismo porcentaje de impuesto, que empieza en
+  10. Ese porcentaje pertenece al negocio (a la clase): si cambia, cambia el total de todas
+  las facturas, también de las ya creadas. El impuesto de un subtotal es subtotal * tasa /
+  100 y el total de una factura es su subtotal más ese impuesto. La tasa solo puede
+  cambiarse a un entero entre 0 y 50 (ambos incluidos); cualquier otro valor se rechaza y la
+  tasa no cambia. Cambiar la tasa informa con true si se hizo y false si se rechazó. Cada
+  factura recibe su subtotal al crearse y lo guarda como dato privado.
+
+  Se piden tres cosas: calcular el impuesto de un subtotal sin necesidad de una factura,
+  cambiar la tasa y obtener el total de una factura.
+
+  Ejemplo: Con tasa 10 y subtotal 200, total() da 220; tras Factura.cambiarTasa(20) vuelve a
+    dar 240 sin crear otra factura. Factura.cambiarTasa(80) devuelve false y la tasa se
+    queda como estaba.
+
+  Idea: un valor static compartido: al cambiarlo cambian todas las instancias, también las
+    ya creadas.
+
+RESTRICCIONES
+  Datos:
+  - subtotal: múltiplo de 100.
+  - nueva: cualquier número.
+  Usa:
+  - Una propiedad static pública para la tasa.
+  - Un método static y un método de instancia.
+  No uses:
+  - extends, get/set, abstract.
 
 QUÉ DEBES HACER
-  1. Crea la clase Factura. Declara una propiedad static pública tasa (number) con
-     valor inicial 10 (es un porcentaje). Declara en su constructor subtotal (number,
-     oculto; supón un múltiplo de 100).
-  2. En Factura crea impuesto(subtotal: number): number, static y público. Devuelve
-     subtotal * this.tasa / 100.
-  3. En Factura crea cambiarTasa(nueva: number): boolean, static y público. Rechaza
-     (false) si nueva no es entero o no está entre 0 y 50 (ambos incluidos). Si no,
-     guarda nueva en tasa y devuelve true.
-  4. En Factura crea total(): number, público (de instancia). Devuelve subtotal más
-     Factura.impuesto(subtotal).
-  5. Fuera de la clase crea las instancias y ejecuta COMPRUEBA, en este orden.
+  1. Crea la clase Factura con la propiedad static y pública tasa (number), con valor
+     inicial 10, y un constructor con una propiedad de parámetro subtotal (number, oculta).
+  2. En Factura crea los métodos static y públicos impuesto(subtotal: number): number y
+     cambiarTasa(nueva: number): boolean.
+  3. En Factura crea el método público de instancia total(): number.
+  4. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const f1 = new Factura(200);
@@ -1284,29 +1751,47 @@ EXPLICA
 // !EJERCICIO 24 — Salas de cine
 /*
 SITUACIÓN
-  Un cine tiene varias salas. Cada sala vende sus asientos; la clase conoce todas las
-  salas creadas y puede responder preguntas globales (capacidad total, la más llena).
+  Un cine tiene varias salas, cada una con un nombre y una capacidad que no cambian. Cada
+  sala lleva la cuenta de asientos vendidos (empieza en 0, es privada) y vende asientos: se
+  rechaza si la cantidad no es un entero mayor que 0 o si es mayor que los asientos libres
+  (igual a los libres sí se acepta); si no, se suma a los vendidos. Los asientos libres de
+  una sala son su capacidad menos los vendidos. Vender informa con true si se hizo y false
+  si se rechazó.
+
+  El cine (la clase) conoce todas las salas creadas y responde preguntas globales: cuántas
+  salas hay, la capacidad total, los asientos libres de todas, la primera sala con un nombre
+  dado (o undefined) y la sala más llena. La más llena es la de mayor proporción vendidas /
+  capacidad; para compararlas sin dividir, la sala A es más llena que la B si A.vendidas *
+  B.capacidad es mayor que B.vendidas * A.capacidad. Si hay empate gana la creada antes; si
+  no hay salas, undefined.
+
+  Ejemplo: Sala A (capacidad 10, vendidas 5) y Sala B (capacidad 4, vendidas 3): B está más
+    llena, porque 3 * 10 = 30 supera a 5 * 4 = 20. Con esas dos salas, numeroDeSalas()
+    devuelve 2, capacidadTotal() devuelve 14 y libresTotal() devuelve 6 (5 + 1).
+
+  Idea: la clase conoce todas las salas creadas (array static) y responde preguntas
+    globales. Compara con multiplicaciones para no dividir.
+
+RESTRICCIONES
+  Datos:
+  - capacidad: entero >= 1.
+  - cantidad: cualquier número.
+  Usa:
+  - Un array static private con todas las salas, al que el constructor añade this.
+  - for...of. Un método static de Sala sí puede leer vendidas de cualquier sala.
+  No uses:
+  - extends, get/set, abstract.
 
 QUÉ DEBES HACER
-  1. Crea la clase Sala. Declara una propiedad static oculta salas (Sala[]), vacía, y
-     una propiedad de instancia oculta vendidas (number) que empieza en 0.
-  2. Crea el constructor con dos propiedades de parámetro visibles y de solo lectura,
-     en este orden: nombre (string) y capacidad (number; supón entero >= 1). En el
-     cuerpo, añade this a Sala.salas.
-  3. En Sala crea vender(cantidad: number): boolean, público. Rechaza (false) si
-     cantidad no es un entero mayor que 0 o si es mayor que libres() (igual a libres
-     sí se acepta). Si no, suma cantidad a vendidas y devuelve true.
-  4. En Sala crea libres(): number, público: capacidad menos vendidas.
-  5. En Sala crea estos métodos static y públicos:
-     a) numeroDeSalas(): number;
-     b) capacidadTotal(): number: suma de las capacidades de todas las salas;
-     c) libresTotal(): number: suma de los asientos libres de todas las salas;
-     d) buscar(nombre: string): Sala | undefined: la primera sala con ese nombre;
-     e) masLlena(): Sala | undefined: la de mayor ocupación. Compara sin dividir: A es
-        más llena que B si A.vendidas * B.capacidad es mayor que B.vendidas * A.capacidad.
-        Un método static de Sala sí puede leer vendidas de cualquier sala. Si hay empate,
-        gana la creada antes; undefined si no hay salas.
-  6. Ejecuta COMPRUEBA, en este orden (la primera línea va antes de crear las salas).
+  1. Crea la clase Sala con la propiedad static oculta salas (Sala[]), vacía, la propiedad
+     de instancia oculta vendidas (number), con valor inicial 0, y un constructor con dos
+     propiedades de parámetro visibles y de solo lectura, en este orden: nombre (string) y
+     capacidad (number). El cuerpo del constructor añade this a Sala.salas.
+  2. En Sala crea los métodos públicos vender(cantidad: number): boolean y libres(): number.
+  3. En Sala crea los métodos static y públicos numeroDeSalas(): number, capacidadTotal():
+     number, libresTotal(): number, buscar(nombre: string): Sala | undefined y masLlena():
+     Sala | undefined.
+  4. Ejecuta COMPRUEBA en este orden (la primera línea va antes de crear las salas).
 
 COMPRUEBA
   console.log(Sala.masLlena(), Sala.numeroDeSalas());  // undefined 0
@@ -1335,35 +1820,51 @@ EXPLICA
     // Tu solución.
 })();
 
-// ============================================================================
-// TRAMO 5 — EJERCICIOS 25 AL 31: 04 EXTENSE (extends, super y protected)
+// ═══════════════════════════════════════════════════════════════════════════
+// BLOQUE E — EJERCICIOS 25 AL 31: 04 EXTENSE (extends, super y protected)
 // Una subclase reutiliza a su padre: pasa sus datos con super(...), llama a sus
 // métodos con super.metodo() y puede usar lo protected. Se combina con 01–03.
-// ============================================================================
+// ═══════════════════════════════════════════════════════════════════════════
 
 // !EJERCICIO 25 — Tarifas de viaje
 /*
 SITUACIÓN
-  Una app de taxis calcula una tarifa base por kilómetro. Los viajes nocturnos y los
-  del aeropuerto la ajustan de formas distintas, pero ambos parten de la misma base.
+  Una app de taxis calcula tarifas. Todo viaje tiene un destino y una distancia en
+  kilómetros; su tarifa base es 30 más 12 por cada kilómetro. Un viaje se describe con el
+  texto '{destino} ({km} km)', por ejemplo 'Centro (4 km)'. Hay dos tipos de viaje que
+  calculan su precio a partir de esa misma tarifa base: el nocturno duplica la base si la
+  distancia es de 5 km o menos y le suma 100 si es mayor que 5; el del aeropuerto lleva
+  además una cantidad de equipajes, suma 25 por cada uno a la base y tiene un tope: su
+  precio nunca supera 500.
+
+  Ejemplo: ViajeNocturno('Centro', 4): la base es 30 + 12 * 4 = 78; con 5 km o menos se
+    duplica, así que precio() devuelve 156. Con ViajeAeropuerto('Terminal', 10, 3): la base
+    es 30 + 12 * 10 = 150, más 25 * 3 = 75: precio() devuelve 225.
+
+  Idea: la subclase reutiliza la lógica del padre con super.metodo() en lugar de copiar la
+    fórmula; protected oculta el método fuera de la jerarquía.
+
+RESTRICCIONES
+  Datos:
+  - km: entero >= 1.
+  - equipajes: entero >= 0.
+  Usa:
+  - extends y super(...) para pasar datos al padre.
+  - super.metodo() para reutilizar la tarifa base en lugar de copiar la fórmula.
+  - protected para lo que solo debe verse dentro de la jerarquía.
+  No uses:
+  - get/set, abstract.
 
 QUÉ DEBES HACER
-  1. Crea la clase Viaje. Declara en su constructor, en este orden: destino (string,
-     visible) y km (number, solo jerarquía; supón entero >= 1).
-  2. En Viaje crea tarifaBase(): number, protected. Devuelve 30 + 12 * km.
-  3. En Viaje crea descripcion(): string, público. Devuelve '{destino} ({km} km)'.
-  4. Crea ViajeNocturno que extienda Viaje. Su constructor recibe destino y km y los
-     pasa al padre con super(...).
-  5. En ViajeNocturno crea precio(): number, público:
-     a) obtén la base con super.tarifaBase();
-     b) si km es 5 o menos, devuelve el doble de la base;
-     c) si km es mayor que 5, devuelve la base más 100.
-  6. Crea ViajeAeropuerto que extienda Viaje. Su constructor recibe destino, km y
-     equipajes (number, visible; supón entero >= 0). Pasa destino y km al padre.
-  7. En ViajeAeropuerto crea precio(): number, público:
-     a) calcula super.tarifaBase() + 25 * equipajes;
-     b) si ese total supera 500, devuelve 500; si no, devuelve el total.
-  8. Fuera de las clases crea las instancias y ejecuta COMPRUEBA.
+  1. Crea la clase Viaje con un constructor que declara destino (string, visible) y km
+     (number, solo jerarquía).
+  2. En Viaje crea el método protegido tarifaBase(): number y el método público
+     descripcion(): string.
+  3. Crea ViajeNocturno, que extiende Viaje. Su constructor recibe destino y km. Tiene el
+     método público precio(): number.
+  4. Crea ViajeAeropuerto, que extiende Viaje. Su constructor recibe destino, km y equipajes
+     (number, visible). Tiene el método público precio(): number.
+  5. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const n1 = new ViajeNocturno('Centro', 5);
@@ -1396,27 +1897,48 @@ EXPLICA
 // !EJERCICIO 26 — Tanque de riego
 /*
 SITUACIÓN
-  Un tanque guarda litros hasta su capacidad. Un tanque de riego los usa por minutos.
-  Cambiar el nivel directamente es cosa interna: desde fuera solo se recarga o se riega.
+  Un tanque guarda litros de agua hasta una capacidad máxima, que es visible y no cambia.
+  Los litros solo cambian de dos maneras internas: agregar y sacar. Agregar n litros se
+  rechaza si n no es un entero mayor que 0 o si el nivel pasaría de la capacidad (llegar
+  justo a la capacidad sí se acepta); sacar n litros se rechaza si n no es un entero mayor
+  que 0 o si n es mayor que los litros que hay. Ambas informan con true si se hicieron y
+  false si se rechazaron. Desde fuera del tanque solo se puede consultar el nivel.
+
+  Un tanque de riego es un tanque que además gasta cierta cantidad de litros por minuto.
+  Desde fuera solo se le puede recargar (agregar litros, con las mismas reglas) y regar
+  durante unos minutos: se riega minuto a minuto mientras no se haya completado el tiempo
+  pedido y queden litros para un minuto completo. Se informa cuántos minutos se alcanzó a
+  regar.
+
+  Ejemplo: Con litros 50 y litrosPorMinuto 20, regar(10) riega solo 2 minutos: quedan 10
+    litros y no alcanzan para otro. En otro tanque con litros 50 y capacidad 60,
+    recargar(20) devuelve false (50 + 20 pasa de 60) y recargar(10) devuelve true (el nivel
+    queda en 60).
+
+  Idea: los métodos protected son herramientas internas de la jerarquía; los públicos de la
+    subclase los envuelven. Trampa: llegar justo a la capacidad sí se acepta.
+
+RESTRICCIONES
+  Datos:
+  - litros: entre 0 y capacidad.
+  - litrosPorMinuto: entero >= 1; minutos: entero >= 0.
+  - n: cualquier número.
+  Usa:
+  - protected y super.metodo().
+  - while.
+  No uses:
+  - get/set, abstract.
 
 QUÉ DEBES HACER
-  1. Crea la clase Tanque. Declara en su constructor, en este orden: litros (number,
-     solo jerarquía) y capacidad (number, visible y de solo lectura). Supón litros
-     entre 0 y capacidad.
-  2. En Tanque crea nivel(): number, público. Devuelve litros.
-  3. En Tanque crea agregar(n: number): boolean, protected. Rechaza (false) si n no es
-     un entero mayor que 0 o si litros + n superaría capacidad (llegar justo a la
-     capacidad sí se acepta). Si no, suma n a litros y devuelve true.
-  4. En Tanque crea sacar(n: number): boolean, protected. Rechaza si n no es un entero
-     mayor que 0 o si n es mayor que litros. Si no, resta n a litros y devuelve true.
-  5. Crea TanqueRiego que extienda Tanque. Su constructor recibe litros, capacidad y
-     litrosPorMinuto (number, oculto; supón entero >= 1). Pasa litros y capacidad al padre.
-  6. En TanqueRiego crea recargar(n: number): boolean, público. Devuelve el resultado
-     de super.agregar(n).
-  7. En TanqueRiego crea regar(minutos: number): number, público (supón entero >= 0).
-     Crea regados igual a 0. Mientras regados sea menor que minutos y
-     super.sacar(this.litrosPorMinuto) devuelva true, suma 1 a regados. Devuelve regados.
-  8. Fuera de las clases crea la instancia y ejecuta COMPRUEBA, en este orden.
+  1. Crea la clase Tanque con un constructor que declara litros (number, solo jerarquía) y
+     capacidad (number, visible y de solo lectura), en ese orden.
+  2. En Tanque crea el método público nivel(): number y los métodos protegidos agregar(n:
+     number): boolean y sacar(n: number): boolean.
+  3. Crea TanqueRiego, que extiende Tanque. Su constructor recibe litros, capacidad y
+     litrosPorMinuto (number, oculto).
+  4. En TanqueRiego crea los métodos públicos recargar(n: number): boolean y regar(minutos:
+     number): number.
+  5. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const t = new TanqueRiego(50, 100, 8);
@@ -1445,28 +1967,45 @@ EXPLICA
 // !EJERCICIO 27 — Rangos de un ejército
 /*
 SITUACIÓN
-  Un ejército tiene tres rangos encadenados: un Capitán es un Soldado con tropas, y un
-  General es un Capitán con estrategias. La fuerza se calcula por capas, cada rango
-  aprovechando la capa del anterior.
+  Un ejército tiene tres rangos encadenados: el soldado, el capitán (un soldado con tropas a
+  su cargo) y el general (un capitán con estrategias). Todos tienen un nombre y un nivel. La
+  fuerza se calcula por capas: la del soldado es nivel * 10; la del capitán es la del
+  soldado más tropas * 5; la del general es la del capitán más estrategias * 100, y se
+  duplica si tiene 3 estrategias o más. Cada rango se presenta con un texto que amplía el
+  del anterior: el soldado, '{nombre} (nivel {nivel})'; el capitán, ese mismo texto seguido
+  de ' con {tropas} tropas'; el general, el del capitán seguido de ' y {estrategias}
+  estrategias'.
+
+  Ejemplo: General('Rex', 2, 4, 1): Soldado da 2 * 10 = 20; Capitan suma 4 * 5 = 20 (total 40); General
+    suma 1 * 100 = 140. Con 1 estrategia no se duplica. presentarGeneral() de ese General
+    devuelve 'Rex (nivel 2) con 4 tropas y 1 estrategias'. Con 3 estrategias la fuerza se
+    duplica: (20 + 20 + 300) * 2 = 680.
+
+  Idea: tres niveles de herencia: cada capa llama a la anterior con super para no repetir
+    fórmulas.
+
+RESTRICCIONES
+  Datos:
+  - nivel: entero >= 1.
+  - tropas y estrategias: enteros >= 0.
+  Usa:
+  - extends en cadena (Capitan extiende Soldado y General extiende Capitan).
+  - super.metodo() para reutilizar cada capa.
+  - protected para las capas de fuerza.
+  No uses:
+  - get/set, abstract.
 
 QUÉ DEBES HACER
-  1. Crea la clase Soldado. Declara en su constructor nombre (string, visible) y
-     nivel (number, solo jerarquía; supón entero >= 1).
-  2. En Soldado crea fuerzaSoldado(): number, protected: nivel * 10.
-  3. En Soldado crea presentar(): string, público: '{nombre} (nivel {nivel})'.
-  4. Crea Capitan que extienda Soldado. Su constructor recibe nombre, nivel y tropas
-     (number, solo jerarquía; supón entero >= 0). Pasa nombre y nivel al padre.
-  5. En Capitan crea fuerzaCapitan(): number, protected: super.fuerzaSoldado() + tropas * 5.
-  6. En Capitan crea presentarCapitan(): string, público: el texto de super.presentar()
-     seguido de ' con {tropas} tropas'.
-  7. Crea General que extienda Capitan. Su constructor recibe nombre, nivel, tropas y
-     estrategias (number, oculto; supón entero >= 0). Pasa nombre, nivel y tropas al padre.
-  8. En General crea fuerzaGeneral(): number, público:
-     a) calcula super.fuerzaCapitan() + estrategias * 100;
-     b) si estrategias es 3 o más, devuelve el doble de ese valor; si no, el valor.
-  9. En General crea presentarGeneral(): string, público: el texto de
-     super.presentarCapitan() seguido de ' y {estrategias} estrategias'.
-  10. Fuera de las clases crea las instancias y ejecuta COMPRUEBA.
+  1. Crea la clase Soldado con un constructor que declara nombre (string, visible) y nivel
+     (number, solo jerarquía), el método protegido fuerzaSoldado(): number y el método
+     público presentar(): string.
+  2. Crea Capitan, que extiende Soldado. Su constructor recibe nombre, nivel y tropas
+     (number, solo jerarquía). Tiene el método protegido fuerzaCapitan(): number y el
+     público presentarCapitan(): string.
+  3. Crea General, que extiende Capitan. Su constructor recibe nombre, nivel, tropas y
+     estrategias (number, oculto). Tiene los métodos públicos fuerzaGeneral(): number y
+     presentarGeneral(): string.
+  4. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const s = new Soldado('Tito', 1);
@@ -1498,26 +2037,46 @@ EXPLICA
 // !EJERCICIO 28 — Pases de museo
 /*
 SITUACIÓN
-  Un museo vende pases con distintos descuentos. La clase base calcula el precio con el
-  porcentaje que recibe; cada tipo de pase solo decide qué porcentaje enviar al padre.
+  Un museo vende pases de entrada. El boleto completo cuesta 200; un pase aplica un
+  porcentaje de descuento sobre ese precio (precio = 200 * (100 - descuento) / 100) y es
+  gratis si su precio es 0. Hay tres tipos de pase: el general no tiene descuento; el de
+  estudiante tiene 30 %; el de jubilado tiene 100 % si el jubilado tiene 80 años o más y 50
+  % si tiene menos. Todos los pases guardan el nombre del visitante.
+
+  El museo necesita, dada una lista de pases, la recaudación total (la suma de los precios;
+  0 si la lista está vacía) y los nombres, en orden, de los visitantes con pase gratis.
+
+  Ejemplo: PaseEstudiante paga 200 * 70 / 100 = 140; PaseJubilado('Zoe', 85) recibe 100 de
+    descuento y su pase es gratis. En la lista [PaseGeneral('Ana') (200),
+    PaseEstudiante('Luis') (140), PaseJubilado('Zoe', 85) (0)], recaudar devuelve 340 y
+    gratuitos devuelve ['Zoe'].
+
+  Idea: cada subclase solo decide qué descuento enviar al padre con super(...); el cálculo
+    del precio vive una sola vez, en la base.
+
+RESTRICCIONES
+  Datos:
+  - descuento: entero de 0 a 100.
+  - edad: entero >= 60.
+  - La lista puede estar vacía.
+  Usa:
+  - extends y super(...): cada tipo solo decide qué descuento enviar al padre.
+  - Un array de la clase base (Pase[]) para guardar pases de cualquier tipo.
+  No uses:
+  - get/set, abstract.
+  - Modificar los pases de la lista.
 
 QUÉ DEBES HACER
-  1. Crea la clase Pase. Declara en su constructor, en este orden: visitante (string,
-     visible) y descuento (number, solo jerarquía; porcentaje entero de 0 a 100).
-  2. En Pase crea precio(): number, público. Devuelve 200 * (100 - descuento) / 100.
-  3. En Pase crea esGratis(): boolean, público: true si precio() devuelve 0.
-  4. Crea PaseGeneral que extienda Pase. Su constructor recibe visitante y pasa al padre
-     visitante y un descuento de 0.
-  5. Crea PaseEstudiante que extienda Pase. Su constructor recibe visitante y pasa al
-     padre visitante y un descuento de 30.
-  6. Crea PaseJubilado que extienda Pase. Su constructor recibe visitante y edad
-     (number; es un parámetro normal, no una propiedad; supón entero >= 60). Pasa al
-     padre visitante y un descuento de 100 si edad es 80 o más, o de 50 si es menor.
-  7. Fuera de las clases crea recaudar(pases: Pase[]): number: la suma de los precios
-     (0 si la lista está vacía).
-  8. Fuera de las clases crea gratuitos(pases: Pase[]): string[]: los nombres, en
-     orden, de los visitantes cuyo pase es gratis.
-  9. Crea las instancias y ejecuta COMPRUEBA.
+  1. Crea la clase Pase con un constructor que declara visitante (string, visible) y
+     descuento (number, solo jerarquía), y los métodos públicos precio(): number y
+     esGratis(): boolean.
+  2. Crea PaseGeneral y PaseEstudiante, que extienden Pase. Cada constructor recibe
+     visitante.
+  3. Crea PaseJubilado, que extiende Pase. Su constructor recibe visitante y edad (number;
+     es un parámetro normal, no una propiedad).
+  4. Fuera de las clases, crea recaudar(pases: Pase[]): number y gratuitos(pases: Pase[]):
+     string[].
+  5. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const p1 = new PaseGeneral('Ana');
@@ -1548,31 +2107,48 @@ EXPLICA
 // !EJERCICIO 29 — Examen con mínimo para aprobar
 /*
 SITUACIÓN
-  Un examen recibe respuestas una por una y cuenta los aciertos. El examen final añade
-  un porcentaje mínimo para aprobar y solo da resultado cuando se respondió todo.
+  Un examen tiene un número fijo de preguntas y recibe las respuestas una por una, indicando
+  si cada una es correcta. Se rechaza una respuesta si ya se respondieron todas las
+  preguntas; si no, cuenta como respondida y, si es correcta, también como acierto. Informa
+  con true si la aceptó y false si la rechazó. Se puede consultar cuántas preguntas faltan.
+  El nombre del alumno es visible y no cambia.
+
+  El examen final añade un porcentaje mínimo para aprobar y permite responder varias
+  respuestas seguidas: cada una, en orden, se intenta como una respuesta normal y se informa
+  cuántas se aceptaron. Solo se aprueba si ya se respondió todo y los aciertos cubren el
+  mínimo: aciertos * 100 es mayor o igual que totalPreguntas * minimo (el borde es
+  inclusivo). El resultado es 'pendiente' mientras falten respuestas; después, 'aprobado' o
+  'reprobado'.
+
+  Ejemplo: ExamenFinal('Ana', 5, 60) con 3 aciertos de 5: 3 * 100 = 300 y 5 * 60 = 300, así
+    que aprobado() es true (el borde es inclusivo). Mientras falten preguntas por responder,
+    resultado() devuelve 'pendiente'.
+
+  Idea: una subclase delega en super.responder para respetar las reglas del padre; aprobado
+    compara sin dividir.
+
+RESTRICCIONES
+  Datos:
+  - totalPreguntas: entero >= 1.
+  - minimo: entero de 1 a 100.
+  - La lista de respuestas puede estar vacía.
+  Usa:
+  - protected y super.metodo().
+  - for...of.
+  No uses:
+  - get/set, abstract.
 
 QUÉ DEBES HACER
-  1. Crea la clase Examen. Declara en su constructor, en este orden: alumno (string,
-     visible y de solo lectura) y totalPreguntas (number, solo jerarquía; supón
-     entero >= 1). Declara además dos propiedades protected, respondidas y aciertos
-     (number), ambas con valor inicial 0.
-  2. En Examen crea responder(correcta: boolean): boolean, público. Rechaza (false) si
-     respondidas ya es igual a totalPreguntas. Si no, suma 1 a respondidas, suma 1 a
-     aciertos solo si correcta es true y devuelve true.
-  3. En Examen crea faltan(): number, público: totalPreguntas menos respondidas.
-  4. Crea ExamenFinal que extienda Examen. Su constructor recibe alumno,
-     totalPreguntas y minimo (number, oculto; porcentaje entero de 1 a 100). Pasa
-     alumno y totalPreguntas al padre.
-  5. En ExamenFinal crea responderVarias(respuestas: boolean[]): number, público.
-     Recorre respuestas en orden; para cada una llama a super.responder(r). Devuelve
-     cuántas aceptó el padre.
-  6. En ExamenFinal crea aprobado(): boolean, público: false si respondidas es menor
-     que totalPreguntas; si no, true cuando aciertos * 100 sea mayor o igual que
-     totalPreguntas * minimo.
-  7. En ExamenFinal crea resultado(): string, público: 'pendiente' si respondidas es
-     menor que totalPreguntas; si no, 'aprobado' cuando this.aprobado() sea true y
-     'reprobado' cuando sea false.
-  8. Fuera de las clases crea las instancias y ejecuta COMPRUEBA, en este orden.
+  1. Crea la clase Examen con un constructor que declara alumno (string, visible y de solo
+     lectura) y totalPreguntas (number, solo jerarquía), y con las propiedades protegidas
+     respondidas y aciertos (number), ambas con valor inicial 0.
+  2. En Examen crea los métodos públicos responder(correcta: boolean): boolean y faltan():
+     number.
+  3. Crea ExamenFinal, que extiende Examen. Su constructor recibe alumno, totalPreguntas y
+     minimo (number, oculto).
+  4. En ExamenFinal crea los métodos públicos responderVarias(respuestas: boolean[]):
+     number, aprobado(): boolean y resultado(): string.
+  5. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const e1 = new ExamenFinal('Ana', 5, 60);
@@ -1604,31 +2180,45 @@ EXPLICA
 // !EJERCICIO 30 — Parqueadero con placas
 /*
 SITUACIÓN
-  Una clase base lleva la cuenta de plazas ocupadas. El parqueadero añade la lista de
-  placas que están dentro y decide cuándo ocupar o liberar una plaza.
+  Un parqueadero tiene un número fijo de plazas, visible y que no cambia, y lleva la cuenta
+  de las ocupadas, que empiezan en 0. Ocupar una plaza se rechaza si ya están todas
+  ocupadas; liberar una se rechaza si no hay ninguna ocupada. Se pueden consultar las plazas
+  disponibles (total menos ocupadas).
+
+  Además, el parqueadero registra las placas de los vehículos que están dentro. Entrar con
+  una placa se rechaza si la placa es '', si ya está dentro o si no hay plazas; solo se
+  ocupa una plaza si pasaron las demás comprobaciones. Salir se rechaza si la placa no está
+  dentro; si está, se libera su plaza y su placa deja de registrarse. Entrar y salir
+  informan con true si se hicieron y false si se rechazaron. También se puede consultar si
+  una placa está dentro y la lista de placas que están dentro, como una copia.
+
+  Ejemplo: Parqueadero(2): entrar('AB-1') y entrar('CD-2') devuelven true; entrar('EF-3')
+    devuelve false porque no hay plazas y entrar('AB-1') otra vez, por repetida. Después,
+    salir('AB-1') devuelve true y entonces entrar('EF-3') sí devuelve true.
+
+  Idea: el orden de las comprobaciones importa: ocupar() solo se llama si las validaciones
+    anteriores pasaron.
+
+RESTRICCIONES
+  Datos:
+  - total: entero >= 1.
+  - placa: cualquier texto.
+  Usa:
+  - protected para ocupar y liberar, y super.metodo() para llamarlos.
+  - Un array nuevo al quitar una placa.
+  No uses:
+  - get/set, abstract.
 
 QUÉ DEBES HACER
-  1. Crea la clase Plazas. Declara en su constructor total (number, visible y de solo
-     lectura; supón entero >= 1). Declara además ocupadas (number, solo jerarquía) con
-     valor inicial 0.
-  2. En Plazas crea disponibles(): number, público: total menos ocupadas.
-  3. En Plazas crea ocupar(): boolean, protected. Rechaza (false) si ocupadas es igual
-     a total. Si no, suma 1 a ocupadas y devuelve true.
-  4. En Plazas crea liberar(): boolean, protected. Rechaza si ocupadas es 0. Si no, resta
-     1 a ocupadas y devuelve true.
-  5. Crea Parqueadero que extienda Plazas. Su constructor recibe total y lo pasa al
-     padre. Declara en Parqueadero un array oculto placas (string[]), vacío.
-  6. En Parqueadero crea entrar(placa: string): boolean, público. Evalúa en este orden:
-     a) rechaza si placa es '';
-     b) rechaza si la placa ya está en placas;
-     c) rechaza si super.ocupar() devuelve false (solo se llama si a) y b) pasaron);
-     d) si no, añade placa y devuelve true.
-  7. En Parqueadero crea salir(placa: string): boolean, público. Rechaza si la placa no
-     está. Si está, llama a super.liberar(), deja en placas un array nuevo sin esa placa
-     y devuelve true.
-  8. En Parqueadero crea estaDentro(placa: string): boolean, público.
-  9. En Parqueadero crea placasDentro(): string[], público: una copia de placas.
-  10. Fuera de las clases crea las instancias y ejecuta COMPRUEBA, en este orden.
+  1. Crea la clase Plazas con un constructor que declara total (number, visible y de solo
+     lectura), la propiedad ocupadas (number, solo jerarquía) con valor inicial 0, el método
+     público disponibles(): number y los métodos protegidos ocupar(): boolean y liberar():
+     boolean.
+  2. Crea Parqueadero, que extiende Plazas. Su constructor recibe total y lo pasa al padre.
+     Declara un array oculto placas (string[]), vacío.
+  3. En Parqueadero crea los métodos públicos entrar(placa: string): boolean, salir(placa:
+     string): boolean, estaDentro(placa: string): boolean y placasDentro(): string[].
+  4. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const p = new Parqueadero(2);
@@ -1659,35 +2249,51 @@ EXPLICA
 // !EJERCICIO 31 — Guerrero y mago contra un jefe
 /*
 SITUACIÓN
-  Todo personaje recibe golpes con la misma regla: la defensa resta daño. Un guerrero
-  ataca con su fuerza y recupera vida al descansar; un mago gasta maná en hechizos.
+  Un juego tiene personajes con nombre, vida, defensa y una vida máxima igual a la vida con
+  la que empezaron. Un personaje está vivo mientras su vida sea mayor que 0. Al recibir un
+  golpe, el daño real es el golpe menos la defensa (si queda negativo, es 0) y nunca más que
+  la vida actual; se resta de la vida y se informa cuánto fue. Un personaje también puede
+  recuperar vida: suma puntos sin pasar de su vida máxima e informa cuánto recuperó
+  realmente; es una acción interna que solo usan los tipos de personaje, no se llama desde
+  fuera.
+
+  Hay dos tipos. El guerrero tiene fuerza: ataca a un rival golpeándolo con su fuerza (0 y
+  sin efecto si el guerrero o el rival están muertos) y puede descansar para recuperar 5 de
+  vida (0 si está muerto). El mago tiene maná: lanza un hechizo a un rival, que lo golpea
+  con 20 y gasta 10 de maná (0 y sin efecto si el mago o el rival están muertos, o si le
+  quedan menos de 10 de maná); su maná se puede consultar.
+
+  Ejemplo: Guerrero con fuerza 12 contra un Personaje de defensa 5: atacar devuelve 7 de
+    daño real y la vida del jefe baja 7. Un Mago con 15 de maná lanza un hechizo contra un
+    jefe de defensa 5: devuelve 15 (20 - 5) y su maná queda en 5; un segundo hechizo
+    devuelve 0 porque ya no le alcanza.
+
+  Idea: una regla común en el padre (recibirGolpe) que usan dos subclases distintas sin
+    repetirla; recuperar es protected.
+
+RESTRICCIONES
+  Datos:
+  - Todos los datos son enteros >= 0; vida >= 1 y fuerza >= 1.
+  Usa:
+  - extends y super(...).
+  - protected para recuperar; readonly para el nombre y la vida máxima.
+  No uses:
+  - get/set, abstract.
 
 QUÉ DEBES HACER
-  1. Crea la clase Personaje. Declara en su constructor, en este orden: nombre (string,
+  1. Crea la clase Personaje con un constructor que declara, en este orden, nombre (string,
      visible y de solo lectura), vida (number, solo jerarquía) y defensa (number, solo
-     jerarquía). Supón enteros >= 0 y vida >= 1. Declara además vidaMaxima (number, solo
-     jerarquía y de solo lectura) y en el cuerpo del constructor guárdala igual a vida.
-  2. En Personaje crea estaVivo(): boolean y vidaRestante(): number, públicos. Devuelven
-     si vida es mayor que 0 y el valor de vida.
-  3. En Personaje crea recibirGolpe(dano: number): number, público (supón entero >= 0):
-     a) el daño real es dano menos defensa; si da negativo, es 0;
-     b) si el daño real es mayor que vida, es igual a vida;
-     c) resta el daño real a vida y devuélvelo.
-  4. En Personaje crea recuperar(n: number): number, protected (supón entero >= 0). Suma
-     n a vida sin pasar de vidaMaxima y devuelve cuánto se sumó realmente.
-  5. Crea Guerrero que extienda Personaje. Su constructor recibe nombre, vida, defensa y
-     fuerza (number, oculto; supón entero >= 1). Pasa los tres primeros al padre.
-  6. En Guerrero crea atacar(rival: Personaje): number, público. Si el guerrero o el
-     rival no están vivos, devuelve 0. Si no, devuelve rival.recibirGolpe(this.fuerza).
-  7. En Guerrero crea descansar(): number, público. Si el guerrero no está vivo,
-     devuelve 0. Si no, devuelve super.recuperar(5).
-  8. Crea Mago que extienda Personaje. Su constructor recibe nombre, vida, defensa y mana
-     (number, oculto; supón entero >= 0). Pasa los tres primeros al padre.
-  9. En Mago crea manaRestante(): number, público. Devuelve mana.
-  10. En Mago crea hechizo(rival: Personaje): number, público. Si el mago o el rival no
-      están vivos, o si mana es menor que 10, devuelve 0 y no cambia nada. Si no, resta
-      10 a mana y devuelve rival.recibirGolpe(20).
-  11. Fuera de las clases crea las instancias y ejecuta COMPRUEBA, en este orden.
+     jerarquía). Declara además vidaMaxima (number, solo jerarquía y de solo lectura), que
+     el cuerpo del constructor guarda igual a vida.
+  2. En Personaje crea los métodos públicos estaVivo(): boolean, vidaRestante(): number y
+     recibirGolpe(dano: number): number, y el método protegido recuperar(n: number): number.
+  3. Crea Guerrero, que extiende Personaje. Su constructor recibe nombre, vida, defensa y
+     fuerza (number, oculto). Tiene los métodos públicos atacar(rival: Personaje): number y
+     descansar(): number.
+  4. Crea Mago, que extiende Personaje. Su constructor recibe nombre, vida, defensa y mana
+     (number, oculto). Tiene los métodos públicos manaRestante(): number y hechizo(rival:
+     Personaje): number.
+  5. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const g = new Guerrero('Gor', 50, 3, 12);
@@ -1722,32 +2328,43 @@ EXPLICA
     // Tu solución.
 })();
 
-// ============================================================================
-// TRAMO 6 — EJERCICIOS 32 AL 37: 06 GETS Y SETS
+// ═══════════════════════════════════════════════════════════════════════════
+// BLOQUE F — EJERCICIOS 32 AL 37: 06 GETS Y SETS
 // get calcula o devuelve un valor al leer una propiedad; set valida o transforma
 // el valor al asignarla. Se usan sin paréntesis. Se combinan con 01–04.
-// ============================================================================
+// ═══════════════════════════════════════════════════════════════════════════
 
 // !EJERCICIO 32 — Brillo de pantalla
 /*
 SITUACIÓN
-  Una pantalla tiene un nivel de brillo entre 0 y 100. Quien lo asigna puede
-  equivocarse: el valor se ajusta al rango en lugar de rechazarse. Además la
-  pantalla describe su brillo con una etiqueta que no se puede asignar.
+  Una pantalla tiene un nivel de brillo entre 0 y 100, que empieza en 50. El brillo se lee y
+  se asigna como una propiedad normal (pantalla.nivel = 80), aunque por detrás haya una
+  validación: si se asigna un valor menor que 0, queda en 0; si es mayor que 100, queda en
+  100; y la asignación nunca lanza un error. La pantalla también describe su brillo con una
+  etiqueta que se puede leer pero no asignar: 'oscuro' si el nivel es menor que 30, 'medio'
+  si es menor que 70 y 'brillante' en cualquier otro caso.
+
+  Ejemplo: Con nivel = 150, _nivel guarda 100 y etiqueta es 'brillante'; con nivel = -5
+    guarda 0 y etiqueta es 'oscuro'. Una pantalla recién creada tiene nivel 50 y etiqueta
+    'medio'.
+
+  Idea: un setter que ajusta el valor en lugar de rechazarlo, y un getter sin setter (solo
+    lectura). Se usan sin paréntesis.
+
+RESTRICCIONES
+  Datos:
+  - valor: número entero cualquiera.
+  Usa:
+  - get y set con el mismo nombre y una propiedad privada con guion bajo.
+  - Un getter sin setter para la etiqueta.
+  No uses:
+  - abstract, constructor private.
 
 QUÉ DEBES HACER
-  1. Crea la clase Pantalla. Declara una propiedad oculta _nivel (number) con valor
-     inicial 50.
-  2. En Pantalla crea el getter nivel, que devuelve number: el valor de _nivel.
-  3. En Pantalla crea el setter nivel(valor: number) (supón entero), con el mismo
-     nombre que el getter. Evalúa en este orden:
-     a) si valor es menor que 0, guarda 0 en _nivel;
-     b) si valor es mayor que 100, guarda 100;
-     c) en otro caso, guarda valor.
-     El setter no lanza errores.
-  4. En Pantalla crea el getter etiqueta, que devuelve string, sin setter: 'oscuro'
-     si nivel es menor que 30; 'medio' si es menor que 70; 'brillante' en otro caso.
-  5. Fuera de la clase crea las instancias y ejecuta COMPRUEBA, en este orden.
+  1. Crea la clase Pantalla con la propiedad oculta _nivel (number), con valor inicial 50.
+  2. En Pantalla crea el getter nivel (number) y el setter nivel(valor: number).
+  3. En Pantalla crea el getter etiqueta (string), sin setter.
+  4. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const p = new Pantalla();
@@ -1783,25 +2400,41 @@ EXPLICA
 // !EJERCICIO 33 — Progreso de una lista de tareas
 /*
 SITUACIÓN
-  Una lista de tareas separa las pendientes de las hechas. El progreso, las tareas
-  que faltan y si todo terminó se calculan al leerlos: no se guardan.
+  Una lista de tareas separa las tareas pendientes de las hechas. Agregar una tarea se
+  rechaza si el título es '' o si ya existe (pendiente o hecha); si no, queda al final de
+  las pendientes. Completar una tarea se rechaza si no está pendiente; si lo está, pasa al
+  final de las hechas. Ambas operaciones informan con true si se hicieron y false si se
+  rechazaron.
+
+  Tres datos se leen como propiedades (lista.progreso) porque se calculan al leerlos y no se
+  guardan: las tareas que faltan (una copia de las pendientes, en orden), el progreso
+  (porcentaje de tareas hechas: hechas * 100 / total, sin redondear; 0 si no hay ninguna
+  tarea) y si la lista está terminada (hay al menos una tarea y ninguna queda pendiente).
+
+  Ejemplo: Con 4 tareas, 1 completada: progreso vale 25 y faltantes devuelve las 3
+    pendientes. Si se agregan 'A', 'B', 'C' y 'D' y se completa 'A', progreso vale 25,
+    faltantes devuelve ['B', 'C', 'D'] y terminada es false.
+
+  Idea: valores derivados que se calculan al leerlos con get en lugar de guardarse. Trampa:
+    sin tareas el progreso es 0, no un error de división.
+
+RESTRICCIONES
+  Datos:
+  - titulo: cualquier texto; las mayúsculas y las minúsculas cuentan como distintas.
+  Usa:
+  - get para los valores derivados.
+  - Arrays private y un array nuevo al sacar una tarea de las pendientes.
+  No uses:
+  - abstract, constructor private.
 
 QUÉ DEBES HACER
-  1. Crea la clase ListaTareas. Declara dos arrays ocultos, pendientes y hechas
-     (string[]), ambos vacíos.
-  2. En ListaTareas crea agregar(titulo: string): boolean, público. Rechaza (false) si
-     titulo es '', o si ya está en pendientes o en hechas. Si no, lo añade al final de
-     pendientes y devuelve true.
-  3. En ListaTareas crea completar(titulo: string): boolean, público. Rechaza si el título
-     no está en pendientes. Si está, deja en pendientes un array nuevo sin él, lo añade
-     al final de hechas y devuelve true.
-  4. En ListaTareas crea el getter faltantes, que devuelve string[]: una copia de pendientes.
-  5. En ListaTareas crea el getter progreso, que devuelve number: 0 si no hay ninguna
-     tarea; si no, hechas * 100 / total, donde total son las tareas pendientes más las
-     hechas. No redondees.
-  6. En ListaTareas crea el getter terminada, que devuelve boolean: true si hay al menos
-     una tarea y no queda ninguna pendiente.
-  7. Fuera de la clase crea la instancia y ejecuta COMPRUEBA, en este orden.
+  1. Crea la clase ListaTareas con dos arrays ocultos, pendientes y hechas (string[]), ambos
+     vacíos.
+  2. En ListaTareas crea los métodos públicos agregar(titulo: string): boolean y
+     completar(titulo: string): boolean.
+  3. En ListaTareas crea los getters faltantes (string[]), progreso (number) y terminada
+     (boolean).
+  4. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const l = new ListaTareas();
@@ -1837,23 +2470,37 @@ EXPLICA
 // !EJERCICIO 34 — Apodo validado
 /*
 SITUACIÓN
-  Un perfil de jugador guarda un apodo. El setter solo acepta apodos válidos; los
-  inválidos se ignoran sin error. El perfil cuenta cuántas veces cambió realmente.
+  Un perfil de jugador guarda un apodo que se asigna como propiedad (perfil.apodo =
+  'Diego7'). El apodo inicial es 'Anónimo'. Un apodo nuevo se ignora, sin error, si es igual
+  al actual, si tiene menos de 3 o más de 12 caracteres (3 y 12 sí valen) o si contiene
+  algún carácter que no sea una letra de la a a la z (mayúscula o minúscula, sin acentos) ni
+  un dígito de 0 a 9. Si pasa todas las reglas, se guarda. El perfil cuenta cuántas veces
+  cambió realmente el apodo (empieza en 0), dato que se puede leer pero no asignar.
+
+  Ejemplo: apodo = 'ab' se ignora (2 caracteres); apodo = 'Diego7' se acepta y cambios pasa
+    a 1; asignar 'Diego7' otra vez no cuenta. Un perfil recién creado tiene apodo 'Anónimo'
+    y cambios 0.
+
+  Idea: un setter que ignora lo inválido sin lanzar errores y un getter de solo lectura que
+    lleva la cuenta de cambios.
+
+RESTRICCIONES
+  Datos:
+  - valor: cualquier texto.
+  Usa:
+  - get y set.
+  - for...of y comparaciones de caracteres con >= y <= ('a', 'z', 'A', 'Z', '0' y '9').
+  - Un getter sin setter para el número de cambios.
+  No uses:
+  - abstract, constructor private.
+  - Expresiones regulares.
 
 QUÉ DEBES HACER
-  1. Crea la clase PerfilJugador. Declara dos propiedades ocultas: _apodo (string) con
-     valor inicial 'Anónimo' y _cambios (number) con valor inicial 0.
-  2. En PerfilJugador crea el getter apodo, que devuelve string.
-  3. En PerfilJugador crea el setter apodo(valor: string). Ignora el valor (no cambia
-     nada ni lanza error) si ocurre cualquiera de estas cosas:
-     a) valor es igual al apodo actual;
-     b) valor tiene menos de 3 o más de 12 caracteres (3 y 12 sí valen);
-     c) algún carácter de valor no es una letra sin acento de la a a la z (mayúscula o
-        minúscula) ni un dígito de 0 a 9. Recórrelo con for...of y compara cada
-        carácter con 'a', 'z', 'A', 'Z', '0' y '9' usando >= y <=.
-     Si el valor pasa todo, guárdalo en _apodo y suma 1 a _cambios.
-  4. En PerfilJugador crea el getter cambios, que devuelve number y no tiene setter.
-  5. Fuera de la clase crea la instancia y ejecuta COMPRUEBA, en este orden.
+  1. Crea la clase PerfilJugador con las propiedades ocultas _apodo (string), con valor
+     inicial 'Anónimo', y _cambios (number), con valor inicial 0.
+  2. En PerfilJugador crea el getter apodo (string) y el setter apodo(valor: string).
+  3. En PerfilJugador crea el getter cambios (number), sin setter.
+  4. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const p = new PerfilJugador();
@@ -1889,23 +2536,35 @@ EXPLICA
 // !EJERCICIO 35 — Equipaje con errores
 /*
 SITUACIÓN
-  Una aerolínea pesa maletas. Un peso imposible no se ignora: el setter lanza un Error.
-  Para eso usa un método privado cuyo retorno es never (nunca termina con normalidad).
+  Una aerolínea pesa maletas. El peso se asigna como propiedad (maleta.peso = 20) y empieza
+  en 0. Un peso imposible no se ignora: asignar un peso negativo lanza Error('Peso
+  negativo') y asignar más de 23 kg lanza Error('Excede 23 kg') (23 se acepta); en ambos
+  casos el peso conserva su valor anterior. El peso se puede leer. Además se leen el exceso
+  (0 si el peso es 15 kg o menos; si no, el peso menos 15) y el cobro por exceso (10 por
+  cada kilo de exceso); ambos se calculan al leerlos y no se pueden asignar.
+
+  Ejemplo: Con peso = 20, exceso es 5 y cobro es 50; peso = 30 lanza Error('Excede 23 kg') y
+    peso conserva su valor anterior. Con peso = -1 el setter lanza Error('Peso negativo').
+
+  Idea: un setter que lanza un Error mediante un método privado con retorno never. Trampa:
+    23 kg se acepta.
+
+RESTRICCIONES
+  Datos:
+  - valor: número entero.
+  Usa:
+  - get y set.
+  - Un método private cuyo retorno es never (fallar), que lanza el error con throw new
+    Error.
+  No uses:
+  - abstract, constructor private.
 
 QUÉ DEBES HACER
-  1. Crea la clase Maleta. Declara una propiedad oculta _peso (number) con valor
-     inicial 0.
-  2. En Maleta crea fallar(mensaje: string): never, privado. Su cuerpo es
-     throw new Error(mensaje).
-  3. En Maleta crea el getter peso, que devuelve number.
-  4. En Maleta crea el setter peso(valor: number) (supón entero). Evalúa en este orden:
-     a) si valor es menor que 0, llama a this.fallar('Peso negativo');
-     b) si valor es mayor que 23, llama a this.fallar('Excede 23 kg') (23 se acepta);
-     c) si no, guarda valor en _peso.
-  5. En Maleta crea el getter exceso, que devuelve number y no tiene setter: 0 si peso
-     es 15 o menos; si no, peso menos 15.
-  6. En Maleta crea el getter cobro, que devuelve number: exceso * 10.
-  7. Fuera de la clase crea la instancia y ejecuta COMPRUEBA, en este orden.
+  1. Crea la clase Maleta con la propiedad oculta _peso (number), con valor inicial 0.
+  2. En Maleta crea el método privado fallar(mensaje: string): never.
+  3. En Maleta crea el getter peso (number) y el setter peso(valor: number).
+  4. En Maleta crea los getters exceso (number) y cobro (number), sin setter.
+  5. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const m = new Maleta();
@@ -1937,28 +2596,45 @@ EXPLICA
 // !EJERCICIO 36 — Termostato con objetivo limitado
 /*
 SITUACIÓN
-  Un termostato base conoce un rango de temperaturas permitido. El termostato
-  inteligente añade una temperatura objetivo que siempre queda dentro de ese rango, y
-  un modo que se calcula comparando la temperatura actual con el objetivo.
+  Un termostato base conoce un rango de temperaturas permitido, de un mínimo a un máximo, y
+  sabe ajustar un valor a ese rango: si es menor que el mínimo da el mínimo, si es mayor que
+  el máximo da el máximo y si no, el mismo valor. El termostato inteligente tiene además una
+  temperatura actual (la del sensor, que se puede actualizar) y una temperatura objetivo que
+  empieza igual a la actual. El objetivo se asigna como propiedad (termostato.objetivo = 40)
+  y siempre queda dentro del rango permitido: se guarda el valor ya ajustado. También tiene
+  un modo que se lee pero no se asigna y se calcula al leerlo: 'calentando' si la
+  temperatura actual es menor que el objetivo - 1; 'enfriando' si es mayor que el objetivo +
+  1; 'reposo' en cualquier otro caso.
+
+  Ejemplo: TermostatoInteligente(16, 28, 20): objetivo = 40 guarda 28, el máximo permitido
+    por el padre. Con actual 20 y objetivo 28, modo es 'calentando'; con actual 20 y
+    objetivo 20, 'reposo'.
+
+  Idea: un setter de la subclase que delega la regla de rango en un método protected del
+    padre con super.metodo(). El modo se calcula al leerlo.
+
+RESTRICCIONES
+  Datos:
+  - minimo < maximo; actual entre minimo y maximo.
+  - valor y nueva: cualquier número.
+  Usa:
+  - extends y super(...).
+  - protected y super.metodo() para ajustar el valor.
+  - get y set.
+  No uses:
+  - abstract, constructor private.
 
 QUÉ DEBES HACER
-  1. Crea la clase Termostato. Declara en su constructor, en este orden: minimo
-     (number, solo jerarquía) y maximo (number, solo jerarquía). Supón minimo < maximo.
-  2. En Termostato crea ajustar(valor: number): number, protected. Devuelve minimo si
-     valor es menor que minimo; maximo si es mayor que maximo; si no, devuelve valor.
-  3. Crea TermostatoInteligente que extienda Termostato. Su constructor recibe minimo,
-     maximo y actual (number, oculto; supón un valor entre minimo y maximo). Pasa minimo
-     y maximo al padre. Declara además una propiedad oculta _objetivo (number) y, en el
-     cuerpo del constructor, guárdala igual a actual.
-  4. En TermostatoInteligente crea el getter objetivo, que devuelve number.
-  5. En TermostatoInteligente crea el setter objetivo(valor: number). Guarda en
-     _objetivo el resultado de super.ajustar(valor).
-  6. En TermostatoInteligente crea el getter modo, que devuelve string y no tiene setter:
-     a) 'calentando' si actual es menor que _objetivo - 1;
-     b) 'enfriando' si actual es mayor que _objetivo + 1;
-     c) 'reposo' en cualquier otro caso.
-  7. En TermostatoInteligente crea sensar(nueva: number): void, público. Guarda nueva en actual.
-  8. Fuera de las clases crea la instancia y ejecuta COMPRUEBA, en este orden.
+  1. Crea la clase Termostato con un constructor que declara minimo (number, solo jerarquía)
+     y maximo (number, solo jerarquía), y el método protegido ajustar(valor: number):
+     number.
+  2. Crea TermostatoInteligente, que extiende Termostato. Su constructor recibe minimo,
+     maximo y actual (number, oculto). Declara la propiedad oculta _objetivo (number), que
+     el cuerpo del constructor guarda igual a actual.
+  3. En TermostatoInteligente crea el getter objetivo (number), el setter objetivo(valor:
+     number) y el getter modo (string), este último sin setter.
+  4. En TermostatoInteligente crea el método público sensar(nueva: number): void.
+  5. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const t = new TermostatoInteligente(16, 28, 20);
@@ -1995,31 +2671,44 @@ EXPLICA
 // !EJERCICIO 37 — Hoja de horas con pago calculado
 /*
 SITUACIÓN
-  Una hoja de horas guarda las horas trabajadas por día como parejas [día, horas].
-  Los totales, las horas extra y el pago se calculan al leerlos. La tarifa se puede
-  cambiar, pero solo por un valor válido.
+  Una hoja de horas guarda las horas trabajadas cada día como parejas [día, horas].
+  Registrar un día se rechaza si las horas no son un entero entre 1 y 12 (ambos incluidos) o
+  si ese día ya está registrado; si no, se añade al final. Registrar informa con true si se
+  hizo y false si se rechazó. Las horas de un día que pasan de 8 son horas extra.
+
+  Se leen como propiedades porque se calculan al leerlas: cuántos días hay registrados, el
+  total de horas, el total de horas extra, las horas normales (total menos extras) y el
+  pago, que es normales * tarifa + extras * tarifa * 2 (las extra se pagan al doble). La
+  tarifa por hora empieza en 100 y se cambia como propiedad (hoja.tarifa = 120); un valor
+  que no sea un entero mayor que 0 se ignora, sin error.
+
+  Ejemplo: Con 8 h y 10 h: total 18, extras 2, normales 16; con tarifa 100, pago = 16 * 100
+    + 2 * 100 * 2 = 2000. Un día de 8 horas no genera extras: con solo ese día, total es 8,
+    extras 0 y pago 800.
+
+  Idea: varios getters derivados de una lista de tuplas [dia, horas]; el setter de tarifa
+    solo acepta valores válidos.
+
+RESTRICCIONES
+  Datos:
+  - horas y valor de tarifa: cualquier número.
+  - dia: cualquier texto.
+  Usa:
+  - Tuplas [string, number].
+  - get y set; un método private para las horas extra de un día.
+  - for...of.
+  No uses:
+  - abstract, constructor private.
 
 QUÉ DEBES HACER
-  1. Crea la clase HojaDeHoras. Declara una propiedad oculta registros, un array de
-     tuplas [string, number] (tipo [string, number][]), vacío, y una propiedad oculta
-     _tarifa (number) con valor inicial 100.
-  2. En HojaDeHoras crea horasExtra(horas: number): number, privado: horas menos 8 si
-     horas es mayor que 8; 0 en otro caso.
-  3. En HojaDeHoras crea registrar(dia: string, horas: number): boolean, público.
-     Evalúa en este orden:
-     a) rechaza (false) si horas no es entero o no está entre 1 y 12 (ambos incluidos);
-     b) rechaza si dia ya existe en registros (compara con el primer elemento de cada tupla);
-     c) si no, añade la tupla [dia, horas] al final y devuelve true.
-  4. En HojaDeHoras crea estos getters, todos sin setter y que devuelven number:
-     a) dias: cuántos registros hay;
-     b) total: la suma de las horas de todos los registros;
-     c) extras: la suma de this.horasExtra(horas) de cada registro;
-     d) normales: total menos extras.
-  5. En HojaDeHoras crea el getter tarifa (devuelve number) y el setter tarifa(valor:
-     number). El setter ignora el valor, sin error, si no es entero o si es 0 o menos.
-  6. En HojaDeHoras crea el getter pago, que devuelve number y no tiene setter:
-     normales * tarifa + extras * tarifa * 2.
-  7. Fuera de la clase crea la instancia y ejecuta COMPRUEBA, en este orden.
+  1. Crea la clase HojaDeHoras con la propiedad oculta registros ([string, number][]),
+     vacía, y la propiedad oculta _tarifa (number), con valor inicial 100.
+  2. En HojaDeHoras crea el método privado horasExtra(horas: number): number y el método
+     público registrar(dia: string, horas: number): boolean.
+  3. En HojaDeHoras crea los getters dias, total, extras, normales y pago (todos number y
+     sin setter).
+  4. En HojaDeHoras crea el getter tarifa (number) y el setter tarifa(valor: number).
+  5. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const h = new HojaDeHoras();
@@ -2050,42 +2739,63 @@ EXPLICA
     // Tu solución.
 })();
 
-// ============================================================================
-// TRAMO 7 — EJERCICIOS 38 AL 42: 07 CLASES ABSTRACTAS
+// ═══════════════════════════════════════════════════════════════════════════
+// BLOQUE G — EJERCICIOS 38 AL 42: 07 CLASES ABSTRACTAS
 // Una clase abstract es una base común que no se puede instanciar. Sus métodos
 // abstract no tienen cuerpo y cada subclase concreta debe implementarlos. Se
 // combina con herencia, accesores, colecciones y todo lo anterior.
-// ============================================================================
+// ═══════════════════════════════════════════════════════════════════════════
 
 // !EJERCICIO 38 — Promociones de panadería
 /*
 SITUACIÓN
-  Una panadería aplica promociones distintas. Todas calculan el total igual (cantidad
-  por precio menos el descuento, sin bajar de 0), pero cada una decide su descuento a
-  su manera.
+  Una panadería aplica promociones. Todas calculan el total de una compra igual: cantidad
+  por precio, menos el descuento de la promoción; si el descuento es igual o mayor que ese
+  bruto, el total es 0. Lo que cambia es el descuento. Hay tres promociones: la de
+  porcentaje, con descuento cantidad * precio * porcentaje / 100; la de tres por dos, en la
+  que cada grupo completo de 3 unidades regala una, con gratis = (cantidad - cantidad % 3) /
+  3 y descuento gratis * precio; y la de descuento fijo, que descuenta siempre un monto
+  fijo. Toda promoción tiene un nombre.
+
+  Se pide, dada una lista de promociones, una cantidad y un precio, el nombre de la
+  promoción que deja el menor total; si hay empate, la que aparece antes en la lista; si la
+  lista está vacía, undefined.
+
+  Ejemplo: TresPorDos con 7 unidades a 10: gratis = (7 - 1) / 3 = 2, descuento 20 y total()
+    devuelve 70 - 20 = 50. Con 7 unidades a 10: un PorcentajePromo del 10% deja 63, un
+    DescuentoFijo de 15 deja 55 y la TresPorDos deja 50, así que mejorPromo devuelve el
+    nombre de la TresPorDos.
+
+  Idea: una clase abstract define el esqueleto (total) y obliga a cada subclase a
+    implementar solo lo que cambia (descuento).
+
+RESTRICCIONES
+  Datos:
+  - cantidad y precio: enteros >= 0.
+  - porcentaje: entero de 0 a 100.
+  - La lista puede estar vacía.
+  Usa:
+  - Una clase abstract con un método abstract (el descuento) y un método con cuerpo que lo
+    usa (el total).
+  - extends y super(...).
+  - Un array de la clase base (Promocion[]).
+  No uses:
+  - constructor private, Singleton.
+  - Modificar las promociones de la lista.
 
 QUÉ DEBES HACER
-  1. Crea la clase abstracta Promocion. Declara en su constructor nombre (string,
-     visible y de solo lectura).
-  2. En Promocion declara el método abstracto descuento(cantidad: number, precio:
-     number): number. No lleva cuerpo.
-  3. En Promocion crea total(cantidad: number, precio: number): number, público y con
-     cuerpo (supón enteros >= 0):
-     a) calcula bruto como cantidad * precio;
-     b) calcula d con this.descuento(cantidad, precio);
-     c) si d es mayor o igual que bruto devuelve 0; si no, devuelve bruto - d.
-  4. Crea PorcentajePromo que extienda Promocion. Su constructor recibe nombre y
-     porcentaje (number, oculto; entero de 0 a 100). Pasa nombre al padre. Su descuento
-     es cantidad * precio * porcentaje / 100.
-  5. Crea TresPorDos que extienda Promocion. Su constructor recibe nombre y lo pasa al
-     padre. Su descuento: gratis es (cantidad - cantidad % 3) / 3 y devuelve
-     gratis * precio.
-  6. Crea DescuentoFijo que extienda Promocion. Su constructor recibe nombre y monto
-     (number, oculto). Pasa nombre al padre. Su descuento devuelve monto.
-  7. Fuera de las clases crea mejorPromo(promos: Promocion[], cantidad: number, precio:
-     number): string | undefined. Devuelve el nombre de la promoción con el menor total;
-     si hay empate, la que aparece antes; undefined si la lista está vacía.
-  8. Crea las instancias y ejecuta COMPRUEBA.
+  1. Crea la clase abstracta Promocion con un constructor que declara nombre (string,
+     visible y de solo lectura), el método abstracto descuento(cantidad: number, precio:
+     number): number y el método público, con cuerpo, total(cantidad: number, precio:
+     number): number.
+  2. Crea PorcentajePromo, que extiende Promocion. Su constructor recibe nombre y porcentaje
+     (number, oculto).
+  3. Crea TresPorDos, que extiende Promocion. Su constructor recibe nombre.
+  4. Crea DescuentoFijo, que extiende Promocion. Su constructor recibe nombre y monto
+     (number, oculto).
+  5. Fuera de las clases, crea mejorPromo(promos: Promocion[], cantidad: number, precio:
+     number): string | undefined.
+  6. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const pct = new PorcentajePromo('20%', 20);
@@ -2118,29 +2828,48 @@ EXPLICA
 // !EJERCICIO 39 — Sensores con estado
 /*
 SITUACIÓN
-  Una estación mide con sensores de varios tipos. Todos se leen igual (leer()), pero cada
-  tipo produce sus valores a su manera y algunos recuerdan su estado entre lecturas.
+  Una estación mide con sensores de tres tipos, todos con un nombre y todos se leen igual,
+  pero cada uno produce sus valores a su manera. El sensor fijo siempre da el mismo valor.
+  El sensor cíclico recorre su lista de valores en orden, uno por lectura, y al llegar al
+  final vuelve al primero. El sensor acumulativo suma un paso en cada lectura y da el
+  acumulado, que empieza en 0. Los dos últimos recuerdan su estado entre lecturas.
+
+  Se pide, dada una lista de sensores y un número de veces, el promedio de todas las
+  lecturas: se lee cada sensor, uno tras otro, esa cantidad de veces, y el promedio es la
+  suma de todas las lecturas entre (cantidad de sensores * veces). Si no hay sensores o
+  veces es 0 o menos, el promedio es 0.
+
+  Ejemplo: SensorCiclico('C', [1, 2, 3]): sus lecturas sucesivas son 1, 2, 3 y otra vez 1.
+    Con promedioLecturas([new SensorFijo('F', 10), new SensorCiclico('C', [1, 2, 3])], 3)
+    las lecturas son 10, 10, 10 y 1, 2, 3: la suma es 36 entre 6 lecturas y el promedio es
+    6.
+
+  Idea: cada subclase implementa leer() a su manera y algunas recuerdan su estado entre
+    lecturas.
+
+RESTRICCIONES
+  Datos:
+  - valores del sensor cíclico: al menos 1 elemento.
+  - veces: número entero.
+  - La lista de sensores puede estar vacía.
+  Usa:
+  - Una clase abstract con un método abstract (leer).
+  - extends y super(...); el estado de cada sensor como propiedad private.
+  - for; ?? 0 al leer valores[posicion] (con noUncheckedIndexedAccess puede ser undefined).
+  No uses:
+  - constructor private, Singleton.
 
 QUÉ DEBES HACER
-  1. Crea la clase abstracta Sensor. Declara en su constructor nombre (string, visible
-     y de solo lectura).
-  2. En Sensor declara el método abstracto leer(): number.
-  3. Crea SensorFijo que extienda Sensor. Su constructor recibe nombre y valor (number,
-     oculto). Pasa nombre al padre. Su leer() devuelve valor.
-  4. Crea SensorCiclico que extienda Sensor. Su constructor recibe nombre y valores
-     (number[], oculto; supón al menos un elemento). Pasa nombre al padre. Declara
-     posicion (number, oculta) con valor inicial 0. Su leer():
-     a) toma valores[posicion] (con ?? 0 para el tipo);
-     b) suma 1 a posicion y, si llega a la longitud de valores, la vuelve a 0;
-     c) devuelve el valor tomado en a).
-  5. Crea SensorAcumulativo que extienda Sensor. Su constructor recibe nombre y paso
-     (number, oculto). Pasa nombre al padre. Declara acumulado (number, oculta) con valor
-     inicial 0. Su leer() suma paso a acumulado y devuelve acumulado.
-  6. Fuera de las clases crea promedioLecturas(sensores: Sensor[], veces: number): number.
-     Si no hay sensores o veces es 0 o menos, devuelve 0. Si no, lee cada sensor
-     «veces» veces (sensor por sensor), suma todas las lecturas y devuelve esa suma
-     entre (cantidad de sensores * veces).
-  7. Crea las instancias y ejecuta COMPRUEBA, en este orden.
+  1. Crea la clase abstracta Sensor con un constructor que declara nombre (string, visible y
+     de solo lectura) y el método abstracto leer(): number.
+  2. Crea SensorFijo, que extiende Sensor. Su constructor recibe nombre y valor (number,
+     oculto).
+  3. Crea SensorCiclico, que extiende Sensor. Su constructor recibe nombre y valores
+     (number[], oculto). Declara posicion (number, oculta) con valor inicial 0.
+  4. Crea SensorAcumulativo, que extiende Sensor. Su constructor recibe nombre y paso
+     (number, oculto). Declara acumulado (number, oculta) con valor inicial 0.
+  5. Fuera de las clases, crea promedioLecturas(sensores: Sensor[], veces: number): number.
+  6. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const f = new SensorFijo('F', 10);
@@ -2170,32 +2899,48 @@ EXPLICA
 // !EJERCICIO 40 — Cajas para empacar
 /*
 SITUACIÓN
-  Una bodega empaca unidades en distintos recipientes. Todos calculan cuántos
-  recipientes hacen falta y cuánto espacio sobra igual; solo cambia la capacidad de cada uno.
+  Una bodega empaca unidades en recipientes. Todo recipiente tiene un nombre y una capacidad
+  (las unidades que caben); las unidades se reparten llenando un recipiente tras otro hasta
+  guardarlas todas. Los recipientes necesarios para unas unidades son los que hay que llenar
+  para cubrirlas (0 si no hay unidades), y el sobrante es el espacio libre que queda:
+  recipientes necesarios * capacidad - unidades. Hay tres recipientes: la caja chica, de
+  capacidad 12 y nombre 'Caja chica'; la caja grande, de capacidad 30 y nombre 'Caja
+  grande'; y la bandeja, de nombre 'Bandeja' y capacidad filas * columnas.
+
+  Se pide, dada una lista de recipientes y unas unidades, el que usa menos recipientes; si
+  empatan, el de menor sobrante; si siguen empatados, el que aparece antes en la lista; si
+  la lista está vacía, undefined.
+
+  Ejemplo: 30 unidades en CajaChica (capacidad 12): se necesitan 3 cajas y sobran 3 * 12 -
+    30 = 6. Con 30 unidades, una CajaGrande (capacidad 30) necesita 1 caja y no sobra nada,
+    así que mejorEmpaque([chica, grande], 30) devuelve la CajaGrande.
+
+  Idea: un método de la clase abstract usa un método abstract (capacidad) que aún no sabe
+    cuánto vale.
+
+RESTRICCIONES
+  Datos:
+  - unidades: entero >= 0.
+  - filas y columnas: enteros >= 1; la capacidad siempre es mayor que 0.
+  - La lista puede estar vacía.
+  Usa:
+  - Una clase abstract con un método abstract (capacidad) que usan sus métodos con cuerpo.
+  - extends y super(...).
+  - while para repartir las unidades.
+  No uses:
+  - constructor private, Singleton.
+  - Modificar la lista de recipientes.
 
 QUÉ DEBES HACER
-  1. Crea la clase abstracta Empaque. Declara en su constructor nombre (string, visible
-     y de solo lectura).
-  2. En Empaque declara el método abstracto capacidad(): number.
-  3. En Empaque crea cajasNecesarias(unidades: number): number, público y con cuerpo
-     (supón entero >= 0 y capacidad() mayor que 0):
-     a) crea cajas igual a 0 y restante igual a unidades;
-     b) mientras restante sea mayor que 0, resta this.capacidad() a restante y suma
-        1 a cajas;
-     c) devuelve cajas.
-  4. En Empaque crea sobrante(unidades: number): number, público: cajasNecesarias(unidades)
-     * capacidad() - unidades.
-  5. Crea CajaChica que extienda Empaque. Su constructor no recibe nada y pasa el texto
-     'Caja chica' al padre. Su capacidad() devuelve 12.
-  6. Crea CajaGrande que extienda Empaque. Su constructor no recibe nada y pasa 'Caja grande'
-     al padre. Su capacidad() devuelve 30.
-  7. Crea Bandeja que extienda Empaque. Su constructor recibe filas y columnas (number,
-     ambos ocultos; supón enteros >= 1) y pasa 'Bandeja' al padre. Su capacidad()
-     devuelve filas * columnas.
-  8. Fuera de las clases crea mejorEmpaque(opciones: Empaque[], unidades: number): Empaque |
-     undefined. Devuelve la opción con menos cajasNecesarias; si empatan, la de menor
-     sobrante; si siguen empatadas, la que aparece antes; undefined si la lista está vacía.
-  9. Crea las instancias y ejecuta COMPRUEBA.
+  1. Crea la clase abstracta Empaque con un constructor que declara nombre (string, visible
+     y de solo lectura), el método abstracto capacidad(): number y los métodos públicos, con
+     cuerpo, cajasNecesarias(unidades: number): number y sobrante(unidades: number): number.
+  2. Crea CajaChica y CajaGrande, que extienden Empaque. Sus constructores no reciben nada.
+  3. Crea Bandeja, que extiende Empaque. Su constructor recibe filas y columnas (number,
+     ambos ocultos).
+  4. Fuera de las clases, crea mejorEmpaque(opciones: Empaque[], unidades: number): Empaque
+     | undefined.
+  5. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const chica = new CajaChica();
@@ -2229,31 +2974,51 @@ EXPLICA
 // !EJERCICIO 41 — Nómina de una empresa
 /*
 SITUACIÓN
-  Una empresa paga a tres tipos de empleados con fórmulas distintas. La nómina guarda
-  empleados de cualquier tipo y calcula totales usando solo lo que todos tienen en común.
+  Una empresa paga a tres tipos de empleados, todos con nombre y con un pago mensual
+  calculado a su manera. El asalariado cobra un salario fijo. El empleado por horas cobra su
+  tarifa por cada hora hasta 160; cada hora que pase de 160 se paga al doble de la tarifa.
+  El comisionista cobra una base más el 5 % de la suma de sus ventas.
+
+  La nómina guarda empleados de cualquier tipo y calcula usando solo el pago mensual de cada
+  uno. Agregar un empleado se rechaza si ya hay otro con el mismo nombre; si no, se añade al
+  final; informa con true si se hizo y false si se rechazó. Se piden el total que paga la
+  nómina (la suma de los pagos mensuales), el nombre del empleado que más cobra (si hay
+  empate, el que se agregó antes; undefined si no hay empleados) y los nombres, en orden, de
+  quienes cobran estrictamente más que un monto dado ([] si ninguno).
+
+  Ejemplo: PorHoras con tarifa 10 y 170 horas: 160 * 10 + 10 * 20 = 1800. Con un Asalariado
+    de 1500 y el PorHoras anterior (1800) en la nómina, total() devuelve 3300, mayorPago()
+    devuelve el nombre del PorHoras y conPagoMayorA(1600) devuelve solo ese nombre.
+
+  Idea: una clase concreta (Nomina) que guarda empleados de cualquier tipo y usa solo lo
+    común a todos (pagoMensual).
+
+RESTRICCIONES
+  Datos:
+  - tarifa y horas: enteros >= 0.
+  - Cada venta del comisionista es un múltiplo de 20.
+  - La nómina puede estar vacía.
+  Usa:
+  - Una clase abstract con un método abstract (pagoMensual) y una clase concreta (Nomina)
+    que guarda un array de la clase base.
+  - extends y super(...).
+  - for...of.
+  No uses:
+  - constructor private, Singleton.
 
 QUÉ DEBES HACER
-  1. Crea la clase abstracta Empleado. Declara en su constructor nombre (string,
-     visible y de solo lectura).
-  2. En Empleado declara el método abstracto pagoMensual(): number.
-  3. Crea Asalariado que extienda Empleado. Su constructor recibe nombre y salario
-     (number, oculto). Pasa nombre al padre. Su pagoMensual() devuelve salario.
-  4. Crea PorHoras que extienda Empleado. Su constructor recibe nombre, tarifa y horas
-     (number, ambos ocultos; supón enteros >= 0). Pasa nombre al padre. Su pagoMensual(): si horas es 160 o
-     menos, horas * tarifa; si es mayor, 160 * tarifa más el doble de tarifa por cada
-     hora que pase de 160.
-  5. Crea Comisionista que extienda Empleado. Su constructor recibe nombre, base
-     (number, oculto) y ventas (number[], oculto; supón cada venta múltiplo de 20). Pasa
-     nombre al padre. Su pagoMensual() devuelve base más la suma de las ventas * 5 / 100.
-  6. Crea la clase concreta Nomina. Declara un array oculto empleados (Empleado[]), vacío.
-  7. En Nomina crea agregar(e: Empleado): boolean, público. Rechaza (false) si ya hay un
-     empleado con el mismo nombre. Si no, lo añade al final y devuelve true.
-  8. En Nomina crea total(): number, público: la suma de todos los pagoMensual().
-  9. En Nomina crea mayorPago(): string | undefined, público: el nombre del empleado con el
-     mayor pagoMensual(); si hay empate, el que se agregó antes; undefined si no hay empleados.
-  10. En Nomina crea conPagoMayorA(monto: number): string[], público: los nombres, en
-      orden, de quienes cobran estrictamente más que monto ([] si ninguno).
-  11. Fuera de las clases crea las instancias y ejecuta COMPRUEBA, en este orden.
+  1. Crea la clase abstracta Empleado con un constructor que declara nombre (string, visible
+     y de solo lectura) y el método abstracto pagoMensual(): number.
+  2. Crea Asalariado, que extiende Empleado. Su constructor recibe nombre y salario (number,
+     oculto).
+  3. Crea PorHoras, que extiende Empleado. Su constructor recibe nombre, tarifa y horas
+     (number, ambos ocultos).
+  4. Crea Comisionista, que extiende Empleado. Su constructor recibe nombre, base (number,
+     oculto) y ventas (number[], oculto).
+  5. Crea la clase concreta Nomina con un array oculto empleados (Empleado[]), vacío, y los
+     métodos públicos agregar(e: Empleado): boolean, total(): number, mayorPago(): string |
+     undefined y conPagoMayorA(monto: number): string[].
+  6. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const n = new Nomina();
@@ -2288,29 +3053,49 @@ EXPLICA
 // !EJERCICIO 42 — Validadores de texto
 /*
 SITUACIÓN
-  Un formulario valida textos con reglas distintas. La base decide que un texto vacío
-  nunca es válido y llama a la regla concreta; la regla concreta es un detalle interno
-  que solo ven la base y sus subclases.
+  Un formulario valida textos con reglas distintas. Un texto vacío ('') nunca es válido para
+  ningún validador; uno no vacío es válido si cumple la regla del validador concreto. La
+  regla es un detalle interno: solo la ven el validador base y sus tipos. Hay tres reglas:
+  solo dígitos, cuando todos los caracteres están entre '0' y '9'; longitud entre, cuando la
+  longitud del texto es mayor o igual que un mínimo y menor o igual que un máximo (datos del
+  validador); y correo, cuando el texto tiene exactamente un '@' y ni el primer ni el último
+  carácter son '@'. Todo validador puede decir cuántos textos de una lista son válidos.
+
+  Aparte se pide, dada una lista de validadores y un texto, cuántos validadores de la lista
+  aceptan ese texto.
+
+  Ejemplo: Correo.validar('a@b') es true; Correo.validar('@b') es false; validar('') es
+    false para cualquier validador. SoloDigitos.contarValidos(['12', 'a1', '']) devuelve 1;
+    cuantosAceptan([new SoloDigitos(), new Correo()], '123') también devuelve 1.
+
+  Idea: un método abstract protected: la regla concreta es un detalle interno y la base
+    decide lo común (el texto vacío nunca es válido).
+
+RESTRICCIONES
+  Datos:
+  - valor: cualquier texto (puede ser '').
+  - minimo y maximo: números.
+  - Las listas pueden estar vacías.
+  Usa:
+  - Una clase abstract con un método abstract protected (regla) y métodos con cuerpo que lo
+    usan.
+  - extends y super().
+  - for...of; charAt(0) y charAt(valor.length - 1) para el correo.
+  No uses:
+  - constructor private, Singleton.
+  - Expresiones regulares.
 
 QUÉ DEBES HACER
-  1. Crea la clase abstracta Validador (sin constructor propio).
-  2. En Validador declara el método abstracto regla(valor: string): boolean, protected.
-     No lleva cuerpo.
-  3. En Validador crea validar(valor: string): boolean, público y con cuerpo: true si
-     valor no es '' y this.regla(valor) devuelve true; false en otro caso.
-  4. En Validador crea contarValidos(valores: string[]): number, público: cuántos
-     textos del array pasan this.validar.
-  5. Crea SoloDigitos que extienda Validador. Su regla devuelve true si todos los
-     caracteres del texto están entre '0' y '9' (recórrelo con for...of).
-  6. Crea LongitudEntre que extienda Validador. Su constructor recibe minimo y maximo
-     (number, ambos ocultos) y llama a super() sin argumentos. Su regla devuelve true si la longitud del texto es mayor o
-     igual que minimo y menor o igual que maximo.
-  7. Crea Correo que extienda Validador. Su regla devuelve true si el texto tiene
-     exactamente un '@' y ni el primer carácter ni el último son '@' (usa charAt(0) y
-     charAt(valor.length - 1)).
-  8. Fuera de las clases crea cuantosAceptan(validadores: Validador[], valor: string):
-     number: cuántos validadores de la lista devuelven true con validar(valor).
-  9. Crea las instancias y ejecuta COMPRUEBA.
+  1. Crea la clase abstracta Validador (sin constructor propio) con el método abstracto
+     protegido regla(valor: string): boolean y los métodos públicos, con cuerpo,
+     validar(valor: string): boolean y contarValidos(valores: string[]): number.
+  2. Crea SoloDigitos, que extiende Validador.
+  3. Crea LongitudEntre, que extiende Validador. Su constructor recibe minimo y maximo
+     (number, ambos ocultos) y llama a super() sin argumentos.
+  4. Crea Correo, que extiende Validador.
+  5. Fuera de las clases, crea cuantosAceptan(validadores: Validador[], valor: string):
+     number.
+  6. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const d = new SoloDigitos();
@@ -2338,36 +3123,52 @@ EXPLICA
     // Tu solución.
 })();
 
-// ============================================================================
-// TRAMO 8 — EJERCICIOS 43 AL 45: 08 CONSTRUCTOR PRIVADO Y SINGLETON
+// ═══════════════════════════════════════════════════════════════════════════
+// BLOQUE H — EJERCICIOS 43 AL 45: 08 CONSTRUCTOR PRIVADO Y SINGLETON
 // Un constructor private impide crear instancias con new desde fuera: la propia clase
 // decide cuándo crearlas, normalmente mediante un método static. El patrón Singleton
 // guarda una única instancia y devuelve siempre la misma. Se combina con 01–07.
-// ============================================================================
+// ═══════════════════════════════════════════════════════════════════════════
 
 // !EJERCICIO 43 — Bitácora compartida
 /*
 SITUACIÓN
-  Una aplicación necesita una única bitácora de mensajes que todos los módulos
-  compartan. Nadie debe poder crear otra bitácora con new.
+  Una aplicación necesita una única bitácora de mensajes que todos los módulos compartan:
+  nadie puede crear otra con new, la bitácora se obtiene siempre de la clase y es siempre la
+  misma. Anotar un mensaje se rechaza si es '' o si es igual al último mensaje guardado; si
+  no, se añade al final. Anotar informa con true si se hizo y false si se rechazó.
+
+  También se puede consultar cuántos mensajes hay; pedir los últimos n mensajes (una copia,
+  del más antiguo al más reciente; [] si n es 0 o menos; todos si n es mayor o igual que el
+  total); y vaciar la bitácora, que borra todos los mensajes e informa cuántos había.
+
+  Ejemplo: Bitacora.obtener() === Bitacora.obtener() es true: siempre se devuelve la misma
+    instancia; new Bitacora() fuera de la clase no compila. obtener().anotar('inicio')
+    devuelve true; anotar('inicio') otra vez devuelve false (es igual al último mensaje) y
+    total() sigue en 1.
+
+  Idea: el patrón Singleton: constructor private + una propiedad static que guarda la única
+    instancia.
+
+RESTRICCIONES
+  Datos:
+  - mensaje: cualquier texto.
+  - n: número entero.
+  Usa:
+  - Singleton: un constructor private y una propiedad static que guarda la única instancia.
+  - Arrays de la clase.
+  No uses:
+  - interfaces, genéricos, instanceof, try/catch, Map, Set.
 
 QUÉ DEBES HACER
-  1. Crea la clase Bitacora. Declara una propiedad static oculta instancia, de tipo
-     Bitacora | undefined, sin valor inicial. Declara un constructor privado sin
-     parámetros y con cuerpo vacío. Declara también un array oculto registros
-     (string[]), vacío.
-  2. En Bitacora crea obtener(): Bitacora, static y público: si instancia es undefined,
-     créala con new Bitacora() y guárdala; devuelve instancia.
-  3. En Bitacora crea anotar(mensaje: string): boolean, público. Rechaza (false) si
-     mensaje es '' o si es igual al último mensaje guardado. Si no, lo añade al final
-     y devuelve true.
-  4. En Bitacora crea total(): number, público: cuántos mensajes hay.
-  5. En Bitacora crea ultimos(n: number): string[], público (supón n entero). Devuelve
-     una copia de los últimos n mensajes, del más antiguo al más reciente. Si n es 0 o
-     menos devuelve []; si n es mayor o igual que el total, devuelve todos.
-  6. En Bitacora crea vaciar(): number, público: borra todos los mensajes y devuelve
-     cuántos había.
-  7. Ejecuta COMPRUEBA, en este orden.
+  1. Crea la clase Bitacora con la propiedad static oculta instancia (Bitacora | undefined),
+     sin valor inicial, un constructor privado sin parámetros y con cuerpo vacío, y un array
+     oculto registros (string[]), vacío.
+  2. En Bitacora crea el método static y público obtener(): Bitacora. La primera vez crea la
+     instancia.
+  3. En Bitacora crea los métodos públicos anotar(mensaje: string): boolean, total():
+     number, ultimos(n: number): string[] y vaciar(): number.
+  4. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const a = Bitacora.obtener();
@@ -2399,33 +3200,50 @@ EXPLICA
 // !EJERCICIO 44 — Fracciones siempre simplificadas
 /*
 SITUACIÓN
-  Una fracción nunca debe existir sin simplificar ni con denominador 0. Por eso su
-  constructor es privado: solo se crean fracciones mediante métodos de la clase, que
-  validan y simplifican antes de construirlas.
+  Una fracción nunca debe existir sin simplificar ni con denominador 0; por eso solo se crea
+  con una operación de la clase que valida y simplifica antes: se rechaza (se obtiene
+  undefined) si el numerador o el denominador no es entero o si el denominador es 0.
+  Simplificar una fracción es dividir numerador y denominador entre su máximo común divisor
+  y dejar el denominador positivo (si es negativo, se multiplican ambos por -1). El máximo
+  común divisor se halla con el algoritmo de Euclides: a es el numerador sin signo y b es el
+  denominador; mientras b no sea 0, resto es a % b, a pasa a ser b y b pasa a ser resto; el
+  divisor es a.
+
+  Una fracción puede sumarse con otra (el numerador es n1 * d2 + n2 * d1 y el denominador d1
+  * d2, y el resultado se simplifica), compararse con otra (es mayor si numerador *
+  otra.denominador es mayor que otra.numerador * denominador) y mostrarse como texto:
+  '{numerador}' si el denominador es 1 y '{numerador}/{denominador}' en otro caso.
+
+  Ejemplo: Fraccion.crear(2, 4) devuelve la fracción 1/2; crear(1, 0) devuelve undefined;
+    1/2 + 1/3 da 5/6. texto() de 1/2 es '1/2' y el de crear(4, 2) es '2'; la fracción 1/2
+    esMayorQue 1/3.
+
+  Idea: un constructor private obliga a crear las instancias mediante métodos static que
+    validan y simplifican antes.
+
+RESTRICCIONES
+  Datos:
+  - Al crear: numerador y denominador pueden ser cualquier número.
+  - simplificar recibe enteros con d distinto de 0.
+  Usa:
+  - Un constructor private y métodos static.
+  - El algoritmo de Euclides con while.
+  No uses:
+  - interfaces, genéricos, instanceof, try/catch, Map, Set.
+  - Math y recursión.
 
 QUÉ DEBES HACER
-  1. Crea la clase Fraccion. Declara un constructor privado con dos propiedades de
-     parámetro, en este orden: numerador y denominador (number, visibles y de solo
-     lectura). El cuerpo queda vacío.
-  2. En Fraccion crea simplificar(n: number, d: number): Fraccion, static y privado
-     (supón enteros y d distinto de 0):
-     a) si d es negativo, multiplica n y d por -1;
-     b) calcula el máximo común divisor con el algoritmo de Euclides: a es el valor
-        positivo de n (si n es negativo, -n) y b es d; mientras b no sea 0, calcula
-        resto como a % b, pasa b a a y resto a b; el divisor es a;
-     c) devuelve new Fraccion(n / divisor, d / divisor).
-  3. En Fraccion crea crear(numerador: number, denominador: number): Fraccion | undefined,
-     static y público. Rechaza (undefined) si alguno no es entero o si denominador es 0.
-     Si no, devuelve el resultado de Fraccion.simplificar con esos valores.
-  4. En Fraccion crea sumar(otra: Fraccion): Fraccion, público. Devuelve
-     Fraccion.simplificar(n1 * d2 + n2 * d1, d1 * d2), donde n1 y d1 son los de esta
-     fracción y n2 y d2 los de otra.
-  5. En Fraccion crea esMayorQue(otra: Fraccion): boolean, público: true si
-     numerador * otra.denominador es mayor que otra.numerador * denominador.
-  6. En Fraccion crea texto(): string, público: '{numerador}' si el denominador es 1;
-     en otro caso '{numerador}/{denominador}'.
-  7. Ejecuta COMPRUEBA, en este orden. «as Fraccion» solo le dice a TypeScript que
-     esas fracciones sí se crearon.
+  1. Crea la clase Fraccion con un constructor privado con dos propiedades de parámetro, en
+     este orden: numerador y denominador (number, visibles y de solo lectura). El cuerpo
+     queda vacío.
+  2. En Fraccion crea el método static y privado simplificar(n: number, d: number):
+     Fraccion.
+  3. En Fraccion crea el método static y público crear(numerador: number, denominador:
+     number): Fraccion | undefined.
+  4. En Fraccion crea los métodos públicos sumar(otra: Fraccion): Fraccion, esMayorQue(otra:
+     Fraccion): boolean y texto(): string.
+  5. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen. «as Fraccion» solo le dice
+     a TypeScript que esas fracciones sí se crearon.
 
 COMPRUEBA
   console.log(Fraccion.crear(2, 4)?.texto(), Fraccion.crear(-3, -6)?.texto(), Fraccion.crear(3, -6)?.texto());  // '1/2' '1/2' '-1/2'
@@ -2458,37 +3276,50 @@ EXPLICA
 // !EJERCICIO 45 — Aforo compartido entre puertas
 /*
 SITUACIÓN
-  Un estadio tiene varias puertas, pero un único aforo: las personas que entran por una
-  puerta ocupan lugar para todas. El aforo es un Singleton; las puertas son instancias
-  normales que lo consultan.
+  Un estadio tiene varias puertas pero un único aforo: las personas que entran por cualquier
+  puerta ocupan lugar para todas. El aforo es único y compartido (nadie crea otro) y guarda
+  la capacidad máxima, que al crearse es 100, y cuántas personas hay dentro, que empieza en
+  0. Configurar la capacidad se rechaza si no es un entero mayor que 0 o si ya hay gente
+  dentro. Ingresar n personas se rechaza si n no es un entero mayor que 0 o si dentro + n
+  pasaría de la capacidad (llegar justo a la capacidad sí se acepta); salir n personas se
+  rechaza si n no es un entero mayor que 0 o si n es mayor que las que hay dentro. Cada
+  operación informa con true si se hizo y false si se rechazó. También se pueden consultar
+  los lugares libres (capacidad menos dentro).
+
+  Cada puerta tiene un nombre y cuenta sus propias entradas y salidas, que empiezan en 0.
+  Entrar o salir por una puerta pasa siempre por el aforo único: la puerta suma esas
+  personas a lo suyo solo si el aforo las aceptó, e informa lo mismo que el aforo. La puerta
+  se resume con el texto '{nombre}: entraron {entradas}, salieron {salidas}'.
+
+  Ejemplo: Con aforo 100: Puerta 1 deja entrar 60; Puerta 2 intenta 50 y recibe false (60 +
+    50 supera 100). El resumen() de la Puerta 1 es 'Puerta 1: entraron 60, salieron 0'.
+
+  Idea: un Singleton compartido por instancias normales: todas las puertas consultan el
+    mismo aforo mediante Aforo.obtener().
+
+RESTRICCIONES
+  Datos:
+  - capacidad, n y personas: cualquier número.
+  Usa:
+  - Singleton: constructor private y propiedad static.
+  - readonly; métodos de instancia (la puerta) y métodos static.
+  No uses:
+  - interfaces, genéricos, instanceof, try/catch, Map, Set.
 
 QUÉ DEBES HACER
-  1. Crea la clase Aforo. Declara una propiedad static oculta unica, de tipo
-     Aforo | undefined, sin valor inicial. Declara un constructor privado con una
-     propiedad de parámetro: capacidad (number, oculta). Declara además dentro (number,
-     oculta) con valor inicial 0.
-  2. En Aforo crea obtener(): Aforo, static y público: si unica es undefined, créala con
-     new Aforo(100) y guárdala; devuelve unica.
-  3. En Aforo crea configurar(capacidad: number): boolean, público. Rechaza (false) si
-     capacidad no es un entero mayor que 0 o si dentro no es 0. Si no, la guarda y
-     devuelve true.
-  4. En Aforo crea ingresar(n: number): boolean, público. Rechaza si n no es un entero
-     mayor que 0 o si dentro + n superaría capacidad (llegar justo a capacidad sí se
-     acepta). Si no, suma n a dentro y devuelve true.
-  5. En Aforo crea salir(n: number): boolean, público. Rechaza si n no es un entero mayor
-     que 0 o si n es mayor que dentro. Si no, resta n a dentro y devuelve true.
-  6. En Aforo crea lugaresLibres(): number, público: capacidad menos dentro.
-  7. Crea la clase Puerta (constructor público). Declara en su constructor nombre
-     (string, visible y de solo lectura). Declara además entradas y salidas (number,
-     ocultas), ambas con valor inicial 0.
-  8. En Puerta crea entrar(personas: number): boolean, público. Llama a
-     Aforo.obtener().ingresar(personas); si lo acepta, suma personas a entradas. Devuelve
-     lo que devolvió el aforo.
-  9. En Puerta crea salir(personas: number): boolean, público. Igual que entrar, pero con
-     Aforo.obtener().salir(personas) y la propiedad salidas.
-  10. En Puerta crea resumen(): string, público: '{nombre}: entraron {entradas}, salieron
-      {salidas}'.
-  11. Fuera de las clases ejecuta COMPRUEBA, en este orden.
+  1. Crea la clase Aforo con la propiedad static oculta unica (Aforo | undefined), sin valor
+     inicial, un constructor privado con una propiedad de parámetro capacidad (number,
+     oculta) y la propiedad oculta dentro (number), con valor inicial 0.
+  2. En Aforo crea el método static y público obtener(): Aforo. La primera vez crea la
+     instancia con new Aforo(100).
+  3. En Aforo crea los métodos públicos configurar(capacidad: number): boolean, ingresar(n:
+     number): boolean, salir(n: number): boolean y lugaresLibres(): number.
+  4. Crea la clase Puerta (constructor público) con un constructor que declara nombre
+     (string, visible y de solo lectura) y las propiedades ocultas entradas y salidas
+     (number), ambas con valor inicial 0.
+  5. En Puerta crea los métodos públicos entrar(personas: number): boolean, salir(personas:
+     number): boolean y resumen(): string.
+  6. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const aforo = Aforo.obtener();
@@ -2520,46 +3351,65 @@ EXPLICA
     // Tu solución.
 })();
 
-// ============================================================================
-// TRAMO 9 — EJERCICIOS 46 AL 50: INTEGRACIÓN FINAL
+// ═══════════════════════════════════════════════════════════════════════════
+// BLOQUE I — EJERCICIOS 46 AL 50: INTEGRACIÓN FINAL
 // Cada ejercicio combina varios temas de la sección (clases abstractas, herencia,
 // static, accesores, constructor privado, Singleton) con arrays, tuplas, enum, Record,
 // uniones y funciones como parámetro de las secciones anteriores.
-// ============================================================================
+// ═══════════════════════════════════════════════════════════════════════════
 
 // !EJERCICIO 46 — Comandas de un restaurante
 /*
 SITUACIÓN
-  Un restaurante prepara tres tipos de platos con tiempos distintos. Cada comanda
-  recibe un número único, guarda hasta seis platos y calcula su precio y su tiempo.
-  Una comanda también puede listar los platos que cumplan una condición que se le pase.
+  Un restaurante prepara tres tipos de platos, todos con nombre y precio, y cada uno con su
+  tiempo de preparación: el aperitivo tarda 5 minutos; el plato fuerte, 15 más 3 por cada
+  guarnición que lleve; el postre, 4 minutos si es frío y 10 si no. Cada comanda recibe un
+  número único: 1 la primera comanda creada, 2 la segunda, y así; el restaurante (la clase)
+  puede decir cuántas comandas se han emitido. Una comanda guarda hasta seis platos: agregar
+  se rechaza si ya hay seis (se permite repetir el mismo plato) e informa con true si se
+  hizo y false si se rechazó.
+
+  La comanda calcula al leer su total (la suma de los precios de sus platos; 0 si no hay) y
+  su tiempo total (0 si no hay platos; si no, el tiempo del plato más lento más 2 minutos
+  por cada plato adicional, es decir, 2 * (cantidad de platos - 1)). También lista los
+  nombres, en el orden de los platos, de los que cumplan una condición que se le pasa como
+  función: una función que recibe un plato y devuelve true o false.
+
+  Ejemplo: Comanda con un Aperitivo (5 min) y un PlatoFuerte con 2 guarniciones (21 min):
+    tiempoTotal es 21 + 2 * (2 - 1) = 23. filtrar(p => p.precio > 100) devuelve los nombres
+    de los platos que cuestan más de 100.
+
+  Idea: integración: abstract, herencia, static, getters y una función como parámetro
+    (filtrar).
+
+RESTRICCIONES
+  Datos:
+  - guarniciones: entero >= 0.
+  - Una comanda guarda como máximo 6 platos.
+  Usa:
+  - Una clase abstract con un método abstract (tiempo) y extends con super(...).
+  - Una propiedad static para el contador y get para total y tiempoTotal.
+  - Una función como parámetro (condicion).
+  No uses:
+  - interfaces, genéricos, instanceof, try/catch, Map, Set.
 
 QUÉ DEBES HACER
-  1. Crea la clase abstracta Plato. Declara en su constructor, en este orden: nombre
-     (string, visible y de solo lectura) y precio (number, visible y de solo lectura).
-     Declara el método abstracto tiempo(): number.
-  2. Crea Aperitivo que extienda Plato. Su constructor recibe nombre y precio y los pasa
-     al padre. Su tiempo() devuelve 5.
-  3. Crea PlatoFuerte que extienda Plato. Su constructor recibe nombre, precio y
-     guarniciones (number, oculto; supón entero >= 0). Su tiempo() devuelve
-     15 + 3 * guarniciones.
-  4. Crea Postre que extienda Plato. Su constructor recibe nombre, precio y frio
-     (boolean, oculto). Su tiempo() devuelve 4 si frio es true, o 10 si es false.
-  5. Crea la clase Comanda. Declara una propiedad static oculta contador (number) con
-     valor inicial 0, una propiedad oculta platos (Plato[]), vacía, y numero (number,
-     visible y de solo lectura). Su constructor no recibe nada: suma 1 a Comanda.contador
-     y guarda ese valor en this.numero.
-  6. En Comanda crea emitidas(): number, static y público: devuelve contador.
-  7. En Comanda crea agregar(p: Plato): boolean, público. Rechaza (false) si ya hay 6
-     platos. Si no, lo añade al final y devuelve true. Se permite repetir el mismo plato.
-  8. En Comanda crea el getter total, que devuelve number: la suma de los precios de los
-     platos (0 si no hay).
-  9. En Comanda crea el getter tiempoTotal, que devuelve number: 0 si no hay platos; si
-     no, el tiempo() del plato más lento más 2 minutos por cada plato adicional (es decir,
-     2 * (cantidad de platos - 1)).
-  10. En Comanda crea filtrar(condicion: (p: Plato) => boolean): string[], público.
-      Recorre los platos en orden y devuelve los nombres de los que cumplen condicion.
-  11. Fuera de las clases crea las instancias y ejecuta COMPRUEBA, en este orden.
+  1. Crea la clase abstracta Plato con un constructor que declara nombre (string, visible y
+     de solo lectura) y precio (number, visible y de solo lectura), y el método abstracto
+     tiempo(): number.
+  2. Crea Aperitivo, que extiende Plato. Su constructor recibe nombre y precio.
+  3. Crea PlatoFuerte, que extiende Plato. Su constructor recibe nombre, precio y
+     guarniciones (number, oculto).
+  4. Crea Postre, que extiende Plato. Su constructor recibe nombre, precio y frio (boolean,
+     oculto).
+  5. Crea la clase Comanda con la propiedad static oculta contador (number), con valor
+     inicial 0, el array oculto platos (Plato[]), vacío, y la propiedad numero (number,
+     visible y de solo lectura). Su constructor no recibe nada: suma 1 a Comanda.contador y
+     guarda ese valor en this.numero.
+  6. En Comanda crea el método static y público emitidas(): number.
+  7. En Comanda crea los métodos públicos agregar(p: Plato): boolean y filtrar(condicion:
+     (p: Plato) => boolean): string[], y los getters total (number) y tiempoTotal (number).
+  8. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const sopa = new Aperitivo('Sopa', 40);
@@ -2594,35 +3444,52 @@ EXPLICA
 // !EJERCICIO 47 — Sala de espera con triage
 /*
 SITUACIÓN
-  Un hospital atiende por gravedad y, a igual gravedad, por orden de llegada. Cada tipo
-  de paciente calcula su tiempo de atención a su manera. La gravedad es un enum.
+  Un hospital atiende a sus pacientes por gravedad (Leve = 1, Moderada = 2 o Grave = 3) y, a
+  igual gravedad, por orden de llegada. Todo paciente tiene un nombre y una gravedad, y un
+  tiempo de atención en minutos: el adulto tarda 10 por cada punto de gravedad; el niño, 8
+  por cada punto de gravedad, más 5 si tiene menos de 3 años.
+
+  La sala de espera guarda la fila de pacientes. Ingresar un paciente se rechaza si ya hay
+  en la fila uno con el mismo nombre; si no, se añade al final y se cuenta como llegada (el
+  hospital lleva el total de llegadas, que se puede consultar). Se puede ver quién sigue sin
+  sacarlo: el paciente de mayor gravedad; si hay empate, el que está antes en la fila;
+  undefined si la fila está vacía. Atender saca de la fila al que sigue y responde '{nombre}
+  ({minutos} min)', o 'sala vacía' si no hay nadie. Se leen como propiedades cuántos
+  pacientes están pendientes y la espera estimada (la suma de los minutos de todos los de la
+  fila).
+
+  Ejemplo: Un Adulto grave (30 min) y un Nino grave de 2 años (29 min): siguiente() devuelve
+    al que llegó antes entre los dos graves. Si el Adulto grave 'Ana' llegó antes que el niño,
+    atender() devuelve 'Ana (30 min)'.
+
+  Idea: un enum numérico para comparar gravedades y un desempate por orden de llegada.
+
+RESTRICCIONES
+  Datos:
+  - edad: entero >= 0.
+  - Los nombres de los pacientes de la fila son únicos.
+  Usa:
+  - enum Gravedad declarado dentro de tu función, antes de las clases.
+  - Una clase abstract con un método abstract (minutos) y extends con super(...).
+  - Una propiedad static para las llegadas; get; un array nuevo al sacar un paciente.
+  No uses:
+  - interfaces, genéricos, instanceof, try/catch, Map, Set.
 
 QUÉ DEBES HACER
-  1. Dentro de tu función, antes de las clases, declara:
-     enum Gravedad { Leve = 1, Moderada = 2, Grave = 3 }
-  2. Crea la clase abstracta Paciente. Declara en su constructor, en este orden: nombre
-     (string, visible y de solo lectura) y gravedad (Gravedad, visible y de solo lectura).
-     Declara el método abstracto minutos(): number.
-  3. Crea Adulto que extienda Paciente. Su constructor recibe nombre y gravedad y los pasa
-     al padre. Su minutos() devuelve 10 * gravedad.
-  4. Crea Nino que extienda Paciente. Su constructor recibe nombre, gravedad y edad
-     (number, oculto; supón entero >= 0). Su minutos() devuelve 8 * gravedad, más 5 si
-     edad es menor que 3.
-  5. Crea la clase SalaEspera. Declara un array oculto fila (Paciente[]), vacío, y una
-     propiedad static oculta llegadas (number) con valor inicial 0.
-  6. En SalaEspera crea ingresar(p: Paciente): boolean, público. Rechaza (false) si ya hay
-     en la fila un paciente con el mismo nombre. Si no, lo añade al final, suma 1 a
-     SalaEspera.llegadas y devuelve true.
-  7. En SalaEspera crea los getters pendientes (number: cuántos hay en la fila) y
-     esperaEstimada (number: la suma de minutos() de todos los pacientes de la fila).
-  8. En SalaEspera crea siguiente(): Paciente | undefined, público. Devuelve el paciente de
-     mayor gravedad; si hay empate, el que está antes en la fila; undefined si la fila está
-     vacía. No lo saca de la fila.
-  9. En SalaEspera crea atender(): string, público. Si la fila está vacía, devuelve
-     'sala vacía'. Si no, saca de la fila al paciente que devuelve this.siguiente()
-     (deja en fila un array nuevo sin él) y devuelve '{nombre} ({minutos} min)'.
-  10. En SalaEspera crea totalLlegadas(): number, static y público: devuelve llegadas.
-  11. Fuera de las clases crea las instancias y ejecuta COMPRUEBA, en este orden.
+  1. Dentro de tu función, antes de las clases, declara: enum Gravedad { Leve = 1, Moderada
+     = 2, Grave = 3 }
+  2. Crea la clase abstracta Paciente con un constructor que declara nombre (string, visible
+     y de solo lectura) y gravedad (Gravedad, visible y de solo lectura), y el método
+     abstracto minutos(): number.
+  3. Crea Adulto, que extiende Paciente. Su constructor recibe nombre y gravedad.
+  4. Crea Nino, que extiende Paciente. Su constructor recibe nombre, gravedad y edad
+     (number, oculto).
+  5. Crea la clase SalaEspera con un array oculto fila (Paciente[]), vacío, y la propiedad
+     static oculta llegadas (number), con valor inicial 0.
+  6. En SalaEspera crea los métodos públicos ingresar(p: Paciente): boolean, siguiente():
+     Paciente | undefined y atender(): string, los getters pendientes (number) y
+     esperaEstimada (number), y el método static y público totalLlegadas(): number.
+  7. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const ana = new Adulto('Ana', Gravedad.Leve);
@@ -2660,40 +3527,54 @@ EXPLICA
 // !EJERCICIO 48 — Pista de aterrizaje única
 /*
 SITUACIÓN
-  Un aeropuerto tiene una sola pista, un Singleton. Las aeronaves piden turno: la
-  primera aterriza, las demás esperan en una cola de hasta tres. Cada tipo de aeronave
-  ocupa la pista un tiempo distinto.
+  Un aeropuerto tiene una sola pista, única y compartida (nadie crea otra). Las aeronaves
+  piden turno para usarla: la primera aterriza y las demás esperan en una cola de hasta
+  tres. Una aeronave tiene matrícula y pasajeros y se describe con el texto '{matricula} con
+  {pasajeros} pasajeros'; cada tipo ocupa la pista un tiempo distinto: la avioneta, 5
+  minutos; el helicóptero, 3; la aeronave comercial, 15 si lleva más de 150 pasajeros y 10
+  si no.
+
+  Pedir turno con una aeronave se resuelve en este orden: si ya es el ocupante o ya está en
+  la cola, responde 'repetida'; si no hay ocupante, pasa a ser el ocupante y responde
+  'aterrizando {matricula}'; si la cola ya tiene 3 aeronaves, responde 'cola llena'; si no,
+  entra al final de la cola y responde 'en espera: posición {n}', con n la cantidad de
+  aeronaves en la cola contando a esta. Liberar la pista deja pasar a la primera de la cola,
+  que pasa a ser el ocupante (responde 'aterrizando {matricula}'); si la cola está vacía, la
+  pista queda sin ocupante y responde 'pista libre'. También se pide la ocupación total: la
+  suma de los minutos en pista del ocupante (si hay) y de todas las aeronaves de la cola.
+
+  Ejemplo: La primera aeronave en solicitar() recibe 'aterrizando {matricula}' y la
+    siguiente 'en espera: posición 1'. Si la cola ya tiene 3 aeronaves, solicitar devuelve
+    'cola llena'.
+
+  Idea: un Singleton con una cola de espera: el orden de las comprobaciones en solicitar
+    decide la respuesta.
+
+RESTRICCIONES
+  Datos:
+  - pasajeros: entero >= 0.
+  - La cola admite como máximo 3 aeronaves.
+  Usa:
+  - Singleton: constructor private y propiedad static.
+  - Una clase abstract con un método abstract (minutosEnPista) y extends con super(...).
+  - Un array nuevo al sacar de la cola; === para comparar aeronaves.
+  No uses:
+  - interfaces, genéricos, instanceof, try/catch, Map, Set.
 
 QUÉ DEBES HACER
-  1. Crea la clase abstracta Aeronave. Declara en su constructor, en este orden:
-     matricula (string, visible y de solo lectura) y pasajeros (number, solo jerarquía).
-     Declara el método abstracto minutosEnPista(): number.
-  2. En Aeronave crea describir(): string, público: '{matricula} con {pasajeros} pasajeros'.
-  3. Crea Avioneta que extienda Aeronave. Su constructor recibe matricula y pasajeros y los
-     pasa al padre. Su minutosEnPista() devuelve 5.
-  4. Crea Helicoptero que extienda Aeronave, con el mismo constructor. Su minutosEnPista()
-     devuelve 3.
-  5. Crea Comercial que extienda Aeronave, con el mismo constructor. Su minutosEnPista()
-     devuelve 15 si pasajeros es mayor que 150, o 10 si no.
-  6. Crea la clase Pista. Declara una propiedad static oculta unica (Pista | undefined),
-     sin valor inicial, y un constructor privado sin parámetros y con cuerpo vacío.
-     Declara además ocupante (Aeronave | undefined, oculto, sin valor inicial) y cola
-     (Aeronave[], oculto), vacía.
-  7. En Pista crea obtener(): Pista, static y público: si unica es undefined, créala con
-     new Pista() y guárdala; devuelve unica.
-  8. En Pista crea solicitar(a: Aeronave): string, público. Evalúa en este orden:
-     a) si a es el ocupante o ya está en la cola (compara con ===), devuelve 'repetida';
-     b) si no hay ocupante, a pasa a ser el ocupante y devuelve 'aterrizando {matricula}';
-     c) si la cola ya tiene 3 aeronaves, devuelve 'cola llena';
-     d) si no, añade a al final de la cola y devuelve 'en espera: posición {n}', donde n es
-        la cantidad de aeronaves en la cola después de añadirla.
-  9. En Pista crea liberar(): string, público. Si la cola tiene aeronaves, la primera sale
-     de la cola (deja un array nuevo con las demás), pasa a ser el ocupante y se devuelve
-     'aterrizando {matricula}'. Si la cola está vacía, ocupante pasa a ser undefined y se
-     devuelve 'pista libre'.
-  10. En Pista crea ocupacionTotal(): number, público: la suma de minutosEnPista() del ocupante
-      (si hay) y de todas las aeronaves de la cola.
-  11. Fuera de las clases crea las instancias y ejecuta COMPRUEBA, en este orden.
+  1. Crea la clase abstracta Aeronave con un constructor que declara matricula (string,
+     visible y de solo lectura) y pasajeros (number, solo jerarquía), el método abstracto
+     minutosEnPista(): number y el método público describir(): string.
+  2. Crea Avioneta, Helicoptero y Comercial, que extienden Aeronave. Cada constructor recibe
+     matricula y pasajeros.
+  3. Crea la clase Pista con la propiedad static oculta unica (Pista | undefined), sin valor
+     inicial, y un constructor privado sin parámetros y con cuerpo vacío. Declara además
+     ocupante (Aeronave | undefined, oculto, sin valor inicial) y cola (Aeronave[], oculto),
+     vacía.
+  4. En Pista crea el método static y público obtener(): Pista.
+  5. En Pista crea los métodos públicos solicitar(a: Aeronave): string, liberar(): string y
+     ocupacionTotal(): number.
+  6. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const pista = Pista.obtener();
@@ -2733,43 +3614,59 @@ EXPLICA
 // !EJERCICIO 49 — Mochila de aventurero
 /*
 SITUACIÓN
-  Un juego tiene objetos de varios tipos que se guardan en una mochila con capacidad de
-  peso. La mochila calcula sus totales al leerlos, deja cambiar su capacidad solo a valores
-  válidos y lleva la cuenta de cuántas mochilas existen.
+  Un juego tiene objetos de tres tipos, todos con nombre, tipo, peso y valor. El arma, de
+  tipo 'arma', pesa sus kilos y vale su daño * 10; la poción, de tipo 'pocion', pesa su
+  dosis y vale dosis * 15; el tesoro, de tipo 'tesoro', pesa sus kilos y vale su oro. Los
+  objetos se guardan en una mochila con una capacidad de peso. Guardar un objeto se rechaza
+  si su peso es mayor que el peso libre; si no, se añade al final; informa con true si se
+  hizo y false si se rechazó. Soltar un objeto por nombre quita el primero con ese nombre y
+  lo devuelve, o undefined si no existe.
+
+  La mochila calcula al leer: el peso actual (la suma de los pesos de sus objetos), el peso
+  libre (capacidad menos peso actual), el valor total y la capacidad. La capacidad se cambia
+  como propiedad (mochila.capacidad = 30); un valor que sea 0 o menos, o menor que el peso
+  actual (igual al peso actual sí vale), se ignora sin error. También cuenta cuántos objetos
+  hay de cada tipo (un objeto que asocia cada tipo con su cantidad) y, a nivel de la clase,
+  cuántas mochilas se han creado.
+
+  Ejemplo: Mochila de capacidad 20 con una espada de 8 kg: pesoLibre es 12; guardar una
+    armadura de 15 kg devuelve false. Con esa mochila, conteoPorTipo() devuelve { arma: 1 }
+    y Mochila.creadas() devuelve 1.
+
+  Idea: getters derivados, un setter con validación y un Record que agrupa por tipo; static
+    cuenta las mochilas.
+
+RESTRICCIONES
+  Datos:
+  - capacidad: entero >= 1.
+  - Los nombres de los objetos pueden repetirse.
+  Usa:
+  - Una clase abstract con dos métodos abstract (peso y valor) y extends con super(...).
+  - Una propiedad static para el contador; get y set.
+  - Record<string, number> con ??; un array nuevo al soltar un objeto.
+  No uses:
+  - interfaces, genéricos, instanceof, try/catch, Map, Set.
 
 QUÉ DEBES HACER
-  1. Crea la clase abstracta Objeto. Declara en su constructor, en este orden: nombre
-     (string, visible y de solo lectura) y tipo (string, visible y de solo lectura).
-     Declara los métodos abstractos peso(): number y valor(): number.
-  2. Crea Arma que extienda Objeto. Su constructor recibe nombre, kilos y danio (number,
-     ambos ocultos) y pasa al padre el nombre y el tipo 'arma'. Su peso() devuelve kilos
-     y su valor() devuelve danio * 10.
-  3. Crea Pocion que extienda Objeto. Su constructor recibe nombre y dosis (number,
-     oculto) y pasa al padre el nombre y el tipo 'pocion'. Su peso() devuelve dosis y su
-     valor() devuelve dosis * 15.
-  4. Crea Tesoro que extienda Objeto. Su constructor recibe nombre, oro y kilos (number,
-     ambos ocultos) y pasa al padre el nombre y el tipo 'tesoro'. Su peso() devuelve kilos
-     y su valor() devuelve oro.
-  5. Crea la clase Mochila. Declara una propiedad static oculta contador (number) con
-     valor inicial 0, un array oculto objetos (Objeto[]), vacío, y una propiedad oculta
-     _capacidad (number). Su constructor recibe capacidad (number; supón entero >= 1):
-     la guarda en _capacidad y suma 1 a Mochila.contador.
-  6. En Mochila crea creadas(): number, static y público: devuelve contador.
-  7. En Mochila crea los getters, todos de tipo number: capacidad (devuelve _capacidad),
-     pesoActual (suma de peso() de los objetos), pesoLibre (capacidad menos pesoActual) y
-     valorTotal (suma de valor() de los objetos).
-  8. En Mochila crea el setter capacidad(valor: number). Ignora el valor, sin error, si
-     es 0 o menos o si es menor que pesoActual (igual a pesoActual sí se acepta). Si no,
-     lo guarda en _capacidad.
-  9. En Mochila crea guardar(o: Objeto): boolean, público. Rechaza (false) si o.peso()
-     es mayor que pesoLibre. Si no, lo añade al final y devuelve true.
-  10. En Mochila crea soltar(nombre: string): Objeto | undefined, público. Quita el
-      primer objeto con ese nombre (deja un array nuevo sin él) y lo devuelve;
-      undefined si no existe ninguno.
-  11. En Mochila crea conteoPorTipo(): Record<string, number>, público. Recorre los
-      objetos en orden y cuenta cuántos hay de cada tipo (si la clave aún no existe,
-      parte de 0 con ??). Devuelve el objeto.
-  12. Fuera de las clases crea las instancias y ejecuta COMPRUEBA, en este orden.
+  1. Crea la clase abstracta Objeto con un constructor que declara nombre (string, visible y
+     de solo lectura) y tipo (string, visible y de solo lectura), y los métodos abstractos
+     peso(): number y valor(): number.
+  2. Crea Arma, que extiende Objeto. Su constructor recibe nombre, kilos y danio (number,
+     ambos ocultos) y pasa al padre el nombre y el tipo 'arma'.
+  3. Crea Pocion, que extiende Objeto. Su constructor recibe nombre y dosis (number, oculto)
+     y pasa al padre el nombre y el tipo 'pocion'.
+  4. Crea Tesoro, que extiende Objeto. Su constructor recibe nombre, oro y kilos (number,
+     ambos ocultos) y pasa al padre el nombre y el tipo 'tesoro'.
+  5. Crea la clase Mochila con la propiedad static oculta contador (number), con valor
+     inicial 0, un array oculto objetos (Objeto[]), vacío, y la propiedad oculta _capacidad
+     (number). Su constructor recibe capacidad (number), la guarda en _capacidad y suma 1 a
+     Mochila.contador.
+  6. En Mochila crea el método static y público creadas(): number.
+  7. En Mochila crea los getters capacidad, pesoActual, pesoLibre y valorTotal (todos
+     number) y el setter capacidad(valor: number).
+  8. En Mochila crea los métodos públicos guardar(o: Objeto): boolean, soltar(nombre:
+     string): Objeto | undefined y conteoPorTipo(): Record<string, number>.
+  9. Ejecuta las líneas de COMPRUEBA en el orden en que aparecen y compara con lo esperado.
 
 COMPRUEBA
   const m = new Mochila(20);
@@ -2813,54 +3710,67 @@ EXPLICA
 // !EJERCICIO 50 — Inversores en un mercado único
 /*
 SITUACIÓN
-  Un mercado único (Singleton) publica precios de acciones. Los inversores, de dos
-  estilos, deciden qué hacer con cada acción siguiendo reglas distintas; la base se
-  encarga de ejecutar la decisión. El patrimonio se calcula al leerlo.
+  Un mercado único y compartido (nadie crea otro) publica precios de acciones, cada una
+  identificada por un símbolo. Actualizar precios recibe varias parejas [símbolo, precio]:
+  cada pareja con símbolo no vacío y precio entero mayor que 0 reemplaza el precio de ese
+  símbolo; una pareja inválida se salta sin detener las demás; se informa cuántas se
+  aceptaron. Se puede consultar el precio de un símbolo (undefined si no existe) y los
+  símbolos publicados, en el orden en que se registraron por primera vez.
+
+  Los inversores tienen nombre, efectivo y una cartera de acciones por símbolo. Operar con
+  un símbolo se resuelve así: si el mercado no tiene precio para él, responde 'sin
+  cotización'; si no, el inversor decide Comprar, Vender o Esperar. Comprar: si su efectivo
+  es igual o mayor que el precio, lo gasta, suma 1 acción y responde 'compró {símbolo}'; si
+  no, responde 'sin fondos'. Vender: si tiene al menos 1 acción de ese símbolo, cobra el
+  precio, resta 1 acción y responde 'vendió {símbolo}'; si no, responde 'sin acciones'.
+  Esperar: responde 'esperó'. Se consultan cuántas acciones tiene de un símbolo (0 si
+  ninguna), su caja (el efectivo) y su patrimonio: efectivo más, por cada símbolo de su
+  cartera, cantidad * precio actual del símbolo (o 0 si ya no tiene precio).
+
+  Hay dos estilos. El cauteloso decide Comprar si el precio es 50 o menos, Vender si es 80 o
+  más y Esperar en otro caso. El arriesgado recuerda el último precio visto de cada símbolo
+  y decide Esperar si no lo había visto o no cambió, Comprar si subió y Vender si bajó;
+  después de decidir, recuerda el precio nuevo.
+
+  Ejemplo: Un Cauteloso con 100 de efectivo y la acción a 45: decidir devuelve Comprar,
+    operar devuelve 'compró {símbolo}' y caja baja a 55. Su patrimonio sigue en 100: 55 de
+    efectivo más 1 acción valorada en 45.
+
+  Idea: dos estilos de inversor con reglas distintas, un mercado único (Singleton) y un enum
+    con las decisiones; operar() no cambia.
+
+RESTRICCIONES
+  Datos:
+  - precio: entero > 0.
+  - efectivo: cualquier número; símbolo: texto.
+  Usa:
+  - enum Accion declarado dentro de tu función, antes de las clases.
+  - Singleton: constructor private y propiedad static.
+  - Una clase abstract con un método abstract protected (decidir) y extends con super(...).
+  - Record<string, number>, ??, Object.hasOwn y for...in; un parámetro rest de tuplas
+    [string, number].
+  No uses:
+  - interfaces, genéricos, instanceof, try/catch, Map, Set.
 
 QUÉ DEBES HACER
-  1. Dentro de tu función, antes de las clases, declara: enum Accion { Comprar, Vender, Esperar }
-  2. Crea la clase Mercado. Declara una propiedad static oculta unico (Mercado | undefined),
-     sin valor inicial; un constructor privado sin parámetros y con cuerpo vacío; y un
-     objeto oculto precios (Record<string, number>), vacío.
-  3. En Mercado crea obtener(): Mercado, static y público: si unico es undefined, créalo
-     con new Mercado() y guárdalo; devuelve unico.
-  4. En Mercado crea actualizar(...cambios: [string, number][]): number, público. Para cada
-     pareja [simbolo, precio]: si simbolo no es '' y precio es un entero mayor que 0, guarda
-     el precio en precios[simbolo] (reemplaza el anterior) y cuéntala. Una pareja inválida
-     se salta y no detiene las demás. Devuelve cuántas se aceptaron.
-  5. En Mercado crea precio(simbolo: string): number | undefined, público. Devuelve el
-     precio, o undefined si el símbolo no existe (comprueba con Object.hasOwn).
-  6. En Mercado crea el getter simbolos, que devuelve string[]: los símbolos en orden de
-     inserción (recorre precios con for...in y Object.hasOwn).
-  7. Crea la clase abstracta Inversor. Declara en su constructor, en este orden: nombre
-     (string, visible y de solo lectura) y efectivo (number, oculto). Declara además un
-     objeto oculto acciones (Record<string, number>), vacío. Declara el método abstracto
-     decidir(simbolo: string, precio: number): Accion, protected.
-  8. En Inversor crea operar(simbolo: string): string, público:
-     a) obtén el precio con Mercado.obtener().precio(simbolo); si es undefined, devuelve
-        'sin cotización';
-     b) llama a this.decidir(simbolo, precio);
-     c) si es Accion.Comprar: si efectivo es mayor o igual que precio, resta precio a
-        efectivo, suma 1 a las acciones de ese símbolo (parte de 0 con ??) y devuelve
-        'compró {simbolo}'; si no alcanza, devuelve 'sin fondos';
-     d) si es Accion.Vender: si el inversor tiene al menos 1 acción de ese símbolo, suma
-        precio a efectivo, resta 1 a esas acciones y devuelve 'vendió {simbolo}'; si no
-        tiene, devuelve 'sin acciones';
-     e) si es Accion.Esperar, devuelve 'esperó'.
-  9. En Inversor crea accionesDe(simbolo: string): number, público (0 si no tiene), y los
-     getters caja (devuelve efectivo) y patrimonio (efectivo más, por cada símbolo en
-     acciones, cantidad * Mercado.obtener().precio(símbolo), o 0 si ya no tiene precio).
-  10. Crea Cauteloso que extienda Inversor. Su constructor recibe nombre y efectivo y los
-      pasa al padre. Su decidir devuelve Comprar si precio es 50 o menos, Vender si es 80
-      o más, y Esperar en otro caso.
-  11. Crea Arriesgado que extienda Inversor. Su constructor recibe nombre y efectivo y los
-      pasa al padre. Declara un objeto oculto vistos (Record<string, number>), vacío. Su
-      decidir:
-      a) lee previo como vistos[simbolo];
-      b) guarda precio en vistos[simbolo];
-      c) devuelve Esperar si previo es undefined o es igual a precio, Comprar si precio es
-         mayor que previo y Vender si es menor.
-  12. Ejecuta COMPRUEBA, en este orden (las acciones y el mercado se comparten entre líneas).
+  1. Dentro de tu función, antes de las clases, declara: enum Accion { Comprar, Vender,
+     Esperar }
+  2. Crea la clase Mercado con la propiedad static oculta unico (Mercado | undefined), sin
+     valor inicial, un constructor privado sin parámetros y con cuerpo vacío, y un objeto
+     oculto precios (Record<string, number>), vacío.
+  3. En Mercado crea el método static y público obtener(): Mercado, los métodos públicos
+     actualizar(...cambios: [string, number][]): number y precio(simbolo: string): number |
+     undefined, y el getter simbolos (string[]).
+  4. Crea la clase abstracta Inversor con un constructor que declara nombre (string, visible
+     y de solo lectura) y efectivo (number, oculto), un objeto oculto acciones
+     (Record<string, number>), vacío, y el método abstracto protegido decidir(simbolo:
+     string, precio: number): Accion.
+  5. En Inversor crea los métodos públicos operar(simbolo: string): string y
+     accionesDe(simbolo: string): number, y los getters caja (number) y patrimonio (number).
+  6. Crea Cauteloso, que extiende Inversor. Su constructor recibe nombre y efectivo.
+  7. Crea Arriesgado, que extiende Inversor. Su constructor recibe nombre y efectivo.
+     Declara un objeto oculto vistos (Record<string, number>), vacío.
+  8. Ejecuta COMPRUEBA en este orden (las acciones y el mercado se comparten entre líneas).
 
 COMPRUEBA
   const m = Mercado.obtener();
